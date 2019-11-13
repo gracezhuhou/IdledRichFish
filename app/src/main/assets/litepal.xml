@@ -15,7 +15,7 @@
     	make the version value plus one, the upgrade of database
     	will be processed automatically without concern.
     -->
-    <version value="1" />
+    <version value="4" />
 
     <!--
     	Define your models in the list with mapping tag, LitePal will
@@ -27,9 +27,7 @@
         <mapping class="com.sufe.idledrichfish.database.Admin" />
         <mapping class="com.sufe.idledrichfish.database.Product" />
         <mapping class="com.sufe.idledrichfish.database.Label" />
-        <mapping class="com.sufe.idledrichfish.database.Product_Label" />
-        <mapping class="com.sufe.idledrichfish.database.Favorites" />
-        <mapping class="com.sufe.idledrichfish.database.Order" />
+        <mapping class="com.sufe.idledrichfish.database.ProductOrder" />
     </list>
 
     <!--

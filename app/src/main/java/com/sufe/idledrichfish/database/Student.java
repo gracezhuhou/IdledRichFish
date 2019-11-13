@@ -4,12 +4,13 @@ import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Student extends LitePalSupport {
 
     @Column(unique = true, nullable = false)
-    private String id;  // 学号
+    private String student_id;  // 学号
 
     private String name;
 
@@ -17,9 +18,13 @@ public class Student extends LitePalSupport {
 
     private String gender;
 
-    private float credit;
+    private float credit = 0;
 
-    private String state;   // 审核状态
+    private byte[] image;
+
+    private Date last_register_date;
+
+    private String state = "verifing";   // 审核状态
 
     private int admin_id;   // 注册时审核此学号的admin
 
@@ -27,14 +32,16 @@ public class Student extends LitePalSupport {
 
     private List<Product> published_product = new ArrayList<Product>();   // 发布的商品
 
+    private List<Product> purchased_product = new ArrayList<Product>();   // 买到的商品
+
     // generated getters and setters.
 
-    public String getId() {
-        return id;
+    public String getStudentId() {
+        return student_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setStudentId(String student_id) {
+        this.student_id = student_id;
     }
 
     public String getName() {
@@ -69,6 +76,22 @@ public class Student extends LitePalSupport {
         this.credit = credit;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public Date getLastRegisterDate() {
+        return last_register_date;
+    }
+
+    public void setLastRegisterDate(Date last_register_date) {
+        this.last_register_date = last_register_date;
+    }
+
     public String getState() {
         return state;
     }
@@ -77,11 +100,11 @@ public class Student extends LitePalSupport {
         this.state = state;
     }
 
-    public int getAdmin_id() {
+    public int getAdminId() {
         return admin_id;
     }
 
-    public void setAdmin_id(int admin_id) {
+    public void setAdminId(int admin_id) {
         this.admin_id = admin_id;
     }
 
@@ -93,11 +116,19 @@ public class Student extends LitePalSupport {
         this.favorites = favorites;
     }
 
-    public List<Product> getPublished_product() {
+    public List<Product> getPublishedProduct() {
         return published_product;
     }
 
-    public void setPublished_product(List<Product> published_product) {
+    public void setPublishedProduct(List<Product> published_product) {
         this.published_product = published_product;
+    }
+
+    public List<Product> getPurchasedProduct() {
+        return purchased_product;
+    }
+
+    public void setPurchasedProduct(List<Product> purchased_product) {
+        this.purchased_product = purchased_product;
     }
 }

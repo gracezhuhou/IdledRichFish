@@ -7,36 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- 查找栏 -->
-    <EditText
-        android:id="@+id/editText_look_up"
+    <FrameLayout
+        android:id="@+id/mainFrame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:inputType="text"
-        android:ems="10"
-        android:text=""
+        android:layout_height="673dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="395dp"
-        android:layout_height="606dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:fillViewport="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_look_up">
-
-        <!-- todo: 分类按钮 -->
-        <!-- todo: 商品浏览 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-    </android.support.v4.widget.NestedScrollView>
+        app:layout_constraintTop_toTopOf="parent">
+    </FrameLayout>
 
     <!-- 底部导航栏 -->
     <android.support.design.widget.BottomNavigationView

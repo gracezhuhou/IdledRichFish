@@ -5,10 +5,10 @@ import org.litepal.crud.LitePalSupport;
 
 import java.util.Date;
 
-public class Order extends LitePalSupport {
+public class ProductOrder extends LitePalSupport {
 
     @Column(unique = true, nullable = false)
-    private int id;
+    private int order_id;
 
     private String state;   // 订单状态
 
@@ -17,12 +17,12 @@ public class Order extends LitePalSupport {
     // generated getters and setters.
 
 
-    public int getId() {
-        return id;
+    public int getOrderId() {
+        return order_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrderId(int order_id) {
+        this.order_id = order_id;
     }
 
     public String getState() {

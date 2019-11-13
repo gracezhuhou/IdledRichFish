@@ -6,7 +6,7 @@ import org.litepal.crud.LitePalSupport;
 public class Admin extends LitePalSupport {
 
     @Column(unique = true, nullable = false)
-    private int id;
+    private int admin_id;
 
     private String name;
 
@@ -14,12 +14,12 @@ public class Admin extends LitePalSupport {
 
     // generated getters and setters.
 
-    public int getId() {
-        return id;
+    public int getAdminId() {
+        return admin_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAdminId(int admin_id) {
+        this.admin_id = admin_id;
     }
 
     public String getName() {
