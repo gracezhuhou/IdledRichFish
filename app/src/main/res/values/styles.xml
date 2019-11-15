@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--textColorPrimary字体默认颜色-->
+        <!--colorAccent控件默认颜色-->
+        <!--textColorPrimary字体默认颜色-->
+        <!--colorPrimaryDark顶部状态栏默认颜色-->
+        <!--colorPrimary顶部背景默认颜色-->
+        <!--navigationBarColor-->
     </style>
 
     <style name="AppTheme.NoActionBar">
