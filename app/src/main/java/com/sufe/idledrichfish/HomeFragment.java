@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sufe.idledrichfish.database.Label;
 import com.sufe.idledrichfish.database.Product;
+import com.sufe.idledrichfish.database.helper.LabelDbHelper;
 import com.sufe.idledrichfish.database.helper.ProductDbHelper;
 
 import java.util.List;
@@ -81,6 +83,12 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         ProductDbHelper productDbHelper = new ProductDbHelper();
+        
+//        LabelDbHelper labelDbHelper = new LabelDbHelper();
+//        labelDbHelper.add("风衣");
+//        List<Label> labels = labelDbHelper.find("风衣");
+//        productDbHelper.add("风衣", "beautiful", 999, "2016110672", labels, "服饰");
+
         List<Product> products = productDbHelper.getProducts();
         mRecyclerView = view.findViewById(R.id.recyclerView_main);
         layoutManager = new LinearLayoutManager(getContext());

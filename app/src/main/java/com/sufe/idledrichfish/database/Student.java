@@ -12,11 +12,13 @@ public class Student extends LitePalSupport {
     @Column(unique = true, nullable = false)
     private String student_id;  // 学号
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String password;
 
-    private String gender;
+    private String gender = "外星人";
 
     private float credit = 0;
 
@@ -26,6 +28,7 @@ public class Student extends LitePalSupport {
 
     private String state = "verifing";   // 审核状态
 
+    @Column(nullable = false)
     private int admin_id;   // 注册时审核此学号的admin
 
     private List<Product> favorites = new ArrayList<Product>(); // 收藏夹

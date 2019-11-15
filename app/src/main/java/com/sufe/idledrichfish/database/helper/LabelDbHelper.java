@@ -13,18 +13,31 @@ public class LabelDbHelper extends DbHelper {
         super();
     }
 
-    public Boolean addLabel(String name) {
+    /*
+        增加label
+     */
+    public Boolean add(String name) {
         Label label = new Label();
-
         label.setName(name);
-
-        label.save();
-
-        Log.v("Database","Add Label Success");
-        return true;
+        if(label.save()) {
+            Log.v("Database", "Add Label <" + name + "> Success");
+            return true;
+        }
+        else {
+            Log.v("Database", "Add Label <" + name + "> Fail");
+            return false;
+        }
     }
 
-    public  List<Label> getLabel(String name) {
+    /*
+        删除label
+    */
+    public void delete(String name) {
+        int delNum = LitePal.deleteAll(Label.class, "name = ?", name);
+        Log.v("Database","Delete Label <" + name + ">: " + delNum );
+    }
+
+    public  List<Label> find(String name) {
         List<Label> labels = LitePal.where("name = ?", name).find(Label.class);
         return labels;
     }

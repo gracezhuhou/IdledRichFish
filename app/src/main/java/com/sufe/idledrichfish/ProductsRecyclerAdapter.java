@@ -64,7 +64,7 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
         holder.text_product_price.setText(String.valueOf(product.getPrice()));
         holder.text_product_id.setText(String.valueOf(product.getProductId()));
 
-        Student seller = studentDbHelper.getStudentById(product.getPublisherId());
+        Student seller = studentDbHelper.find(product.getPublisherId());
         holder.text_seller_name.setText(seller.getName());
         holder.text_seller_credit.setText(String.valueOf(seller.getCredit()));
 
