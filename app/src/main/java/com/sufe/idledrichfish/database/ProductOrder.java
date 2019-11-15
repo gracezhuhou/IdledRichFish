@@ -10,12 +10,11 @@ public class ProductOrder extends LitePalSupport {
     @Column(unique = true, nullable = false)
     private int order_id;
 
-    private String state;   // 订单状态
+    private String state = "published";   // 订单状态
 
-    private Date date;  // 下单日期
+    private Date date = new Date(System.currentTimeMillis());  // 下单日期
 
     // generated getters and setters.
-
 
     public int getOrderId() {
         return order_id;

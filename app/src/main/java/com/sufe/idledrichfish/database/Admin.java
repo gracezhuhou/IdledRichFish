@@ -8,8 +8,10 @@ public class Admin extends LitePalSupport {
     @Column(unique = true, nullable = false)
     private int admin_id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String password;
 
     // generated getters and setters.
