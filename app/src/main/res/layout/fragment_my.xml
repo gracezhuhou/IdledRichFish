@@ -21,71 +21,102 @@
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="61dp" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:src="@tools:sample/avatars" />
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/head" />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="119dp"
-                android:layout_height="wrap_content"
-                android:text="CC"
-                tools:layout_editor_absoluteX="196dp"
-                tools:layout_editor_absoluteY="16dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:layout_alignLeft="@id/imageView"
+                android:layout_marginLeft="120dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="CC" />
+
+                <TextView
+                    android:id="@+id/number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="2016111492" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="160dp"
-            android:orientation="horizontal"
+            android:layout_marginTop="200dp"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <!-- 发布 -->
             <Button
-                android:id="@+id/imageButton_catogory_book"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/imageButton_publish"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/ic_example"
-                android:text="我发布的" />
+                android:drawableLeft="@drawable/ic_example"
+                android:drawablePadding="15dp"
+                android:text="@string/publish"
+                android:background="#cc3333"/>
 
             <!-- 卖出 -->
             <Button
-                android:id="@+id/imageButton_catogory_makeup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/imageButton_sale"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/ic_example"
-                android:text="我卖出的" />
+                android:drawableLeft="@drawable/ic_example"
+                android:drawablePadding="15dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/sale"
+                android:background="#cc3333"/>
 
             <!-- 买到 -->
             <Button
-                android:id="@+id/imageButton_catogory_clothes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/imageButton_buy"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/ic_example"
-                android:text="我买到的" />
+                android:drawableLeft="@drawable/ic_example"
+                android:drawablePadding="15dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/buy"
+                android:background="#cc3333"/>
 
             <!-- 收藏 -->
             <Button
-                android:id="@+id/imageButton_catogory_digital"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/imageButton_star"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/ic_example"
-                android:text="我收藏的" />
+                android:drawableLeft="@drawable/ic_example"
+                android:drawablePadding="15dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/star"
+                android:background="#cc3333"/>
 
         </LinearLayout>
 

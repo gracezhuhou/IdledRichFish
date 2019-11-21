@@ -35,6 +35,10 @@
         "产品介绍\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="publish">我发布的</string>
+    <string name="sale">我卖出的</string>
+    <string name="buy">我买到的</string>
+    <string name="star">我收藏的</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
