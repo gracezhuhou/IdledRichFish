@@ -1,14 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MyFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/hello_blank_fragment"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="61dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="119dp"
+                android:layout_height="wrap_content"
+                android:text="CC"
+                tools:layout_editor_absoluteX="196dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="160dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- 发布 -->
+            <Button
+                android:id="@+id/imageButton_catogory_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_example"
+                android:text="我发布的" />
+
+            <!-- 卖出 -->
+            <Button
+                android:id="@+id/imageButton_catogory_makeup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_example"
+                android:text="我卖出的" />
+
+            <!-- 买到 -->
+            <Button
+                android:id="@+id/imageButton_catogory_clothes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_example"
+                android:text="我买到的" />
+
+            <!-- 收藏 -->
+            <Button
+                android:id="@+id/imageButton_catogory_digital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_example"
+                android:text="我收藏的" />
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>
