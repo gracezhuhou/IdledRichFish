@@ -1,5 +1,6 @@
 package com.sufe.idledrichfish;
 
+import android.graphics.Color;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,11 @@ import com.sufe.idledrichfish.database.helper.ProductDbHelper;
 
 import java.util.List;
 
+import android.widget.ImageView;
+
+import com.jude.rollviewpager.RollPagerView;
+import com.jude.rollviewpager.adapter.StaticPagerAdapter;
+import com.jude.rollviewpager.hintview.ColorPointHintView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +32,7 @@ import java.util.List;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,6 +47,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager layoutManager;
     private ProductsRecyclerAdapter productsRecyclerAdapter;
+    private RollPagerView mRollViewPager;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,6 +81,25 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        //图片轮播
+        mRollViewPager = (RollPagerView) mRollViewPager.findViewById(R.id.roll_view_pager);
+
+        //设置播放时间间隔
+        mRollViewPager.setPlayDelay(1000);
+        //设置透明度
+        mRollViewPager.setAnimationDurtion(500);
+        //设置适配器
+        mRollViewPager.setAdapter(new TestNormalAdapter());
+
+        //设置指示器（顺序依次）
+        //自定义指示器图片
+        //设置圆点指示器颜色
+        //设置文字指示器
+        //隐藏指示器
+        //mRollViewPager.setHintView(new IconHintView(this, R.drawable.point_focus, R.drawable.point_normal));
+        //mRollViewPager.setHintView(new ColorPointHintView(this, Color.YELLOW,Color.WHITE));
+        //mRollViewPager.setHintView(new TextHintView(this));
+        //mRollViewPager.setHintView(null);
 
     }
 
@@ -133,5 +160,28 @@ public class HomeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private class TestNormalAdapter extends StaticPagerAdapter {
+        private int[] imgs = {
+                R.drawable.ic_book,
+                R.drawable.ic_cosmetic,
+                R.drawable.ic_clothe,
+                R.drawable.ic_electronics,
+        };
+
+        @Override
+        public View getView(ViewGroup container, int position) {
+            ImageView view = new ImageView(container.getContext());
+            view.setImageResource(imgs[position]);
+            view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            return view;
+        }
+
+        @Override
+        public int getCount() {
+            return imgs.length;
+        }
     }
 }
