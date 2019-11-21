@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/transparent">
+        <!-- TODO: 取消按钮返回原界面 -->
         <Button
             android:id="@+id/item_concel"
             android:layout_width="50dp"
@@ -20,11 +21,13 @@
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
             android:background="#00000000" />
+        <!-- TODO: 发布新商品，返回原界面并刷新 -->
         <Button
             android:id="@+id/item_launch"
             android:layout_width="70dp"
             android:layout_height="40dp"
             android:text="发布"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -64,6 +67,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp">
 
+        <!-- TODO: 不同数量图片 -->
         <GridView
             android:id="@+id/gridView"
             android:layout_width="fill_parent"
@@ -82,6 +86,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp">
 
+        <!-- TODO: 两个checkbox事件 -->
         <CheckBox
             android:id="@+id/if_new"
             android:layout_width="wrap_content"
@@ -91,7 +96,7 @@
             android:button="@null"
             android:textSize="@dimen/text_size"
             android:layout_marginLeft="30dp"
-            android:textColor="@color/colorPrimaryWhite"
+            android:textColor="@color/black"
             android:background="@color/transparent"
             />
         <CheckBox
@@ -104,7 +109,7 @@
             android:button="@null"
             android:textSize="@dimen/text_size"
             android:layout_marginLeft="30dp"
-            android:textColor="@color/colorPrimaryWhite"
+            android:textColor="@color/black"
             android:background="@color/transparent"
             />
 
@@ -120,6 +125,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"/>
 
+    <!-- TODO:以下都为relativelayout的点击事件 -->
     <RelativeLayout
         android:id="@+id/item_price"
         android:layout_below="@+id/line1"
@@ -143,12 +149,24 @@
             android:layout_height="wrap_content"
             android:text="价格"
             android:textSize="20dp"
-            android:textColor="@color/colorPrimaryWhite"
+            android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/ic1"
             android:layout_marginLeft="10dp"/>
 
+        <!-- TODO:以alertdialog形式输入价格，显示在textview中 -->
+        <TextView
+            android:id="@+id/show_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/im1"
+            android:layout_marginRight="20dp"/>
         <ImageView
+            android:id="@+id/im1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_right"
@@ -189,7 +207,7 @@
             android:layout_height="wrap_content"
             android:text="标签"
             android:textSize="20dp"
-            android:textColor="@color/colorPrimaryWhite"
+            android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/ic2"
             android:layout_marginLeft="10dp"/>
@@ -235,7 +253,7 @@
             android:layout_height="wrap_content"
             android:text="分类"
             android:textSize="20dp"
-            android:textColor="@color/colorPrimaryWhite"
+            android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/ic3"
             android:layout_marginLeft="10dp"/>
