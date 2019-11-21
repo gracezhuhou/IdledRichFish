@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--头像-->
+    <ImageView
+        android:id="@+id/pic"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_margin="15dp"
+        tools:srcCompat="@tools:sample/avatars"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="李明"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:layout_toRightOf="@+id/pic"
+        android:layout_alignTop="@+id/pic"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第三方男的罚款缴纳"
+        android:textSize="@dimen/text_size"
+        android:textColor="@color/gray_dark"
+        android:layout_toRightOf="@id/pic"
+        android:layout_alignBottom="@+id/pic"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2019-10-29"
+        android:textSize="12dp"
+        android:textColor="@color/gray_dark"
+        android:layout_below="@+id/content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/pic"
+        android:layout_marginBottom="5dp"/>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_below="@id/time"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray"
+        android:layout_toRightOf="@id/pic" />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        tools:srcCompat="@tools:sample/avatars"/>
+
+</RelativeLayout>

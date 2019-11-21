@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements
         publishmentFragment = new PublishmentFragment();
         messageFragment = new MessageFragment();
         myFragment = new MyFragment();
-        fragments = new Fragment[]{homeFragment, publishmentFragment, messageFragment, myFragment};
+        fragments = new Fragment[]{homeFragment, messageFragment, publishmentFragment, myFragment};
         mainFrame = (FrameLayout) findViewById(R.id.mainFrame);
         //设置fragment到布局
         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, homeFragment).show(homeFragment).commit();
