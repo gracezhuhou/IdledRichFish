@@ -27,7 +27,7 @@
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="第三方男的罚款缴纳"
+        android:text="第三方的罚款缴纳"
         android:textSize="@dimen/text_size"
         android:textColor="@color/gray_dark"
         android:layout_toRightOf="@id/pic"
