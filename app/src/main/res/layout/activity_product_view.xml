@@ -21,17 +21,18 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/toolbar">
-
+            app:toolbarId="@+id/toolbar" >
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
+                    app:titleTextAppearance="@style/Toolbar.TitleText"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    app:title="@string/text_product_name" />
 
 <!--            <android.support.constraint.ConstraintLayout-->
 <!--                android:layout_width="match_parent"-->
@@ -87,6 +88,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/ic_favorate" />
 
 </android.support.design.widget.CoordinatorLayout>

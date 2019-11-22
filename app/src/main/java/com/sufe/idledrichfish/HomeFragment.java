@@ -14,6 +14,7 @@ import com.sufe.idledrichfish.database.Label;
 import com.sufe.idledrichfish.database.Product;
 import com.sufe.idledrichfish.database.helper.LabelDbHelper;
 import com.sufe.idledrichfish.database.helper.ProductDbHelper;
+import com.sufe.idledrichfish.database.helper.StudentDbHelper;
 
 import org.litepal.LitePal;
 
@@ -87,11 +88,13 @@ public class HomeFragment extends Fragment {
         ProductDbHelper productDbHelper = new ProductDbHelper();
 
 //        LitePal.deleteAll("Product");
-        
+
 //        LabelDbHelper labelDbHelper = new LabelDbHelper();
 //        labelDbHelper.add("风衣");
 //        List<Label> labels = labelDbHelper.find("风衣");
 //        productDbHelper.add("风衣", "beautiful", 999, "2016110672", labels, "服饰");
+//        StudentDbHelper studentDbHelper = new StudentDbHelper();
+//        studentDbHelper.add("2016110672", "ZHQC", "123456", "female", 1);
 
         List<Product> products = productDbHelper.getProducts();
         mRecyclerView = view.findViewById(R.id.recyclerView_main);

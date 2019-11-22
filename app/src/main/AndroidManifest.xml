@@ -11,6 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".MyPublishedActivity"></activity>
+        <activity android:name=".MyFavoratesActivity" />
         <activity
             android:name=".ProductViewActivity"
             android:label="@string/title_activity_product_view"
@@ -27,7 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

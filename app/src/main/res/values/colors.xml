@@ -10,4 +10,5 @@
     <color name="FC_red">#791a20</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="red">#DC143C</color>
 </resources>

@@ -19,22 +19,15 @@
     <string name="catogory_digital">数码产品</string>
     <string name="catogory_clothes">服饰</string>
     <string name="title_activity_product_view">产品详细</string>
-    <string name="large_text">
-        "产品介绍\n\n"
-        "产品介绍"
-        "产品介绍 "
-        "产品介绍\n"
-        "产品介绍\n"
-        "产品介绍 "
-        "产品介绍 "
-        "产品介绍\n\n"
-        "产品介绍\n\n"
-        "产品介绍 "
-        "产品介绍"
-        "产品介绍"
-        "产品介绍\n"
+    <string name="text_product_description_eg">
+        "vero moda经典款风衣 穿上有气质 穿过几次 170码 唯一有瑕疵的地方是袖口的一个绑带找不到了 但是不影响穿
+        穿了一次时候就找不到了 之后穿的几次都没绑带 一点没影响 也看不出 不介意的可以拍 不议价"
     </string>
-    <string name="action_settings">Settings</string>
+    <string name="text_product_name">商品名称</string>
+    <string name="text_product_price">¥100</string>
+    <string name="text_user_name">用户名</string>
+    <string name="text_user_credit">9.9</string>
+    <string name="action_settings">设置</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

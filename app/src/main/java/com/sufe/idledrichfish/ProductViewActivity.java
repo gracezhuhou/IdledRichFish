@@ -15,10 +15,14 @@ public class ProductViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //toolbar.setTitleTextAppearance(this, R.style.Toolbar_TitleText);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        //toolbar.setLogoDescription("Sam1998");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
-        getSupportActionBar().setLogo(R.drawable.ic_example);
-        getSupportActionBar().setTitle("商品名字");
+        getSupportActionBar().setLogo(R.drawable.ic_user);
+
+
 
 
         // 返回键监听
