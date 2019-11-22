@@ -11,25 +11,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="16dp">
 
+        <!-- 产品价格-->
         <TextView
             android:id="@+id/textView_productPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="产品价格" />
+            android:text="¥120"
+            android:textColor="@color/red"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
 
         <TextView
             android:id="@+id/textView_productDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/large_text" />
+            android:text="@string/product_text_example"
+            android:layout_marginBottom="10dp" />
 
         <ImageView
             android:id="@+id/imageView_productImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            android:layout_height="400dp"
+            app:srcCompat="@drawable/product_example_coat"
+            tools:srcCompat="@drawable/product_example_coat" />
 
     </LinearLayout>
 

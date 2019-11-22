@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="15dp">
+
+    <ImageView
+        android:id="@+id/imageView_seller"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ic_user" />
+
+    <TextView
+        android:id="@+id/textView_sellerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sam1990"
+        android:layout_marginStart="5dp"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/imageView_seller"
+        app:layout_constraintTop_toTopOf="@+id/imageView_seller" />
+
+<!--    买家信用-->
+    <TextView
+        android:id="@+id/textView_sellerCredit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9.9"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@+id/imageView_seller"
+        app:layout_constraintTop_toBottomOf="@+id/textView_sellerName" />
+
+    <TextView
+        android:id="@+id/textView_productPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¥99"
+        android:textColor="@color/red"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView_product"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_sellerCredit"
+        tools:srcCompat="@drawable/product_example_coat" />
+
+    <TextView
+        android:id="@+id/textView_productTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="产品名称"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_product" />
+
+</android.support.constraint.ConstraintLayout>

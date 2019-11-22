@@ -86,7 +86,7 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
         holder.cardView_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                long product_id = Long.valueOf(holder.text_product_id.getText().toString());
+                String product_id = holder.text_product_id.getText().toString();
                 Intent intent = new Intent(v.getContext(), ProductViewActivity.class);
                 intent.putExtra("product_id_extra", product_id);
                 v.getContext().startActivity(intent);
