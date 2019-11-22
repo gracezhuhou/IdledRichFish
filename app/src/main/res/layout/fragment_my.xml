@@ -8,20 +8,14 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="61dp" />
+    <!--<android.support.constraint.ConstraintLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:focusable="true"-->
+        <!--android:focusableInTouchMode="true">-->
 
         <RelativeLayout
+            android:id="@+id/information"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
@@ -61,6 +55,15 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray" />
 
         <LinearLayout
             android:id="@+id/linearLayout_category"
@@ -120,6 +123,23 @@
 
         </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/person"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="550dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/user"/>
+
+
+    <Button
+        android:id="@+id/quit"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="550dp"
+        android:layout_marginLeft="300dp"
+        android:background="@drawable/cancel"/>
+
+    <!--</android.support.constraint.ConstraintLayout>-->
 
 </FrameLayout>
