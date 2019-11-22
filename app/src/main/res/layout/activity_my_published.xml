@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyFavoratesActivity">
+    tools:context=".MyPublishedActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_my_favorates"
+        android:id="@+id/toolbar_my_published"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -15,7 +15,7 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="我的收藏"
+        app:title="我买到的"
         app:titleTextColor="@color/white"
         app:titleMarginStart="165dp"/>
 
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_my_favorates">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_my_published">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"

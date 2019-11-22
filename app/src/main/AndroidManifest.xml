@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MyFavoratesActivity"></activity>
+        <activity android:name=".MyPublishedActivity"></activity>
+        <activity android:name=".MyFavoratesActivity" />
         <activity
             android:name=".ProductViewActivity"
             android:label="@string/title_activity_product_view"
