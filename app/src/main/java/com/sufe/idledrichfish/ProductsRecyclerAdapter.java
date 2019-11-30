@@ -11,17 +11,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sufe.idledrichfish.database.helper.DbHelper;
 import com.sufe.idledrichfish.database.Product;
 import com.sufe.idledrichfish.database.Student;
-import com.sufe.idledrichfish.database.helper.StudentDbHelper;
+import com.sufe.idledrichfish.database.StudentBLL;
+import com.sufe.idledrichfish.database.StudentDAL;
 
 import java.util.List;
 
 public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecyclerAdapter.ViewHolder>{
     private List<Product> myProducts;
-    private StudentDbHelper studentDbHelper = new StudentDbHelper();
-
+    private StudentBLL studentBLL = new StudentBLL();
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView text_product_title;
@@ -64,7 +63,7 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
         holder.text_product_price.setText(String.valueOf(product.getPrice()));
         holder.text_product_id.setText(String.valueOf(product.getProductId()));
 
-        Student seller = studentDbHelper.find(product.getPublisherId());
+        Student seller = studentBLL.getStudentById(product.getPublisherId());
         holder.text_seller_name.setText(seller.getName());
         holder.text_seller_credit.setText(String.valueOf(seller.getCredit()));
 

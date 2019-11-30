@@ -11,13 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sufe.idledrichfish.database.Label;
+import com.sufe.idledrichfish.database.LabelBLL;
 import com.sufe.idledrichfish.database.Product;
-import com.sufe.idledrichfish.database.helper.LabelDbHelper;
-import com.sufe.idledrichfish.database.helper.ProductDbHelper;
-import com.sufe.idledrichfish.database.helper.StudentDbHelper;
+import com.sufe.idledrichfish.database.ProductBLL;
+import com.sufe.idledrichfish.database.ProductDAL;
+import com.sufe.idledrichfish.database.Student;
+import com.sufe.idledrichfish.database.StudentBLL;
 
-import org.litepal.LitePal;
-
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,15 +31,15 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+    // TO DO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    // TO DO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    private ProductBLL productBLL;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager layoutManager;
@@ -53,17 +54,14 @@ public class HomeFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
      * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment HomeFragment.
      */
-    // TODO: Rename and change types and number of parameters
+    // TO DO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,10 +71,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
@@ -85,18 +80,12 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        ProductDbHelper productDbHelper = new ProductDbHelper();
+        productBLL = new ProductBLL();
 
+        insertExampleData();
 //        LitePal.deleteAll("Product");
 
-//        LabelDbHelper labelDbHelper = new LabelDbHelper();
-//        labelDbHelper.add("风衣");
-//        List<Label> labels = labelDbHelper.find("风衣");
-//        productDbHelper.add("风衣", "beautiful", 999, "2016110672", labels, "服饰");
-//        StudentDbHelper studentDbHelper = new StudentDbHelper();
-//        studentDbHelper.add("2016110672", "ZHQC", "123456", "female", 1);
-
-        List<Product> products = productDbHelper.getProducts();
+        List<Product> products = productBLL.getAllProducts();
         mRecyclerView = view.findViewById(R.id.recyclerView_main);
         layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -107,7 +96,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TO DO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -138,7 +127,35 @@ public class HomeFragment extends Fragment {
      * activity.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+        // TO DO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private void insertExampleData() {
+        LabelBLL labelBLL = new LabelBLL();
+        Label label = new Label();
+        label.setName("高数");
+        labelBLL.insertLabel(label);
+
+        StudentBLL studentDAL = new StudentBLL();
+        Student student = new Student();
+        student.setStudentId("2017110001");
+        student.setName("Simon");
+        student.setPassword("123456");
+        student.setGender("male");
+        student.setAdminId(1);
+        studentDAL.insertStudent(student);
+
+        List<Label> labels = new ArrayList<>();
+        labels.add(label);
+        Product product = new Product();
+        product.setName("高数练习册");
+        product.setDescription("涨知识嘻嘻");
+        product.setPublisherId("2017110001");
+        product.setLabels(labels);
+        product.setPrice(999);
+        product.setCategory("书籍");
+        productBLL.insertProduct(product);
+    }
 }
+
