@@ -42,18 +42,15 @@
         </RelativeLayout>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/item_description"
+            android:id="@+id/cardView_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/publisment"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_margin="10dp"
             android:background="@color/transparent">
 
             <EditText
-                android:id="@+id/item_detail"
+                android:id="@+id/editText_description"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:hint="简单描述你的商品..."
@@ -66,7 +63,7 @@
 
         <RelativeLayout
             android:id="@+id/item_picture"
-            android:layout_below="@id/item_description"
+            android:layout_below="@id/cardView_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -141,7 +138,7 @@
             android:layout_marginRight="20dp">
 
             <ImageView
-                android:id="@+id/ic1"
+                android:id="@+id/ic_price"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_money"
@@ -151,14 +148,14 @@
                 android:layout_marginLeft="10dp"/>
 
             <TextView
-                android:id="@+id/text1"
+                android:id="@+id/text_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="价格"
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/black"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/ic1"
+                android:layout_toRightOf="@+id/ic_price"
                 android:layout_marginLeft="10dp"/>
 
             <!-- TODO:以alertdialog形式输入价格，显示在textview中 -->

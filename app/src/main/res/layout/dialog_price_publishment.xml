@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/text_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="价格   ¥"
+        android:padding="@dimen/dialog_padding"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:background="@color/white"
+        android:paddingTop="@dimen/dialog_padding"
+        app:layout_constraintStart_toEndOf="@+id/text_price"
+        app:layout_constraintTop_toTopOf="@+id/text_price" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        android:layout_marginStart="@dimen/dialog_padding"
+        android:layout_marginEnd="@dimen/dialog_padding"
+        app:layout_constraintBottom_toBottomOf="@+id/text_price"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/text_oldPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="入手价   ¥"
+        android:padding="@dimen/dialog_padding"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_price" />
+
+    <EditText
+        android:id="@+id/editText_oldPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textSize="13sp"
+        android:background="@color/white"
+        android:paddingTop="@dimen/dialog_padding"
+        app:layout_constraintStart_toEndOf="@+id/text_oldPrice"
+        app:layout_constraintTop_toBottomOf="@+id/text_price" />
+
+</android.support.constraint.ConstraintLayout>

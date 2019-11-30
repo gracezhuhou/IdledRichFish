@@ -1,5 +1,6 @@
 package com.sufe.idledrichfish;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,10 +23,12 @@ public class ProductViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
         getSupportActionBar().setLogo(R.drawable.ic_user);
 
+        initView();
 
 
-
-        // 返回键监听
+        /*
+        返回键监听
+         */
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -33,6 +36,9 @@ public class ProductViewActivity extends AppCompatActivity {
             }
         });
 
+        /*
+        fab按钮监听
+         */
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +49,12 @@ public class ProductViewActivity extends AppCompatActivity {
         });
     }
 
-
+    /*
+    根据传入的product_id初始化界面
+     */
+    private void initView() {
+        Intent intent = getIntent();
+        String product_id = intent.getStringExtra("product_id_extra");
+    }
 
 }

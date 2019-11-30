@@ -7,27 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.sufe.idledrichfish.database.Label;
-import com.sufe.idledrichfish.database.Product;
-import com.sufe.idledrichfish.database.Student;
-import com.sufe.idledrichfish.database.helper.DbHelper;
-import com.sufe.idledrichfish.database.helper.LabelDbHelper;
-import com.sufe.idledrichfish.database.helper.ProductDbHelper;
-import com.sufe.idledrichfish.database.helper.StudentDbHelper;
-
-import org.litepal.LitePal;
-
-import java.util.Date;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
         HomeFragment.OnFragmentInteractionListener, PublishmentFragment.OnFragmentInteractionListener,
