@@ -67,21 +67,27 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
         holder.text_seller_name.setText(seller.getName());
         holder.text_seller_credit.setText(String.valueOf(seller.getCredit()));
 
-        // 设置产品图片
+        /*
+        设置产品图片
+         */
         byte[] product_image = product.getImage();
         if (product_image != null) {
             Bitmap bitmap_product = BitmapFactory.decodeByteArray(product_image, 0, product_image.length);
             holder.image_product.setImageBitmap(bitmap_product);
         }
 
-        // 设置卖家头像
+        /*
+        设置卖家头像
+         */
         byte[] seller_image = seller.getImage();
         if (seller_image != null) {
             Bitmap bitmap_seller = BitmapFactory.decodeByteArray(seller_image, 0, seller_image.length);
             holder.image_seller.setImageBitmap(bitmap_seller);
         }
 
-        // 点击跳转至商品详细界面
+        /*
+        点击跳转至商品详细界面
+         */
         holder.cardView_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){

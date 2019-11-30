@@ -77,13 +77,13 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the dialog_price_publishment for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         productBLL = new ProductBLL();
 
-        insertExampleData();
-//        LitePal.deleteAll("Product");
+//        insertExampleData(); // 需要有测试的数据时使用，第二次运行时请注释掉
+//        LitePal.deleteAll("Product"); // 数据出问题闪退时使用
 
         List<Product> products = productBLL.getAllProducts();
         mRecyclerView = view.findViewById(R.id.recyclerView_main);
