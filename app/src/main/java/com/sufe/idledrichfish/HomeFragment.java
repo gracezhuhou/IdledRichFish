@@ -3,20 +3,27 @@ package com.sufe.idledrichfish;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.sufe.idledrichfish.database.BmobDBHelper;
 import com.sufe.idledrichfish.database.Label;
 import com.sufe.idledrichfish.database.LabelBLL;
 import com.sufe.idledrichfish.database.Product;
 import com.sufe.idledrichfish.database.ProductBLL;
-import com.sufe.idledrichfish.database.ProductDAL;
+import com.sufe.idledrichfish.database.BmobStudent;
 import com.sufe.idledrichfish.database.Student;
 import com.sufe.idledrichfish.database.StudentBLL;
+
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +46,18 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ProductBLL productBLL;
+    private OnFragmentInteractionListener mListener;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager layoutManager;
     private ProductsRecyclerAdapter productsRecyclerAdapter;
 
-    private OnFragmentInteractionListener mListener;
+    private ProductBLL productBLL;
+    private List<Product> products;
+
+    static public Handler myHandler;
+
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -72,6 +84,18 @@ public class HomeFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
+
+        // Recycler局部刷新线程
+        myHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                Bundle b = msg.getData();
+                String studentId = b.getString("studentId");
+
+                Log.i("Handler", "局部刷新界面");
+                // TODO:刷新界面
+                productsRecyclerAdapter.notifyDataSetChanged();
+            }
+        };
     }
 
     @Override
@@ -82,10 +106,12 @@ public class HomeFragment extends Fragment {
 
         productBLL = new ProductBLL();
 
-//        insertExampleData(); // 需要有测试的数据时使用，第二次运行时请注释掉
-//        LitePal.deleteAll("Product"); // 数据出问题闪退时使用
+        deleteAllData(); // 数据出问题闪退时使用
+        insertExampleData(); // 需要有测试的数据时使用，第二次运行时请注释掉
 
-        List<Product> products = productBLL.getAllProducts();
+
+
+        products = productBLL.getAllProducts();
         mRecyclerView = view.findViewById(R.id.recyclerView_main);
         layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -137,25 +163,29 @@ public class HomeFragment extends Fragment {
         label.setName("高数");
         labelBLL.insertLabel(label);
 
-        StudentBLL studentDAL = new StudentBLL();
-        Student student = new Student();
-        student.setStudentId("2017110001");
-        student.setName("Simon");
-        student.setPassword("123456");
-        student.setGender("male");
-        student.setAdminId(1);
-        studentDAL.insertStudent(student);
+//        StudentBLL studentDAL = new StudentBLL();
+//        Student student = new Student();
+//        student.setStudentNumber("2017110001");
+//        student.setName("Simon");
+//        student.setGender("male");
+//        studentDAL.insertStudent(student);
 
         List<Label> labels = new ArrayList<>();
         labels.add(label);
         Product product = new Product();
         product.setName("高数练习册");
         product.setDescription("涨知识嘻嘻");
-        product.setPublisherId("2017110001");
+        product.setPublisherId("a41b6f2562");
         product.setLabels(labels);
         product.setPrice(999);
         product.setCategory("书籍");
         productBLL.insertProduct(product);
+    }
+
+    private void deleteAllData(){
+        LitePal.deleteAll("Product");
+        LitePal.deleteAll("Student");
+        LitePal.deleteAll("Label");
     }
 }
 

@@ -1,17 +1,14 @@
 package com.sufe.idledrichfish.database;
 
 import org.litepal.annotation.Column;
-import org.litepal.crud.LitePalSupport;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.bmob.v3.BmobObject;
 
-public class Product extends LitePalSupport {
-
-    @Column(unique = true, nullable = false)
-    private String productId;
+public class BmobProduct extends BmobObject {
 
     @Column(nullable = false)
     private String name;
@@ -21,7 +18,7 @@ public class Product extends LitePalSupport {
     @Column(nullable = false)
     private double price;
 
-    private double oldPrice;
+    private double oldPrice; // 入手价
 
     private boolean isNew; // 是否全新
 
@@ -30,9 +27,9 @@ public class Product extends LitePalSupport {
     private Date publishDate = new Date(System.currentTimeMillis());
 
     @Column(nullable = false)
-    private String publisherId;    // 发布者的学号
+    private String publisherId;    // 发布者Id
 
-    private String category = "other";
+    private String category = "无";
 
     private List<Label> labels = new ArrayList<Label>();
 
@@ -40,14 +37,6 @@ public class Product extends LitePalSupport {
 
 
     // generated getters and setters.
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String product_id) {
-        this.productId = product_id;
-    }
 
     public String getName() {
         return name;

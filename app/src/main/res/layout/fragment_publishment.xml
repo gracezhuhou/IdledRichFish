@@ -19,7 +19,7 @@
             android:background="@color/transparent">
             <!-- TODO: 取消按钮返回原界面 -->
             <Button
-                android:id="@+id/item_concel"
+                android:id="@+id/button_cancel"
                 android:layout_width="50dp"
                 android:layout_height="35dp"
                 android:text="取消"
@@ -29,7 +29,7 @@
                 android:background="#00000000" />
             <!-- TODO: 发布新商品，返回原界面并刷新 -->
             <Button
-                android:id="@+id/item_launch"
+                android:id="@+id/button_launch"
                 android:layout_width="70dp"
                 android:layout_height="35dp"
                 android:text="发布"
@@ -49,20 +49,38 @@
             android:layout_margin="10dp"
             android:background="@color/transparent">
 
-            <EditText
-                android:id="@+id/editText_description"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:hint="简单描述你的商品..."
-                android:textColorHint="@color/gray"
-                android:gravity="top"
-                android:padding="10dp"
-                android:background="@color/transparent">
-            </EditText>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/editText_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="商品名称"
+                    android:textColorHint="@color/gray"
+                    android:gravity="top"
+                    android:padding="10dp"
+                    android:background="@color/transparent">
+                </EditText>
+
+                <EditText
+                    android:id="@+id/editText_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:hint="简单描述你的商品..."
+                    android:textColorHint="@color/gray"
+                    android:gravity="top"
+                    android:padding="10dp"
+                    android:background="@color/transparent">
+                </EditText>
+
+            </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <RelativeLayout
-            android:id="@+id/item_picture"
+            android:id="@+id/layout_picture"
             android:layout_below="@id/cardView_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,11 +99,11 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/item_check"
-            android:layout_below="@id/item_picture"
+            android:id="@+id/layout_check"
+            android:layout_below="@id/layout_picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp">
 
@@ -95,32 +113,35 @@
                 android:layout_width="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
-                android:text="全新"
+                android:text="@string/checkbox_isNew"
                 android:button="@null"
                 android:textSize="@dimen/text_size"
-                android:layout_marginLeft="50dp"
+                android:layout_marginStart="30dp"
+                android:padding="@dimen/checkBox_padding"
                 android:textColor="@color/black"
                 android:background="@color/transparent"
-                />
+                android:checked="false"/>
+
             <CheckBox
-                android:id="@+id/if_bargin"
-                android:layout_toRightOf="@+id/if_new"
+                android:id="@+id/if_bargain"
+                android:layout_toEndOf="@+id/if_new"
                 android:layout_width="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
-                android:text="不讲价"
+                android:text="@string/checkbox_canNotBargain"
                 android:button="@null"
                 android:textSize="@dimen/text_size"
-                android:layout_marginLeft="50dp"
+                android:layout_marginStart="30dp"
+                android:padding="@dimen/checkBox_padding"
                 android:textColor="@color/black"
                 android:background="@color/transparent"
-                />
+                android:checked="false"/>
 
         </RelativeLayout>
 
         <View
-            android:id="@+id/line1"
-            android:layout_below="@id/item_check"
+            android:id="@+id/divider1"
+            android:layout_below="@id/layout_check"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/gray"
@@ -130,8 +151,8 @@
 
         <!-- TODO:以下都为relativelayout的点击事件 -->
         <RelativeLayout
-            android:id="@+id/item_price"
-            android:layout_below="@+id/line1"
+            android:id="@+id/layout_price"
+            android:layout_below="@+id/divider1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -142,10 +163,10 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_money"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginStart="10dp"/>
 
             <TextView
                 android:id="@+id/text_price"
@@ -155,8 +176,8 @@
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/black"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/ic_price"
-                android:layout_marginLeft="10dp"/>
+                android:layout_toEndOf="@+id/ic_price"
+                android:layout_marginStart="10dp"/>
 
             <!-- TODO:以alertdialog形式输入价格，显示在textview中 -->
             <TextView
@@ -167,21 +188,21 @@
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/black"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/im1"
-                android:layout_marginRight="20dp"/>
+                android:layout_toStartOf="@+id/im1"
+                android:layout_marginEnd="20dp"/>
             <ImageView
                 android:id="@+id/im1"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_right"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
 
         <View
-            android:id="@+id/line2"
-            android:layout_below="@id/item_price"
+            android:id="@+id/divider2"
+            android:layout_below="@id/layout_price"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/gray"
@@ -189,8 +210,8 @@
             android:layout_marginRight="20dp"/>
 
         <RelativeLayout
-            android:id="@+id/item_tab"
-            android:layout_below="@+id/line2"
+            android:id="@+id/layout_tab"
+            android:layout_below="@+id/divider2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -201,33 +222,34 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_tab"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginStart="10dp"/>
+
             <TextView
-                android:id="@+id/text2"
+                android:id="@+id/text_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="标签"
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/black"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/ic2"
-                android:layout_marginLeft="10dp"/>
+                android:layout_toEndOf="@+id/ic2"
+                android:layout_marginStart="10dp"/>
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_right"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
 
         <View
-            android:id="@+id/line3"
-            android:layout_below="@id/item_tab"
+            android:id="@+id/divider3"
+            android:layout_below="@id/layout_tab"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/gray"
@@ -235,8 +257,8 @@
             android:layout_marginRight="20dp"/>
 
         <RelativeLayout
-            android:id="@+id/item_sort"
-            android:layout_below="@+id/line3"
+            android:id="@+id/layout_sort"
+            android:layout_below="@+id/divider3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -247,10 +269,10 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_sort"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginStart="10dp"/>
             <TextView
                 android:id="@+id/text3"
                 android:layout_width="wrap_content"
@@ -259,21 +281,21 @@
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/black"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/ic3"
-                android:layout_marginLeft="10dp"/>
+                android:layout_toEndOf="@+id/ic3"
+                android:layout_marginStart="10dp"/>
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_right"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
 
         <View
-            android:id="@+id/line4"
-            android:layout_below="@id/item_sort"
+            android:id="@+id/divider4"
+            android:layout_below="@id/layout_sort"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/gray"

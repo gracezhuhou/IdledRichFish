@@ -11,16 +11,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sufe.idledrichfish.database.BmobDBHelper;
 import com.sufe.idledrichfish.database.Product;
+import com.sufe.idledrichfish.database.BmobStudent;
 import com.sufe.idledrichfish.database.Student;
 import com.sufe.idledrichfish.database.StudentBLL;
-import com.sufe.idledrichfish.database.StudentDAL;
 
 import java.util.List;
 
 public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecyclerAdapter.ViewHolder>{
     private List<Product> myProducts;
     private StudentBLL studentBLL = new StudentBLL();
+    private BmobDBHelper bmobDBHelper = new BmobDBHelper();
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView text_product_title;
@@ -63,9 +65,19 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
         holder.text_product_price.setText(String.valueOf(product.getPrice()));
         holder.text_product_id.setText(String.valueOf(product.getProductId()));
 
-        Student seller = studentBLL.getStudentById(product.getPublisherId());
-        holder.text_seller_name.setText(seller.getName());
-        holder.text_seller_credit.setText(String.valueOf(seller.getCredit()));
+        String stuObjectId = product.getPublisherId();
+        bmobDBHelper.queryStudentById(stuObjectId);
+        Student seller = studentBLL.getStudentById(stuObjectId);
+        if (seller != null){
+            holder.text_seller_name.setText(seller.getName());
+            holder.text_seller_credit.setText(String.valueOf(seller.getCredit()));
+            // 设置卖家头像
+            byte[] seller_image = seller.getImage();
+            if (seller_image != null) {
+                Bitmap bitmap_seller = BitmapFactory.decodeByteArray(seller_image, 0, seller_image.length);
+                holder.image_seller.setImageBitmap(bitmap_seller);
+            }
+        }
 
         /*
         设置产品图片
@@ -74,15 +86,6 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
         if (product_image != null) {
             Bitmap bitmap_product = BitmapFactory.decodeByteArray(product_image, 0, product_image.length);
             holder.image_product.setImageBitmap(bitmap_product);
-        }
-
-        /*
-        设置卖家头像
-         */
-        byte[] seller_image = seller.getImage();
-        if (seller_image != null) {
-            Bitmap bitmap_seller = BitmapFactory.decodeByteArray(seller_image, 0, seller_image.length);
-            holder.image_seller.setImageBitmap(bitmap_seller);
         }
 
         /*
