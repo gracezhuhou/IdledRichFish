@@ -52,13 +52,13 @@ public class ProductDAL {
     根据id删除商品
      */
     public boolean deleteProductById(String id) {
-        int deleteNum = LitePal.deleteAll(Student.class, "product_id = ?", id);
+        int deleteNum = LitePal.deleteAll(BmobStudent.class, "productId = ?", id);
         if (deleteNum >= 1) {
-            Log.i("Database", "Delete Student Success :" + deleteNum);
+            Log.i("Database", "Delete BmobStudent Success :" + deleteNum);
             return true;
         }
         else {
-            Log.i("Database", "Delete Student Fail");
+            Log.i("Database", "Delete BmobStudent Fail");
             return false;
         }
     }
@@ -67,14 +67,14 @@ public class ProductDAL {
     寻找某一学生发布的所有商品
      */
     public List<Product> findProductsByPublisher(String student_id) {
-        return LitePal.where("publisher_id = ?", student_id).find(Product.class);
+        return LitePal.where("publisherId = ?", student_id).find(Product.class);
     }
 
     /*
     根据id寻找商品
      */
     public Product getProductById(String id) {
-        List<Product> products = LitePal.where("publisher_id = ?", id).find(Product.class);
+        List<Product> products = LitePal.where("publisherId = ?", id).find(Product.class);
 
         if (products.size() == 1)
             return products.get(0);

@@ -1,12 +1,13 @@
 package com.sufe.idledrichfish.database;
 
 import org.litepal.annotation.Column;
-import org.litepal.crud.LitePalSupport;
 
-public class Admin extends LitePalSupport {
+import cn.bmob.v3.BmobObject;
+
+public class BmobAdmin extends BmobObject {
 
     @Column(unique = true, nullable = false)
-    private int admin_id;
+    private int adminId;
 
     @Column(nullable = false)
     private String name;
@@ -14,14 +15,15 @@ public class Admin extends LitePalSupport {
     @Column(nullable = false)
     private String password;
 
+
     // generated getters and setters.
 
     public int getAdminId() {
-        return admin_id;
+        return adminId;
     }
 
-    public void setAdminId(int admin_id) {
-        this.admin_id = admin_id;
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
     }
 
     public String getName() {
