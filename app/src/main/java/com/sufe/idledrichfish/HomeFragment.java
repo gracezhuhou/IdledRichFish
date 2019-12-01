@@ -18,6 +18,8 @@ import com.sufe.idledrichfish.database.ProductDAL;
 import com.sufe.idledrichfish.database.Student;
 import com.sufe.idledrichfish.database.StudentBLL;
 
+import org.litepal.LitePal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,13 +41,14 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ProductBLL productBLL;
+    private OnFragmentInteractionListener mListener;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager layoutManager;
     private ProductsRecyclerAdapter productsRecyclerAdapter;
 
-    private OnFragmentInteractionListener mListener;
+    private ProductBLL productBLL;
+    List<Product> products;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -82,10 +85,10 @@ public class HomeFragment extends Fragment {
 
         productBLL = new ProductBLL();
 
+//        deleteAllData(); // 数据出问题闪退时使用
 //        insertExampleData(); // 需要有测试的数据时使用，第二次运行时请注释掉
-//        LitePal.deleteAll("Product"); // 数据出问题闪退时使用
 
-        List<Product> products = productBLL.getAllProducts();
+        products = productBLL.getAllProducts();
         mRecyclerView = view.findViewById(R.id.recyclerView_main);
         layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -156,6 +159,12 @@ public class HomeFragment extends Fragment {
         product.setPrice(999);
         product.setCategory("书籍");
         productBLL.insertProduct(product);
+    }
+
+    private void deleteAllData(){
+        LitePal.deleteAll("Product");
+        LitePal.deleteAll("Student");
+        LitePal.deleteAll("Label");
     }
 }
 

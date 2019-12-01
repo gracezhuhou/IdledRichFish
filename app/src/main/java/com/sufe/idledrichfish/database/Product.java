@@ -11,7 +11,7 @@ import java.util.List;
 public class Product extends LitePalSupport {
 
     @Column(unique = true, nullable = false)
-    private String product_id;
+    private String productId;
 
     @Column(nullable = false)
     private String name;
@@ -21,10 +21,16 @@ public class Product extends LitePalSupport {
     @Column(nullable = false)
     private double price;
 
-    private Date publish_date = new Date(System.currentTimeMillis());
+    private double oldPrice;
+
+    private boolean isNew; // 是否全新
+
+    private boolean canBargain; // 能否讲价
+
+    private Date publishDate = new Date(System.currentTimeMillis());
 
     @Column(nullable = false)
-    private String publisher_id;    // 发布者的学号
+    private String publisherId;    // 发布者的学号
 
     private String category = "other";
 
@@ -32,14 +38,15 @@ public class Product extends LitePalSupport {
 
     private byte[] image; // 图片
 
+
     // generated getters and setters.
 
     public String getProductId() {
-        return product_id;
+        return productId;
     }
 
     public void setProductId(String product_id) {
-        this.product_id = product_id;
+        this.productId = product_id;
     }
 
     public String getName() {
@@ -66,20 +73,44 @@ public class Product extends LitePalSupport {
         this.price = price;
     }
 
-    public Date getPublishDate() {
-        return publish_date;
+    public double getOldPrice() {
+        return oldPrice;
     }
 
-    public void setPublishDate(Date publish_date) {
-        this.publish_date = publish_date;
+    public void setOldPrice(double oldPrice) {
+        this.oldPrice = oldPrice;
+    }
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(boolean aNew) {
+        isNew = aNew;
+    }
+
+    public boolean isCanBargain() {
+        return canBargain;
+    }
+
+    public void setCanBargain(boolean canBargain) {
+        this.canBargain = canBargain;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
     }
 
     public String getPublisherId() {
-        return publisher_id;
+        return publisherId;
     }
 
-    public void setPublisherId(String publisher_id) {
-        this.publisher_id = publisher_id;
+    public void setPublisherId(String publisherId) {
+        this.publisherId = publisherId;
     }
 
     public String getCategory() {
