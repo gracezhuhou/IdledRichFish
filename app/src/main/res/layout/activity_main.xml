@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="673dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <!-- 底部导航栏 -->
     <android.support.design.widget.BottomNavigationView
