@@ -272,7 +272,7 @@ class TestNormalAdapter extends StaticPagerAdapter {
     private int[] imgs = {
             R.drawable.ic_book,
             R.drawable.ic_cosmetic,
-            R.drawable.ic_clothe,
+            R.drawable.ic_clothes,
             R.drawable.ic_electronics,
     };
 
