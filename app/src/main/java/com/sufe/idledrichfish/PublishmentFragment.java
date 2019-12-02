@@ -202,7 +202,7 @@ public class PublishmentFragment extends Fragment {
                 product.setOldPrice(oldPrice);
                 product.setLabels(labels);
                 product.setCategory(catogory);
-                product.setPublisherId("2017110001"); //Todo:获取当前用户ID
+                product.setPublisherId("a41b6f2562"); //Todo:获取当前用户ID
                 if (productBLL.insertProduct(product)) {
                     AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                             .setTitle("商品发布成功") // 标题

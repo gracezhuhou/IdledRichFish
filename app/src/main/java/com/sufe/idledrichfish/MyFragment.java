@@ -1,6 +1,7 @@
 package com.sufe.idledrichfish;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -63,8 +64,14 @@ public class MyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the dialog_price_publishment for this fragment
-        return inflater.inflate(R.layout.fragment_my, container, false);
+        // Inflate the layout for this fragment
+        super.onActivityCreated(savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_my, container, false);
+
+        Drawable drawable1 = getResources().getDrawable(R.drawable.info);
+        drawable1.setBounds(0, 0, 40, 40);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

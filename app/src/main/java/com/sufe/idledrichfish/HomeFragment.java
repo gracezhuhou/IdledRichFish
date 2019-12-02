@@ -1,6 +1,7 @@
 package com.sufe.idledrichfish;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,21 +13,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.sufe.idledrichfish.database.BmobDBHelper;
 import com.sufe.idledrichfish.database.Label;
 import com.sufe.idledrichfish.database.LabelBLL;
 import com.sufe.idledrichfish.database.Product;
 import com.sufe.idledrichfish.database.ProductBLL;
-import com.sufe.idledrichfish.database.BmobStudent;
-import com.sufe.idledrichfish.database.Student;
-import com.sufe.idledrichfish.database.StudentBLL;
 
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import in.srain.cube.views.ptr.PtrClassicDefaultFooter;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
 
 /**
@@ -44,11 +45,12 @@ public class HomeFragment extends Fragment {
 
     // TO DO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView mRecyclerView;
+    private PtrFrameLayout ptrFrameLayout;
+
     private LinearLayoutManager layoutManager;
     private ProductsRecyclerAdapter productsRecyclerAdapter;
 
@@ -56,8 +58,6 @@ public class HomeFragment extends Fragment {
     private List<Product> products;
 
     static public Handler myHandler;
-
-
 
     public HomeFragment() {
         // Required empty public constructor
@@ -109,15 +109,12 @@ public class HomeFragment extends Fragment {
         deleteAllData(); // 数据出问题闪退时使用
         insertExampleData(); // 需要有测试的数据时使用，第二次运行时请注释掉
 
-
-
-        products = productBLL.getAllProducts();
+        ptrFrameLayout = view.findViewById(R.id.refreshLayout);
         mRecyclerView = view.findViewById(R.id.recyclerView_main);
-        layoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(layoutManager);
-        productsRecyclerAdapter = new ProductsRecyclerAdapter(products);
-        mRecyclerView.setAdapter(productsRecyclerAdapter);
-        mRecyclerView.setHasFixedSize(true);
+
+        setRecycler();
+        setRefresh();
+
 
         return view;
     }
@@ -155,6 +152,59 @@ public class HomeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TO DO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void setRecycler() {
+        products = productBLL.getAllProducts();
+        layoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+        productsRecyclerAdapter = new ProductsRecyclerAdapter(products);
+        mRecyclerView.setAdapter(productsRecyclerAdapter);
+        mRecyclerView.setHasFixedSize(true);
+    }
+
+    private void setRefresh() {
+        //StoreHouse风格的头部实现
+        StoreHouseHeader storeHouseHeader = new StoreHouseHeader(getContext());
+        storeHouseHeader.setPadding(0,50,0,0);
+        storeHouseHeader.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        storeHouseHeader.setTextColor(Color.WHITE);
+        storeHouseHeader.initWithString("sufe loading"); // 只可英文，中文不可运行(添加时间)
+        ptrFrameLayout.setHeaderView(storeHouseHeader);
+        ptrFrameLayout.addPtrUIHandler(storeHouseHeader);
+
+        StoreHouseHeader storeHouseFooter = new StoreHouseHeader(getContext());
+        storeHouseFooter.setPadding(0,10,0,10);
+        storeHouseFooter.setBackgroundColor(getResources().getColor(R.color.transparent));
+        storeHouseFooter.setTextColor(getResources().getColor(R.color.colorPrimary));
+        storeHouseFooter.initWithString("loading"); // 只可英文，中文不可运行(添加时间)
+        ptrFrameLayout.setFooterView(storeHouseFooter);
+        ptrFrameLayout.addPtrUIHandler(storeHouseFooter);
+
+        //经典风格的头部实现，下拉箭头+时间
+//        PtrClassicDefaultHeader ptrClassicDefaultHeader = new PtrClassicDefaultHeader(getContext());
+//        ptrFrameLayout.setHeaderView(ptrClassicDefaultHeader);
+//       PtrClassicDefaultFooter ptrClassicDefaultFooter = new PtrClassicDefaultFooter(getContext());
+//        ptrFrameLayout.setFooterView(ptrClassicDefaultFooter);
+//        ptrFrameLayout.addPtrUIHandler(ptrClassicDefaultHeader);
+//       ptrFrameLayout.addPtrUIHandler(ptrClassicDefaultFooter);
+
+        // 监听刷新过程
+        ptrFrameLayout.setPtrHandler(new PtrDefaultHandler2() {
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                frame.postDelayed(ptrFrameLayout::refreshComplete, 2000);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                frame.postDelayed(ptrFrameLayout::refreshComplete, 2000);
+                products.clear();
+                products.addAll(productBLL.getAllProducts());
+                productsRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
+        ptrFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
     private void insertExampleData() {

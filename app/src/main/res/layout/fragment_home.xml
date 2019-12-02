@@ -25,20 +25,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <in.srain.cube.views.ptr.PtrFrameLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:fillViewport="true"
+            android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_lookUp">
+            app:layout_constraintTop_toBottomOf="@+id/editText_lookUp"
+            xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+            cube_ptr:ptr_resistance_header="1.7"
+            cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+            cube_ptr:ptr_duration_to_back_header="300"
+            cube_ptr:ptr_duration_to_close_header="2000"
+            cube_ptr:ptr_keep_header_when_refresh="true"
+            cube_ptr:ptr_pull_to_fresh="false"
+            cube_ptr:ptr_resistance_footer="1.3"
+            cube_ptr:ptr_duration_to_back_footer="300"
+            cube_ptr:ptr_duration_to_close_footer="2000">
+<!--            android:fillViewport="true"-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -97,7 +107,7 @@
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </in.srain.cube.views.ptr.PtrFrameLayout>
 
     </android.support.constraint.ConstraintLayout>
 
