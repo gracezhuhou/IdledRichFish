@@ -60,4 +60,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     // UI框架
     implementation 'in.srain.cube:ptr-load-more:1.0.6'
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.jude:rollviewpager:1.2.9'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 }

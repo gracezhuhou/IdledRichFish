@@ -1,4 +1,4 @@
-package com.sufe.idledrichfish.data;
+package com.sufe.idledrichfish.loginData;
 
 /**
  * A generic class that holds a result success w/ data or an error exception.

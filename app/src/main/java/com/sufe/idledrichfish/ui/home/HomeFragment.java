@@ -1,4 +1,4 @@
-package com.sufe.idledrichfish;
+package com.sufe.idledrichfish.ui.home;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,13 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.database.Label;
 import com.sufe.idledrichfish.database.LabelBLL;
 import com.sufe.idledrichfish.database.Product;
@@ -24,11 +25,14 @@ import org.litepal.LitePal;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.srain.cube.views.ptr.PtrClassicDefaultFooter;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
+import android.widget.ImageView;
+
+import com.jude.rollviewpager.RollPagerView;
+import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,14 +54,15 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private PtrFrameLayout ptrFrameLayout;
+    private RollPagerView mRollViewPager;
 
-    private LinearLayoutManager layoutManager;
-    private ProductsRecyclerAdapter productsRecyclerAdapter;
+    private GridLayoutManager layoutManager;
+    private HomeRecyclerViewAdapter productsRecyclerAdapter;
 
     private ProductBLL productBLL;
     private List<Product> products;
 
-    static public Handler myHandler;
+    static public Handler homeHandler;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -86,16 +91,16 @@ public class HomeFragment extends Fragment {
         }
 
         // Recycler局部刷新线程
-        myHandler = new Handler() {
+        homeHandler = new Handler() {
             public void handleMessage(Message msg) {
                 Bundle b = msg.getData();
                 String studentId = b.getString("studentId");
-
                 Log.i("Handler", "局部刷新界面");
                 // TODO:刷新界面
                 productsRecyclerAdapter.notifyDataSetChanged();
             }
         };
+
     }
 
     @Override
@@ -111,10 +116,11 @@ public class HomeFragment extends Fragment {
 
         ptrFrameLayout = view.findViewById(R.id.refreshLayout);
         mRecyclerView = view.findViewById(R.id.recyclerView_main);
+        mRollViewPager = view.findViewById(R.id.roll_view_pager);
 
-        setRecycler();
-        setRefresh();
-
+        setRecycler(); // 商品浏览
+        setRefresh(); // 下拉刷新& 上拉加载
+        setRoll(); // 图片轮播
 
         return view;
     }
@@ -156,16 +162,16 @@ public class HomeFragment extends Fragment {
 
     private void setRecycler() {
         products = productBLL.getAllProducts();
-        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new GridLayoutManager(this.getContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        productsRecyclerAdapter = new ProductsRecyclerAdapter(products);
+        productsRecyclerAdapter = new HomeRecyclerViewAdapter(products);
         mRecyclerView.setAdapter(productsRecyclerAdapter);
         mRecyclerView.setHasFixedSize(true);
     }
 
     private void setRefresh() {
         //StoreHouse风格的头部实现
-        StoreHouseHeader storeHouseHeader = new StoreHouseHeader(getContext());
+        StoreHouseHeader storeHouseHeader = new StoreHouseHeader(this.getContext());
         storeHouseHeader.setPadding(0,50,0,0);
         storeHouseHeader.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         storeHouseHeader.setTextColor(Color.WHITE);
@@ -173,7 +179,7 @@ public class HomeFragment extends Fragment {
         ptrFrameLayout.setHeaderView(storeHouseHeader);
         ptrFrameLayout.addPtrUIHandler(storeHouseHeader);
 
-        StoreHouseHeader storeHouseFooter = new StoreHouseHeader(getContext());
+        StoreHouseHeader storeHouseFooter = new StoreHouseHeader(this.getContext());
         storeHouseFooter.setPadding(0,10,0,10);
         storeHouseFooter.setBackgroundColor(getResources().getColor(R.color.transparent));
         storeHouseFooter.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -182,9 +188,9 @@ public class HomeFragment extends Fragment {
         ptrFrameLayout.addPtrUIHandler(storeHouseFooter);
 
         //经典风格的头部实现，下拉箭头+时间
-//        PtrClassicDefaultHeader ptrClassicDefaultHeader = new PtrClassicDefaultHeader(getContext());
+//        PtrClassicDefaultHeader ptrClassicDefaultHeader = new PtrClassicDefaultHeader(this.getContext());
 //        ptrFrameLayout.setHeaderView(ptrClassicDefaultHeader);
-//       PtrClassicDefaultFooter ptrClassicDefaultFooter = new PtrClassicDefaultFooter(getContext());
+//       PtrClassicDefaultFooter ptrClassicDefaultFooter = new PtrClassicDefaultFooter(this.getContext());
 //        ptrFrameLayout.setFooterView(ptrClassicDefaultFooter);
 //        ptrFrameLayout.addPtrUIHandler(ptrClassicDefaultHeader);
 //       ptrFrameLayout.addPtrUIHandler(ptrClassicDefaultFooter);
@@ -207,6 +213,25 @@ public class HomeFragment extends Fragment {
         ptrFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
+    private void setRoll() {
+        //设置播放时间间隔
+        mRollViewPager.setPlayDelay(6000);
+        //设置透明度
+        mRollViewPager.setAnimationDurtion(500);
+        //设置适配器
+        mRollViewPager.setAdapter(new TestNormalAdapter());
+
+        //设置指示器（顺序依次）
+        //自定义指示器图片
+        //设置圆点指示器颜色
+        //设置文字指示器
+        //隐藏指示器
+        //mRollViewPager.setHintView(new IconHintView(this, R.drawable.point_focus, R.drawable.point_normal));
+        //mRollViewPager.setHintView(new ColorPointHintView(this, Color.YELLOW,Color.WHITE));
+        //mRollViewPager.setHintView(new TextHintView(this));
+        //mRollViewPager.setHintView(null);
+    }
+
     private void insertExampleData() {
         LabelBLL labelBLL = new LabelBLL();
         Label label = new Label();
@@ -215,7 +240,7 @@ public class HomeFragment extends Fragment {
 
 //        StudentBLL studentDAL = new StudentBLL();
 //        Student student = new Student();
-//        student.setStudentNumber("2017110001");
+//        student.setName("2017110001");
 //        student.setName("Simon");
 //        student.setGender("male");
 //        studentDAL.insertStudent(student);
@@ -236,6 +261,33 @@ public class HomeFragment extends Fragment {
         LitePal.deleteAll("Product");
         LitePal.deleteAll("Student");
         LitePal.deleteAll("Label");
+    }
+
+}
+
+/*
+ * Adapter: 图片轮播
+ */
+class TestNormalAdapter extends StaticPagerAdapter {
+    private int[] imgs = {
+            R.drawable.ic_book,
+            R.drawable.ic_cosmetic,
+            R.drawable.ic_clothe,
+            R.drawable.ic_electronics,
+    };
+
+    @Override
+    public View getView(ViewGroup container, int position) {
+        ImageView view = new ImageView(container.getContext());
+        view.setImageResource(imgs[position]);
+        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        return view;
+    }
+
+    @Override
+    public int getCount() {
+        return imgs.length;
     }
 }
 

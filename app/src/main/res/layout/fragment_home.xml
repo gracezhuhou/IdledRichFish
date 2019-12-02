@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".ui.home.HomeFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -52,6 +52,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <!-- 图片轮播 -->
+                <com.jude.rollviewpager.RollPagerView
+                    android:id="@+id/roll_view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    app:rollviewpager_play_delay="3000"/>
+
                 <!-- 分类按钮 -->
                 <LinearLayout
                     android:id="@+id/linearLayout_category"
@@ -67,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_example"
+                        android:drawableTop="@drawable/ic_bt_book"
                         android:text="@string/catogory_book" />
 
                     <!-- 化妆品 -->
@@ -76,7 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_example"
+                        android:drawableTop="@drawable/ic_bt_cosmetic"
                         android:text="@string/catogory_makeup" />
 
                     <!-- 服饰 -->
@@ -85,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_example"
+                        android:drawableTop="@drawable/ic_bt_clothes"
                         android:text="@string/catogory_clothes" />
 
                     <!-- 数码产品 -->
@@ -94,7 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@drawable/ic_example"
+                        android:drawableTop="@drawable/ic_bt_computer"
                         android:text="@string/catogory_digital" />
 
                 </LinearLayout>
@@ -102,8 +109,8 @@
                 <!-- 商品浏览 -->
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView_main"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

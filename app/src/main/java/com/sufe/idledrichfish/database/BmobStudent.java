@@ -12,14 +12,14 @@ public class BmobStudent extends BmobUser {
 
     /*
      * ObjectId
-     * username
+     * username --- 学号
      * password
      * email
      * mobilePhoneNumber
      */
 
-    @Column(unique = true, nullable = false)
-    private String studentNumber;  // 学号,不要和Student类的studentId搞混
+    @Column(nullable = false)
+    private String name;  // 真实姓名
 
     private String gender = "外星人";
 
@@ -43,12 +43,12 @@ public class BmobStudent extends BmobUser {
 
     // generated getters and setters.
 
-    public String getStudentNumber() {
-        return studentNumber;
+    public String getName() {
+        return name;
     }
 
-    public void setStudentNumber(String studentNumber) {
-        this.studentNumber = studentNumber;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getGender() {

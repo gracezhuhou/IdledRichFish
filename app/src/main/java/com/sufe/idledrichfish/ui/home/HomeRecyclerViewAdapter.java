@@ -1,25 +1,28 @@
-package com.sufe.idledrichfish;
+package com.sufe.idledrichfish.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sufe.idledrichfish.ProductViewActivity;
+import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.database.BmobDBHelper;
 import com.sufe.idledrichfish.database.Product;
-import com.sufe.idledrichfish.database.BmobStudent;
 import com.sufe.idledrichfish.database.Student;
 import com.sufe.idledrichfish.database.StudentBLL;
 
 import java.util.List;
 
-public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecyclerAdapter.ViewHolder>{
+public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
     private List<Product> myProducts;
     private StudentBLL studentBLL = new StudentBLL();
     private BmobDBHelper bmobDBHelper = new BmobDBHelper();
@@ -33,9 +36,11 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
         private ImageView image_product;
         private ImageView image_seller;
         private CardView cardView_product;
+        private Context context;
 
         public ViewHolder(View view){
             super(view);
+            context = view.getContext();
             text_product_title = view.findViewById(R.id.textView_productTitle);
             text_product_price = view.findViewById(R.id.textView_productPrice);
             text_product_id = view.findViewById(R.id.textView_productId);
@@ -48,7 +53,7 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
         }
     }
 
-    public ProductsRecyclerAdapter(List<Product> products){
+    public HomeRecyclerViewAdapter(List<Product> products){
         myProducts = products;
     }
 
@@ -60,6 +65,11 @@ public class ProductsRecyclerAdapter extends RecyclerView.Adapter<ProductsRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position){
+        // 设置item宽度 —— 1/2屏幕
+        DisplayMetrics dm = holder.context.getResources().getDisplayMetrics();
+        int width = dm.widthPixels;
+        holder.cardView_product.setMinimumWidth((width - 21) / 2);
+
         Product product = myProducts.get(holder.getAdapterPosition());
         holder.text_product_title.setText(product.getName());
         holder.text_product_price.setText(String.valueOf(product.getPrice()));

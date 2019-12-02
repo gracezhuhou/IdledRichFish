@@ -25,7 +25,7 @@ public class StudentBLL {
     public boolean storeStudent(BmobStudent bmobStudent) {
         Student student = new Student();
         student.setStudentId(bmobStudent.getObjectId());
-        student.setStudentNumber(bmobStudent.getStudentNumber());
+        student.setStudentNumber(bmobStudent.getName());
         student.setName(bmobStudent.getUsername());
         student.setGender(bmobStudent.getGender());
         student.setCredit(bmobStudent.getCredit());

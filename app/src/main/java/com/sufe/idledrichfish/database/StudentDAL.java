@@ -19,7 +19,7 @@ public class StudentDAL {
     public Boolean insertStudent(Student student) {
 //        Student student = new Student();
 //        student.setName(name);
-//        student.setStudentNumber(student_id);
+//        student.setName(student_id);
 //        student.setPassword(password);
 //        student.setGender(gender);
 //        student.setAdminId(admin_id);

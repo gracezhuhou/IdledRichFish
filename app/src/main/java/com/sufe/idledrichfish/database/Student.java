@@ -16,10 +16,6 @@ public class Student extends LitePalSupport {
     @Column(nullable = false)
     private String name;
 
-    private boolean self = false;
-
-//    private String password;
-
     private String gender = "外星人";
 
     private float credit = 10;
@@ -65,21 +61,6 @@ public class Student extends LitePalSupport {
     public void setName(String name) {
         this.name = name;
     }
-
-    public boolean isSelf() {
-        return self;
-    }
-
-    public void setSelf(boolean self) {
-        this.self = self;
-    }
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
 
     public String getGender() {
         return gender;

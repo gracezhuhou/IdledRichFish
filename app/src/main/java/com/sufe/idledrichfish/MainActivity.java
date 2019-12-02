@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.sufe.idledrichfish.ui.home.HomeFragment;
+
 import cn.bmob.v3.Bmob;
 
 public class MainActivity extends AppCompatActivity implements
@@ -85,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements
         //.setFileExpiration(2500)
         //.build();
         //Bmob.initialize(config);
-
         initView();
     }
 

@@ -4,8 +4,8 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import com.sufe.idledrichfish.data.LoginDataSource;
-import com.sufe.idledrichfish.data.LoginRepository;
+import com.sufe.idledrichfish.loginData.LoginDataSource;
+import com.sufe.idledrichfish.loginData.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

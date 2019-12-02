@@ -1,33 +1,30 @@
 package com.sufe.idledrichfish.database;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.sufe.idledrichfish.HomeFragment;
-import com.sufe.idledrichfish.MainActivity;
+import com.sufe.idledrichfish.SignUpActivity;
+import com.sufe.idledrichfish.ui.home.HomeFragment;
 import com.sufe.idledrichfish.R;
+import com.sufe.idledrichfish.ui.login.LoginActivity;
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 
-import static cn.bmob.v3.Bmob.getApplicationContext;
-import static org.litepal.LitePalApplication.getContext;
-
 public class BmobDBHelper {
     /*
-    * 用户注册
-    */
+     * 用户注册
+     */
     public void signUp(BmobStudent student) {
 //        BmobStudent bmobStudent = new BmobStudent();
 //        bmobStudent.setName(name);
-//        bmobStudent.setStudentNumber(student_id);
+//        bmobStudent.setName(student_id);
 //        bmobStudent.setPassword(password);
 //        bmobStudent.setGender(gender);
 //        bmobStudent.setAdminId(admin_id);
@@ -43,29 +40,19 @@ public class BmobDBHelper {
         student.signUp(new SaveListener<BmobStudent>() {
             @Override
             public void done(BmobStudent student, BmobException e) {
+                // 传e给LoginActivity
+                Message msg = new Message();
+                Bundle b = new Bundle();
                 if(e == null) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getContext())
-                            .setTitle("注册成功")
-                            .setMessage("请耐心等待账号审核，谢谢^3^")
-                            .setIcon(R.drawable.ic_audit)
-                            .create();
-                    alertDialog.show();
-
+                    b.putInt("errorCode", 0);
+                    msg.setData(b);
+                    SignUpActivity.signUpHandler.sendMessage(msg);
                     Log.i("BMOB", "Sign Up Success");
                 }
                 else {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getContext())
-                            .setTitle("注册失败")
-                            .setIcon(R.drawable.ic_fail)
-                            .create();
-                    if (e.getErrorCode() == 202)
-                        alertDialog.setMessage("这个邮箱已经注册过咯");
-                    else if (e.getErrorCode() == 301)
-                        alertDialog.setMessage("此邮箱地址无效哦");
-                    else
-                        alertDialog.setMessage("失败原因:" + e);
-                    alertDialog.show();
-
+                    b.putInt("errorCode", e.getErrorCode());
+                    msg.setData(b);
+                    SignUpActivity.signUpHandler.sendMessage(msg);
                     Log.e("BMOB", "Sign Up Fail", e);
                 }
 
@@ -74,7 +61,44 @@ public class BmobDBHelper {
     }
 
     /*
-     * 查询用户
+     * 学号密码登录
+     */
+    public void login(String stuNumber, String password) {
+        final BmobStudent user = new BmobStudent();
+        //此处替换为你的用户名
+        user.setUsername(stuNumber);
+        //此处替换为你的密码
+        user.setPassword(password);
+        user.login(new SaveListener<BmobStudent>() {
+            @Override
+            public void done(BmobStudent bmobUser, BmobException e) {
+                // 传e给LoginActivity
+                Message msg = new Message();
+                Bundle b = new Bundle();
+                if (e == null) {
+                    b.putInt("errorCode", 0);
+                    msg.setData(b);
+                    LoginActivity.loginHandler.sendMessage(msg);
+                    Log.i("BMOB", "Login Success");
+                } else {
+                    b.putInt("errorCode", e.getErrorCode());
+                    msg.setData(b);
+                    LoginActivity.loginHandler.sendMessage(msg);
+                    Log.e("BMOB", "Login Fail");
+                }
+            }
+        });
+    }
+
+    /*
+     * 用户登出
+     */
+    public void logOut() {
+        BmobStudent.logOut();
+    }
+
+    /*
+     * 查询用户By Object Id
      */
     public void queryStudentById(String id) {
         BmobQuery<BmobStudent> bmobQuery = new BmobQuery<>();
@@ -82,8 +106,8 @@ public class BmobDBHelper {
             @Override
             public void done(BmobStudent bmobStudent, BmobException e) {
                 if (e == null) {
-//                    HomeFragment.myHandler = new Handler();
-//                    Message msg = HomeFragment.myHandler.obtainMessage();
+//                    HomeFragment.homeHandler = new Handler();
+//                    Message msg = HomeFragment.homeHandler.obtainMessage();
                     // 保存至本地数据库
                     StudentBLL studentBLL = new StudentBLL();
                     if (studentBLL.storeStudent(bmobStudent)) {
@@ -94,7 +118,7 @@ public class BmobDBHelper {
                         b.putString("studentId", bmobStudent.getObjectId());
                         msg.setData(b);
                         //msg.sendToTarget();
-                        HomeFragment.myHandler.sendMessage(msg);
+                        HomeFragment.homeHandler.sendMessage(msg);
 
                         Log.i("BMOB", "Query Student Success");
                     }
