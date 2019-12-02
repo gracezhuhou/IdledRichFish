@@ -131,7 +131,6 @@
         android:layout_marginLeft="20dp"
         android:background="@drawable/user"/>
 
-
     <Button
         android:id="@+id/quit"
         android:layout_width="60dp"
