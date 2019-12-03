@@ -15,17 +15,13 @@ import android.widget.TextView;
 
 import com.sufe.idledrichfish.ProductViewActivity;
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.database.BmobDBHelper;
-import com.sufe.idledrichfish.database.Product;
-import com.sufe.idledrichfish.database.Student;
+import com.sufe.idledrichfish.data.model.BmobProduct;
 import com.sufe.idledrichfish.database.StudentBLL;
 
 import java.util.List;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
-    private List<Product> myProducts;
-    private StudentBLL studentBLL = new StudentBLL();
-    private BmobDBHelper bmobDBHelper = new BmobDBHelper();
+    private List<HomeProductView> myProducts;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView text_product_title;
@@ -53,7 +49,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         }
     }
 
-    public HomeRecyclerViewAdapter(List<Product> products){
+    public HomeRecyclerViewAdapter(List<HomeProductView> products){
         myProducts = products;
     }
 
@@ -70,31 +66,21 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         int width = dm.widthPixels;
         holder.cardView_product.setMinimumWidth((width - 21) / 2);
 
-        Product product = myProducts.get(holder.getAdapterPosition());
+        HomeProductView product = myProducts.get(holder.getAdapterPosition());
         holder.text_product_title.setText(product.getName());
         holder.text_product_price.setText(String.valueOf(product.getPrice()));
-        holder.text_product_id.setText(String.valueOf(product.getProductId()));
-
-        String stuObjectId = product.getPublisherId();
-        bmobDBHelper.queryStudentById(stuObjectId);
-        Student seller = studentBLL.getStudentById(stuObjectId);
-        if (seller != null){
-            holder.text_seller_name.setText(seller.getName());
-            holder.text_seller_credit.setText(String.valueOf(seller.getCredit()));
-            // 设置卖家头像
-            byte[] seller_image = seller.getImage();
-            if (seller_image != null) {
-                Bitmap bitmap_seller = BitmapFactory.decodeByteArray(seller_image, 0, seller_image.length);
-                holder.image_seller.setImageBitmap(bitmap_seller);
-            }
+        holder.text_product_id.setText(String.valueOf(product.getObjectId()));
+        holder.text_seller_name.setText(product.getSellerName());
+        holder.text_seller_credit.setText(String.valueOf(product.getSellerCredit()));
+        // 设置卖家头像
+        if (product.getSellerImage() != null && !product.getSellerImage().equals("")) {
+            Bitmap bitmap_seller = BitmapFactory.decodeFile(product.getSellerImage());
+//            Bitmap bitmap_seller = BitmapFactory.decodeByteArray(seller_image, 0, seller_image.length);
+            holder.image_seller.setImageBitmap(bitmap_seller);
         }
-
-        /*
-        设置产品图片
-         */
-        byte[] product_image = product.getImage();
-        if (product_image != null) {
-            Bitmap bitmap_product = BitmapFactory.decodeByteArray(product_image, 0, product_image.length);
+        // 设置商品图片
+        if (product.getProductImage() != null && !product.getProductImage().equals("")) {
+            Bitmap bitmap_product = BitmapFactory.decodeFile(product.getProductImage());
             holder.image_product.setImageBitmap(bitmap_product);
         }
 

@@ -2,47 +2,57 @@
     <string name="app_name">闲财鱼</string>
     <string name="title_home">主页</string>
     <string name="title_message">消息</string>
-    <string name="title_publishment">发布</string>
+    <string name="title_publish">发布</string>
     <string name="title_personal_info">我的</string>
     <string name="title_activity_login">登录</string>
     <string name="title_activity_sign_up">新用户注册</string>
+    <string name="title_activity_product_view">产品详细</string>
+
+    <string name="category_book">书籍</string>
+    <string name="category_makeup">化妆品</string>
+    <string name="category_digital">数码产品</string>
+    <string name="category_clothes">服饰</string>
+
+    <string name="my_publish">我发布的</string>
+    <string name="my_sale">我卖出的</string>
+    <string name="my_buy">我买到的</string>
+    <string name="my_favorite">我收藏的</string>
 
     <string name="student_id">学号</string>
     <string name="password">密码</string>
-    <string name="action_sign_in">登录</string>
-    <string name="action_sign_up">注册</string>
-    <string name="invalid_student_id">不存在该学号</string>
-    <string name="invalid_password">密码长度至少6位</string>
-    <string name="login_failed">"登录失败"</string>
-    <string name="welcome">欢迎回来！</string>
     <string name="student_name">真实姓名</string>
     <string name="gender">性别</string>
     <string name="gender_male">男</string>
     <string name="gender_female">女</string>
-    <string name="stu_picture">头像</string>
+    <string name="student_image">头像</string>
+    <string name="product_description">商品描述</string>
+    <string name="product_name">商品名称</string>
+    <string name="product_price">价格</string>
+    <string name="seller_name">卖家</string>
+    <string name="credit">信用值</string>
+    <string name="category">类别</string>
+    <string name="price_symbol">¥</string>
+    <string name="price_number">0.00</string>
 
-    <string name="catogory_book">书籍</string>
-    <string name="catogory_makeup">化妆品</string>
-    <string name="catogory_digital">数码产品</string>
-    <string name="catogory_clothes">服饰</string>
-    <string name="title_activity_product_view">产品详细</string>
-    <string name="text_product_description_eg">
-        "vero moda经典款风衣 穿上有气质 穿过几次 170码 唯一有瑕疵的地方是袖口的一个绑带找不到了 但是不影响穿
-        穿了一次时候就找不到了 之后穿的几次都没绑带 一点没影响 也看不出 不介意的可以拍 不议价"
-    </string>
-    <string name="text_product_name">商品名称</string>
-    <string name="text_product_price">¥100</string>
-    <string name="text_user_name">用户名</string>
-    <string name="text_user_credit">9.9</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_sign_up">注册</string>
     <string name="action_settings">设置</string>
+    <string name="action_publish">发布</string>
+    <string name="action_cancel">取消</string>
+
+    <string name="invalid_student_id">不存在该学号</string>
+    <string name="invalid_password">密码长度至少6位</string>
+    <string name="invalid_product_name">商品标题不可为空</string>
+    <string name="invalid_description">商品描述不可为空</string>
+    <string name="invalid_price">尚未编辑商品价格</string>
+    <string name="invalid_label">尚未编辑商品标签</string>
+    <string name="invalid_category">尚未编辑商品类别</string>
+
+    <string name="login_fail">"登录失败"</string>
+    <string name="welcome">欢迎回来！</string>
 
     <string name="checkbox_isNew">全新</string>
     <string name="checkbox_canNotBargain">不讲价</string>
-
-    <string name="publish">我发布的</string>
-    <string name="sale">我卖出的</string>
-    <string name="buy">我买到的</string>
-    <string name="star">我收藏的</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

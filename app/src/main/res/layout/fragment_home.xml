@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableTop="@drawable/ic_bt_book"
-                        android:text="@string/catogory_book" />
+                        android:text="@string/category_book" />
 
                     <!-- 化妆品 -->
                     <Button
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableTop="@drawable/ic_bt_cosmetic"
-                        android:text="@string/catogory_makeup" />
+                        android:text="@string/category_makeup" />
 
                     <!-- 服饰 -->
                     <Button
@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableTop="@drawable/ic_bt_clothes"
-                        android:text="@string/catogory_clothes" />
+                        android:text="@string/category_clothes" />
 
                     <!-- 数码产品 -->
                     <Button
@@ -102,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawableTop="@drawable/ic_bt_computer"
-                        android:text="@string/catogory_digital" />
+                        android:text="@string/category_digital" />
 
                 </LinearLayout>
 

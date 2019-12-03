@@ -32,7 +32,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
-                    app:title="@string/text_product_name" />
+                    app:title="@string/product_name" />
 
 <!--            <android.support.constraint.ConstraintLayout-->
 <!--                android:layout_width="match_parent"-->

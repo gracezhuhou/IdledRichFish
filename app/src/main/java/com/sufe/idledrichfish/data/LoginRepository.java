@@ -1,6 +1,6 @@
-package com.sufe.idledrichfish.loginData;
+package com.sufe.idledrichfish.data;
 
-import com.sufe.idledrichfish.database.BmobStudent;
+import com.sufe.idledrichfish.data.model.BmobStudent;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -12,7 +12,6 @@ public class LoginRepository {
 
     private LoginDataSource dataSource;
 
-    // If user credentials will be cached in local storage, it is recommended it be encrypted
     private BmobStudent user = null;
 
     // private constructor : singleton access
@@ -27,22 +26,29 @@ public class LoginRepository {
         return instance;
     }
 
-    public boolean isLoggedIn() {
-        return user != null;
+    // 登录
+    public void login(String username, String password) {
+        // handle login
+        dataSource.login(username, password);
     }
 
+    // 是否登录
+    public boolean isLoggedIn() {
+        return dataSource.isLoggedIn();
+    }
+
+    // 注册
+    public void signUp(String studentNumber, String name, String password, boolean gender, String imagePath) {
+        dataSource.signUp(studentNumber, name, password, gender, imagePath);
+    }
+
+    // 登出
     public void logout() {
         user = null;
-        dataSource.logout();
+        dataSource.logOut();
     }
 
     private void setLoggedInUser(BmobStudent user) {
         this.user = user;
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-    }
-
-    public void login(String username, String password) {
-        // handle login
-        dataSource.login(username, password);
     }
 }

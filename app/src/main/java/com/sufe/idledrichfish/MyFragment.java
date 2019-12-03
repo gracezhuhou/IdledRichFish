@@ -1,5 +1,6 @@
 package com.sufe.idledrichfish;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -10,11 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
-import com.sufe.idledrichfish.database.BmobDBHelper;
-import com.sufe.idledrichfish.database.BmobStudent;
+import com.sufe.idledrichfish.data.LoginDataSource;
+import com.sufe.idledrichfish.data.LoginRepository;
 import com.sufe.idledrichfish.ui.login.LoginActivity;
+import com.sufe.idledrichfish.ui.login.LoginViewModel;
+import com.sufe.idledrichfish.ui.login.LoginViewModelFactory;
 
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,8 +39,6 @@ public class MyFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private Button button_logOut;
-
-    private BmobDBHelper bmobDBHelper;
 
     public MyFragment() {
         // Required empty public constructor
@@ -73,8 +76,6 @@ public class MyFragment extends Fragment {
 
         button_logOut = view.findViewById(R.id.button_logOut);
 
-        bmobDBHelper = new BmobDBHelper();
-
         Drawable drawable1 = getResources().getDrawable(R.drawable.info);
         drawable1.setBounds(0, 0, 40, 40);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
 
@@ -84,11 +85,13 @@ public class MyFragment extends Fragment {
         button_logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bmobDBHelper.logOut();
+                // todo:
+                LoginDataSource loginDataSource = new LoginDataSource();
+                loginDataSource.logOut();
                 // 跳转至登录界面
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
-                getActivity().finish();
+                Objects.requireNonNull(getActivity()).finish();
             }
         });
 

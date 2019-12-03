@@ -1,5 +1,6 @@
 package com.sufe.idledrichfish.ui.login;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -25,7 +26,7 @@ import android.widget.Toast;
 import com.sufe.idledrichfish.MainActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.SignUpActivity;
-import com.sufe.idledrichfish.database.BmobStudent;
+import com.sufe.idledrichfish.data.model.BmobStudent;
 
 import cn.bmob.v3.Bmob;
 
@@ -44,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -57,12 +59,48 @@ public class LoginActivity extends AppCompatActivity {
 
         // 已经登录则直接跳转至首页
         if (BmobStudent.isLogin()) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
+            goToActivity(MainActivity.class);
         }
 
-        // 获取Bmob返回的登录ErrorCode
+        setHandler();
+
+        setLoginForm();
+
+        /*
+         * 点击登录按钮
+         */
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadingProgressBar.setVisibility(View.VISIBLE);
+                usernameEditText.clearFocus();
+                passwordEditText.clearFocus();
+                InputMethodManager imm = (InputMethodManager) LoginActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                // 隐藏软键盘
+                imm.hideSoftInputFromWindow(LoginActivity.this.getWindow().getDecorView().getWindowToken(), 0);
+
+                loginViewModel.login(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString());
+            }
+        });
+
+        /*
+         * 点击注册按钮
+         */
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 跳转至注册页面
+                goToActivity(SignUpActivity.class);
+            }
+        });
+    }
+
+    /*
+     * 获取Bmob返回的登录ErrorCode
+     */
+    @SuppressLint("HandlerLeak")
+    private void setHandler() {
         loginHandler = new Handler() {
             public void handleMessage(Message msg) {
                 int errorCode = msg.getData().getInt("errorCode");
@@ -70,16 +108,28 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (errorCode == 0) {
                     updateUiWithUser();
-                    // 跳转至首页
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    goToActivity(MainActivity.class);
                 }
                 else
                     showLoginFailed(errorCode);
             }
         };
+    }
 
+    private void updateUiWithUser() {
+        loadingProgressBar.setVisibility(View.GONE);
+        String welcome = getString(R.string.welcome) + BmobStudent.getCurrentUser(BmobStudent.class).getName();
+        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+    }
+
+    private void showLoginFailed(int errorCode) {
+        loadingProgressBar.setVisibility(View.GONE);
+        usernameEditText.setText("");
+        passwordEditText.setText("");
+        Toast.makeText(getApplicationContext(), errorCode + "", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setLoginForm() {
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {
@@ -96,6 +146,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /*
+         * 监听输入文字的变化
+         */
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -125,49 +178,14 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        /*
-         * 点击登录按钮
-         */
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                usernameEditText.clearFocus();
-                passwordEditText.clearFocus();
-                InputMethodManager imm = (InputMethodManager) LoginActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                // 隐藏软键盘
-                imm.hideSoftInputFromWindow(LoginActivity.this.getWindow().getDecorView().getWindowToken(), 0);
-
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-            }
-        });
-
-        /*
-         * 点击注册按钮
-         */
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 跳转至注册页面
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 
-    private void updateUiWithUser() {
-        loadingProgressBar.setVisibility(View.GONE);
-        String welcome = getString(R.string.welcome) + BmobStudent.getCurrentUser(BmobStudent.class).getName();;
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-    }
-
-    private void showLoginFailed(int errorCode) {
-        loadingProgressBar.setVisibility(View.GONE);
-        usernameEditText.setText("");
-        passwordEditText.setText("");
-        Toast.makeText(getApplicationContext(), errorCode + "", Toast.LENGTH_SHORT).show();
+    /*
+     * 跳转Activity
+     */
+    private void goToActivity(Class c) {
+        Intent intent = new Intent(getApplicationContext(), c);
+        startActivity(intent);
+        finish();
     }
 }

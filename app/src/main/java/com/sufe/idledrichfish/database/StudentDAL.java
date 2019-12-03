@@ -22,7 +22,7 @@ public class StudentDAL {
 //        student.setName(student_id);
 //        student.setPassword(password);
 //        student.setGender(gender);
-//        student.setAdminId(admin_id);
+//        student.setAdmin(admin_id);
 
         // todo: image
         //获取图片

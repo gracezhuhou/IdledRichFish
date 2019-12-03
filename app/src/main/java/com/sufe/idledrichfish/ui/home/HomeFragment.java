@@ -1,5 +1,6 @@
 package com.sufe.idledrichfish.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sufe.idledrichfish.R;
+import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.database.Label;
 import com.sufe.idledrichfish.database.LabelBLL;
 import com.sufe.idledrichfish.database.Product;
@@ -60,7 +62,7 @@ public class HomeFragment extends Fragment {
     private HomeRecyclerViewAdapter productsRecyclerAdapter;
 
     private ProductBLL productBLL;
-    private List<Product> products;
+    private List<HomeProductView> products;
 
     static public Handler homeHandler;
 
@@ -90,17 +92,6 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
 
-        // Recycler局部刷新线程
-        homeHandler = new Handler() {
-            public void handleMessage(Message msg) {
-                Bundle b = msg.getData();
-                String studentId = b.getString("studentId");
-                Log.i("Handler", "局部刷新界面");
-                // TODO:刷新界面
-                productsRecyclerAdapter.notifyDataSetChanged();
-            }
-        };
-
     }
 
     @Override
@@ -109,10 +100,10 @@ public class HomeFragment extends Fragment {
         // Inflate the dialog_price_publishment for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        productBLL = new ProductBLL();
+//        productBLL = new ProductBLL();
 
-        deleteAllData(); // 数据出问题闪退时使用
-        insertExampleData(); // 需要有测试的数据时使用，第二次运行时请注释掉
+//        deleteAllData(); // 数据出问题闪退时使用
+//        insertExampleData(); // 需要有测试的数据时使用，第二次运行时请注释掉
 
         ptrFrameLayout = view.findViewById(R.id.refreshLayout);
         mRecyclerView = view.findViewById(R.id.recyclerView_main);
@@ -121,6 +112,11 @@ public class HomeFragment extends Fragment {
         setRecycler(); // 商品浏览
         setRefresh(); // 下拉刷新& 上拉加载
         setRoll(); // 图片轮播
+        setHandler();
+
+        // todo
+        ProductDataSource productDataSource = new ProductDataSource();
+        productDataSource.queryProductForHome();
 
         return view;
     }
@@ -160,8 +156,11 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    /*
+     * 商品展示
+     */
     private void setRecycler() {
-        products = productBLL.getAllProducts();
+        products = new ArrayList<>();
         layoutManager = new GridLayoutManager(this.getContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
         productsRecyclerAdapter = new HomeRecyclerViewAdapter(products);
@@ -169,6 +168,9 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
     }
 
+    /*
+     * 下拉刷新的头部 & 上拉加载的底部
+     */
     private void setRefresh() {
         //StoreHouse风格的头部实现
         StoreHouseHeader storeHouseHeader = new StoreHouseHeader(this.getContext());
@@ -205,14 +207,20 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 frame.postDelayed(ptrFrameLayout::refreshComplete, 2000);
-                products.clear();
-                products.addAll(productBLL.getAllProducts());
-                productsRecyclerAdapter.notifyDataSetChanged();
+                // todo: 更新商品
+//                products.clear();
+//                products.addAll(productBLL.getAllProducts());
+//                productsRecyclerAdapter.notifyDataSetChanged();
+                ProductDataSource productDataSource = new ProductDataSource();
+                productDataSource.queryProductForHome();
             }
         });
         ptrFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
+    /*
+     * 图片轮播
+     */
     private void setRoll() {
         //设置播放时间间隔
         mRollViewPager.setPlayDelay(6000);
@@ -230,6 +238,49 @@ public class HomeFragment extends Fragment {
         //mRollViewPager.setHintView(new ColorPointHintView(this, Color.YELLOW,Color.WHITE));
         //mRollViewPager.setHintView(new TextHintView(this));
         //mRollViewPager.setHintView(null);
+    }
+
+    /*
+     * Recycler刷新
+     */
+    @SuppressLint("HandlerLeak")
+    private void setHandler() {
+        homeHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                products.clear();
+
+                Bundle bundles = msg.getData();
+                if (bundles.getInt("errorCode") == 0) {
+                    bundles.remove("errorCode");
+                    if (bundles.isEmpty()) {
+                        productsRecyclerAdapter.notifyDataSetChanged();
+                        return;
+                    }
+                    for (int i = 0; !bundles.isEmpty(); ++i) {
+                        Bundle bundle = bundles.getBundle(String.valueOf(i));
+                        assert bundle != null;
+                        HomeProductView product = new HomeProductView(bundle.getString("objectId"),
+                                bundle.getString("name"),
+                                bundle.getDouble("price"),
+                                bundle.getBoolean("isNew"),
+                                bundle.getBoolean("canBargain"),
+                                bundle.getString("sellerName"),
+                                bundle.getFloat("sellerCredit"),
+                                bundle.getString("sellerImage"),
+                                bundle.getString("productImage"));
+                        products.add(product);
+                        bundles.remove(String.valueOf(i));
+                    }
+                }
+                Log.i("Handler", "Query All Products");
+                // TODO:刷新界面
+                productsRecyclerAdapter.notifyDataSetChanged();
+            }
+        };
+    }
+
+    private void queryAllProducts() {
+
     }
 
     private void insertExampleData() {
