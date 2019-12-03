@@ -11,17 +11,18 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.sufe.idledrichfish.ui.home.HomeFragment;
+import com.sufe.idledrichfish.ui.publish.PublishFragment;
 
 import cn.bmob.v3.Bmob;
 
 public class MainActivity extends AppCompatActivity implements
-        HomeFragment.OnFragmentInteractionListener, PublishmentFragment.OnFragmentInteractionListener,
+        HomeFragment.OnFragmentInteractionListener, PublishFragment.OnFragmentInteractionListener,
         MessageFragment.OnFragmentInteractionListener, MyFragment.OnFragmentInteractionListener {
 
     private FrameLayout mainFrame;
     private BottomNavigationView navView;
     private HomeFragment homeFragment;
-    private PublishmentFragment publishmentFragment;
+    private PublishFragment publishFragment;
     private MessageFragment messageFragment;
     private MyFragment myFragment;
     private Fragment[] fragments;
@@ -92,10 +93,10 @@ public class MainActivity extends AppCompatActivity implements
 
     void initView() {
         homeFragment = new HomeFragment();
-        publishmentFragment = new PublishmentFragment();
+        publishFragment = new PublishFragment();
         messageFragment = new MessageFragment();
         myFragment = new MyFragment();
-        fragments = new Fragment[]{homeFragment, messageFragment, publishmentFragment, myFragment};
+        fragments = new Fragment[]{homeFragment, messageFragment, publishFragment, myFragment};
         mainFrame = (FrameLayout) findViewById(R.id.mainFrame);
         //设置fragment到布局
         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, homeFragment).show(homeFragment).commit();

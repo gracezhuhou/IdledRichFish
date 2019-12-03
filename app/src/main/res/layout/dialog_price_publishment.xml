@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="价格   ¥"
-        android:padding="@dimen/dialog_padding"
+        android:padding="@dimen/publish_dialog_padding"
         android:textStyle="bold"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:background="@color/white"
-        android:paddingTop="@dimen/dialog_padding"
+        android:paddingTop="@dimen/publish_dialog_padding"
         app:layout_constraintStart_toEndOf="@+id/text_price"
         app:layout_constraintTop_toTopOf="@+id/text_price" />
 
@@ -34,8 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="?android:attr/listDivider"
-        android:layout_marginStart="@dimen/dialog_padding"
-        android:layout_marginEnd="@dimen/dialog_padding"
+        android:layout_marginStart="@dimen/publish_dialog_padding"
+        android:layout_marginEnd="@dimen/publish_dialog_padding"
         app:layout_constraintBottom_toBottomOf="@+id/text_price"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="入手价   ¥"
-        android:padding="@dimen/dialog_padding"
+        android:padding="@dimen/publish_dialog_padding"
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_price" />
@@ -57,7 +57,7 @@
         android:inputType="numberDecimal"
         android:textSize="13sp"
         android:background="@color/white"
-        android:paddingTop="@dimen/dialog_padding"
+        android:paddingTop="@dimen/publish_dialog_padding"
         app:layout_constraintStart_toEndOf="@+id/text_oldPrice"
         app:layout_constraintTop_toBottomOf="@+id/text_price" />
 

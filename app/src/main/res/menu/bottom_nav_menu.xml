@@ -14,7 +14,7 @@
     <item
         android:id="@+id/navigation_publishment"
         android:icon="@drawable/ic_publishment_black_24dp"
-        android:title="@string/title_publishment" />
+        android:title="@string/title_publish" />
 
     <item
         android:id="@+id/navigation_personal_info"

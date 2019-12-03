@@ -80,7 +80,7 @@
             android:background="#cc3333"
             android:drawableLeft="@drawable/ic_example"
             android:drawablePadding="15dp"
-            android:text="@string/publish" />
+            android:text="@string/my_publish" />
 
         <!-- 卖出 -->
         <Button
@@ -92,7 +92,7 @@
             android:background="#cc3333"
             android:drawableLeft="@drawable/ic_example"
             android:drawablePadding="15dp"
-            android:text="@string/sale" />
+            android:text="@string/my_sale" />
 
         <!-- 买到 -->
         <Button
@@ -104,7 +104,7 @@
             android:background="#cc3333"
             android:drawableLeft="@drawable/ic_example"
             android:drawablePadding="15dp"
-            android:text="@string/buy" />
+            android:text="@string/my_buy" />
 
         <!-- 收藏 -->
         <Button
@@ -116,7 +116,7 @@
             android:background="#cc3333"
             android:drawableLeft="@drawable/ic_example"
             android:drawablePadding="15dp"
-            android:text="@string/star" />
+            android:text="@string/my_favorite" />
 
     </LinearLayout>
 

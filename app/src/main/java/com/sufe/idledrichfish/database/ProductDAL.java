@@ -2,6 +2,8 @@ package com.sufe.idledrichfish.database;
 
 import android.util.Log;
 
+import com.sufe.idledrichfish.data.model.BmobStudent;
+
 import org.litepal.LitePal;
 
 import java.util.List;
@@ -24,8 +26,8 @@ public class ProductDAL {
 //        product.setDescription(description);
 //        product.setPrice(price);
 //        //product.setPublishDate(publish_date);
-//        product.setPublisherId(publisher_id);
-//        product.setLabels(labels);
+//        product.setSeller(publisher_id);
+//        product.setBmobRelation(labels);
 //        product.setCategory(category);
 
         // todo: id & image

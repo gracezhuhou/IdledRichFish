@@ -102,11 +102,11 @@ public class Student extends LitePalSupport {
 //        this.state = state;
 //    }
 
-//    public int getAdminId() {
+//    public int getAdmin() {
 //        return admin_id;
 //    }
 //
-//    public void setAdminId(int admin_id) {
+//    public void setAdmin(int admin_id) {
 //        this.admin_id = admin_id;
 //    }
 

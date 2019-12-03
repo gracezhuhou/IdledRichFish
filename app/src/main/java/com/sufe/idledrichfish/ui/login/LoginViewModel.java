@@ -3,9 +3,8 @@ package com.sufe.idledrichfish.ui.login;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Patterns;
 
-import com.sufe.idledrichfish.loginData.LoginRepository;
+import com.sufe.idledrichfish.data.LoginRepository;
 import com.sufe.idledrichfish.R;
 
 public class LoginViewModel extends ViewModel {
@@ -50,14 +49,7 @@ public class LoginViewModel extends ViewModel {
 
     // A placeholder username validation check
     private boolean isUserNameValid(String username) {
-        if (username == null) {
-            return false;
-        }
-        if (username.contains("@")) {
-            return Patterns.EMAIL_ADDRESS.matcher(username).matches();
-        } else {
-            return !username.trim().isEmpty();
-        }
+        return username != null && !username.trim().isEmpty();
     }
 
     // A placeholder password validation check

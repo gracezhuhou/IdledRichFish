@@ -15,7 +15,7 @@
     	make the version value plus one, the upgrade of database
     	will be processed automatically without concern.
     -->
-    <version value="8" />
+    <version value="10" />
 
     <!--
     	Define your models in the list with mapping tag, LitePal will

@@ -125,7 +125,7 @@
                 android:layout_gravity="fill"
                 android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
                 android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:text="@string/stu_picture"
+                android:text="@string/student_image"
                 android:textSize="@dimen/sign_up_text_size" />
 
             <ImageView

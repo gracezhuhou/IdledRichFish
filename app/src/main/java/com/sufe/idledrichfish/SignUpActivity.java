@@ -1,7 +1,7 @@
 package com.sufe.idledrichfish;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -15,13 +15,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 
-import com.sufe.idledrichfish.database.BmobDBHelper;
-import com.sufe.idledrichfish.database.BmobStudent;
+import com.sufe.idledrichfish.data.LoginDataSource;
+import com.sufe.idledrichfish.data.LoginRepository;
+import com.sufe.idledrichfish.data.model.BmobStudent;
 import com.sufe.idledrichfish.ui.login.LoginActivity;
 
 import cn.bmob.v3.Bmob;
-
-import static org.litepal.LitePalApplication.getContext;
+import cn.bmob.v3.datatype.BmobFile;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -34,7 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
     private RadioButton btm_female;
     private ImageView image_student;
 
-    private BmobDBHelper bmobDBHelper;
+    private String imagePath = "";
     static public Handler signUpHandler;
 
     @Override
@@ -52,7 +52,6 @@ public class SignUpActivity extends AppCompatActivity {
         image_student = findViewById(R.id.image_student);
 
         Bmob.initialize(this, "a0ed5f46dbb3be388267b3726f33ca5c");
-        bmobDBHelper = new BmobDBHelper();
 
         setToolbar();
         setHandler();
@@ -63,16 +62,10 @@ public class SignUpActivity extends AppCompatActivity {
         button_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BmobStudent bmobStudent = new BmobStudent();
-                bmobStudent.setUsername(text_studentNumber.getText().toString());
-                bmobStudent.setName(text_name.getText().toString());
-                bmobStudent.setPassword(text_password.getText().toString());
-                if (btn_male.isChecked())
-                    bmobStudent.setGender("male");
-                else
-                    bmobStudent.setGender("female");
-                // todo: 图片
-                bmobDBHelper.signUp(bmobStudent);
+                // todo
+                LoginDataSource loginDataSource = new LoginDataSource();
+                loginDataSource.signUp(text_studentNumber.getText().toString(), text_name.getText().toString(),
+                        text_password.getText().toString(), btn_male.isChecked(), imagePath);
             }
         });
 
@@ -96,6 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("HandlerLeak")
     private void setHandler() {
         // 获取Bmob返回的注册ErrorCode
         signUpHandler = new Handler() {
