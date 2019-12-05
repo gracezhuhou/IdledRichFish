@@ -26,7 +26,7 @@ import android.widget.Toast;
 import com.sufe.idledrichfish.MainActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.SignUpActivity;
-import com.sufe.idledrichfish.data.model.BmobStudent;
+import com.sufe.idledrichfish.data.model.Student;
 
 import cn.bmob.v3.Bmob;
 
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         loadingProgressBar = findViewById(R.id.loading);
 
         // 已经登录则直接跳转至首页
-        if (BmobStudent.isLogin()) {
+        if (Student.isLogin()) {
             goToActivity(MainActivity.class);
         }
 
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser() {
         loadingProgressBar.setVisibility(View.GONE);
-        String welcome = getString(R.string.welcome) + BmobStudent.getCurrentUser(BmobStudent.class).getName();
+        String welcome = getString(R.string.welcome) + Student.getCurrentUser(Student.class).getName();
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 

@@ -1,4 +1,4 @@
-package com.sufe.idledrichfish.database;
+package com.sufe.idledrichfish.data.model;
 
 import org.litepal.annotation.Column;
 

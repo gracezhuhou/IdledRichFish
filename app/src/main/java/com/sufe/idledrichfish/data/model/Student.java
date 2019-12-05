@@ -1,13 +1,11 @@
 package com.sufe.idledrichfish.data.model;
 
-import com.sufe.idledrichfish.database.Admin;
-
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 
-public class BmobStudent extends BmobUser {
+public class Student extends BmobUser {
 
     /*
      * ObjectId

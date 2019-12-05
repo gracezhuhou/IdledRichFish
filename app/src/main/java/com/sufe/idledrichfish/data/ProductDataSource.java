@@ -5,14 +5,11 @@ import android.os.Message;
 import android.util.Log;
 
 import com.sufe.idledrichfish.MyPublishActivity;
-import com.sufe.idledrichfish.data.model.BmobProduct;
-import com.sufe.idledrichfish.data.model.BmobStudent;
+import com.sufe.idledrichfish.data.model.Product;
+import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
 import com.sufe.idledrichfish.ui.publish.PublishFragment;
 
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -25,25 +22,25 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class ProductDataSource {
 
-    /*
+    /**
      * 上传商品数据
      */
     public void saveProduct(String productName, String description, boolean isNew, boolean canBargain,
                             double price, double oldPrice, BmobRelation labels, String category) {
-        BmobProduct bmobProduct = new BmobProduct();
-        bmobProduct.setName(productName);
-        bmobProduct.setDescription(description);
-        bmobProduct.setNew(isNew);
-        bmobProduct.setCanBargain(canBargain);
-        bmobProduct.setPrice(price);
-        bmobProduct.setOldPrice(oldPrice);
-        bmobProduct.setTabs(labels);
-        bmobProduct.setCategory(category);
-        bmobProduct.setSeller(BmobStudent.getCurrentUser(BmobStudent.class)); // 获取当前用户
-        bmobProduct.setPublishDate(new BmobDate(getNetTime())); // 获取网络时间
-        //todo: bmobProduct.setImage();
+        Product product = new Product();
+        product.setName(productName);
+        product.setDescription(description);
+        product.setNew(isNew);
+        product.setCanBargain(canBargain);
+        product.setPrice(price);
+        product.setOldPrice(oldPrice);
+        product.setTabs(labels);
+        product.setCategory(category);
+        product.setSeller(Student.getCurrentUser(Student.class)); // 获取当前用户
+        product.setPublishDate(new BmobDate(Tool.getNetTime())); // 获取网络时间
+        //todo: product.setImage();
 
-        bmobProduct.save(new SaveListener<String>() {
+        product.save(new SaveListener<String>() {
             @Override
             public void done(String objectId, BmobException e) {
                 // 反馈给PublishmentFragment
@@ -69,8 +66,8 @@ public class ProductDataSource {
     /**
      * 更新商品数据
      */
-    public void updateProduct(BmobProduct bmobProduct) {
-        bmobProduct.update(bmobProduct.getObjectId(), new UpdateListener() {
+    public void updateProduct(Product product) {
+        product.update(product.getObjectId(), new UpdateListener() {
             @Override
             public void done(BmobException e) {
                 // 反馈给 todo:某activity
@@ -97,8 +94,8 @@ public class ProductDataSource {
      * 删除一个对象(根据ObjectId)
      */
     public void deleteProduct(String objectId) {
-        BmobProduct bmobProduct = new BmobProduct();
-        bmobProduct.delete(objectId, new UpdateListener() {
+        Product product = new Product();
+        product.delete(objectId, new UpdateListener() {
             @Override
             public void done(BmobException e) {
                 // 反馈给MyPublishedActivity
@@ -121,78 +118,47 @@ public class ProductDataSource {
         });
     }
 
-    /*
+    /**
      * 查询商品
      */
-    /**
-     * 查询多条数据
-     */
     public void queryProductForHome() {
-        BmobQuery<BmobProduct> bmobQuery = new BmobQuery<>();
-        bmobQuery.findObjects(new FindListener<BmobProduct>() {
+        BmobQuery<Product> bmobQuery = new BmobQuery<>();
+        bmobQuery.findObjects(new FindListener<Product>() {
             @Override
-            public void done(List<BmobProduct> products, BmobException e) {
+            public void done(List<Product> products, BmobException e) {
                 Message msg = new Message();
                 Bundle bundles = new Bundle();
                 if (e == null) {
                     bundles.putInt("errorCode", 0);
                     int i = 0;
-                    for (BmobProduct product : products) {
+                    for (Product product : products) {
                         Bundle bundle = new Bundle();
                         bundle.putString("objectId", product.getObjectId());
                         bundle.putString("name", product.getName());
                         bundle.putDouble("price", product.getPrice());
                         bundle.putBoolean("isNew", product.isNew());
                         bundle.putBoolean("canBargain", product.isCanBargain());
-                        if (product.getSeller().getName() != null) {
-                            bundle.putString("sellerImage", product.getSeller().getName());
-                        } else{
-                            bundle.putString("sellerImage", "");
-                        }
-                        bundle.putFloat("sellerCredit", product.getSeller().getCredit());
-                        if (product.getSeller().getImage() != null) {
-                            bundle.putString("sellerImage", product.getSeller().getImage().getFileUrl());
-                        } else{
-                            bundle.putString("sellerImage", "");
-                        }
+                        bundle.putString("sellerId", product.getSeller().getObjectId());
                         if (product.getImage1() != null) {
                             bundle.putString("productImage", product.getImage1().getFileUrl());
                         } else{
-                            bundle.putString("sellerImage", "");
+                            bundle.putString("productImage", "");
                         }
                         bundles.putBundle(String.valueOf(i), bundle);
                         ++i;
                     }
 
                         msg.setData(bundles);
-                    HomeFragment.homeHandler.sendMessage(msg);
+                    HomeFragment.homeProductsHandler.sendMessage(msg);
 
                     Log.i("BMOB", "Query Products Success");
                 } else {
                     bundles.putInt("errorCode", e.getErrorCode());
                     msg.setData(bundles);
-                    HomeFragment.homeHandler.sendMessage(msg);
+                    HomeFragment.homeProductsHandler.sendMessage(msg);
                     Log.e("BMOB", "Query Products Fail", e);
                 }
             }
         });
-    }
-
-    /*
-     * 获取网络标准时间
-     */
-    public static Date getNetTime(){
-        String webUrl = "http://www.ntsc.ac.cn"; // 中国科学院国家授时中心
-        try {
-            URL url = new URL(webUrl);
-            URLConnection uc = url.openConnection();
-            uc.setReadTimeout(5000);
-            uc.setConnectTimeout(5000);
-            uc.connect();
-            long correctTime = uc.getDate();
-            return new Date(correctTime);
-        } catch (Exception e) {
-            return new Date();
-        }
     }
 }

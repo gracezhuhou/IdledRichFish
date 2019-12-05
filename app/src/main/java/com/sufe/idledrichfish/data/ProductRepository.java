@@ -29,4 +29,8 @@ public class ProductRepository {
         dataSource.saveProduct(productName, description, isNew, canBargain, price, oldPrice,
                 labels, category);
     }
+
+    public void queryProductsForHome() {
+        dataSource.queryProductForHome();
+    }
 }

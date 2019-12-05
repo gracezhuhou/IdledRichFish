@@ -5,7 +5,7 @@ import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 
-public class BmobProduct extends BmobObject {
+public class Product extends BmobObject {
 
     private String name;
 
@@ -21,7 +21,7 @@ public class BmobProduct extends BmobObject {
 
     private BmobDate publishDate;
 
-    private BmobStudent seller;    // 发布者
+    private Student seller;    // 发布者
 
     private String category;
 
@@ -96,11 +96,11 @@ public class BmobProduct extends BmobObject {
         this.canBargain = canBargain;
     }
 
-    public BmobStudent getSeller() {
+    public Student getSeller() {
         return seller;
     }
 
-    public void setSeller(BmobStudent seller) {
+    public void setSeller(Student seller) {
         this.seller = seller;
     }
 
