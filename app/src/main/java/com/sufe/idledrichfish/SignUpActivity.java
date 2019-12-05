@@ -16,12 +16,9 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.sufe.idledrichfish.data.LoginDataSource;
-import com.sufe.idledrichfish.data.LoginRepository;
-import com.sufe.idledrichfish.data.model.BmobStudent;
 import com.sufe.idledrichfish.ui.login.LoginActivity;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.datatype.BmobFile;
 
 public class SignUpActivity extends AppCompatActivity {
 

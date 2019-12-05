@@ -30,7 +30,7 @@ public class LoginViewModel extends ViewModel {
         loginRepository.login(username, password);
 
 //        if (result instanceof Result.Success) {
-//            BmobStudent data = ((Result.Success<BmobStudent>) result).getData();
+//            Student data = ((Result.Success<Student>) result).getData();
 //            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getName())));
 //        } else {
 //            loginResult.setValue(new LoginResult(R.string.login_failed));

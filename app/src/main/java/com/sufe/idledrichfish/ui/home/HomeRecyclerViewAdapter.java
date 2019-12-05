@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -15,13 +16,19 @@ import android.widget.TextView;
 
 import com.sufe.idledrichfish.ProductViewActivity;
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.data.model.BmobProduct;
-import com.sufe.idledrichfish.database.StudentBLL;
+import com.sufe.idledrichfish.data.ProductDataSource;
+import com.sufe.idledrichfish.data.ProductRepository;
+import com.sufe.idledrichfish.data.StudentDataSource;
+import com.sufe.idledrichfish.data.StudentRepository;
+import com.sufe.idledrichfish.data.model.Product;
+import com.sufe.idledrichfish.data.model.Student;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
-    private List<HomeProductView> myProducts;
+    private List<Product> myProducts;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView text_product_title;
@@ -49,7 +56,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         }
     }
 
-    public HomeRecyclerViewAdapter(List<HomeProductView> products){
+    public HomeRecyclerViewAdapter(List<Product> products){
         myProducts = products;
     }
 
@@ -66,26 +73,20 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         int width = dm.widthPixels;
         holder.cardView_product.setMinimumWidth((width - 21) / 2);
 
-        HomeProductView product = myProducts.get(holder.getAdapterPosition());
+        // 设置商品信息
+        Product product = myProducts.get(holder.getAdapterPosition());
         holder.text_product_title.setText(product.getName());
         holder.text_product_price.setText(String.valueOf(product.getPrice()));
         holder.text_product_id.setText(String.valueOf(product.getObjectId()));
-        holder.text_seller_name.setText(product.getSellerName());
-        holder.text_seller_credit.setText(String.valueOf(product.getSellerCredit()));
-        // 设置卖家头像
-        if (product.getSellerImage() != null && !product.getSellerImage().equals("")) {
-            Bitmap bitmap_seller = BitmapFactory.decodeFile(product.getSellerImage());
-//            Bitmap bitmap_seller = BitmapFactory.decodeByteArray(seller_image, 0, seller_image.length);
-            holder.image_seller.setImageBitmap(bitmap_seller);
-        }
         // 设置商品图片
-        if (product.getProductImage() != null && !product.getProductImage().equals("")) {
-            Bitmap bitmap_product = BitmapFactory.decodeFile(product.getProductImage());
-            holder.image_product.setImageBitmap(bitmap_product);
+        if (!product.getImage1().getUrl().equals("")) {
+            holder.image_product.setImageDrawable(LoadImageFromUrl(product.getImage1().getUrl()));
         }
 
+        StudentRepository.getInstance(new StudentDataSource()).queryStudentForHome(product.getSeller().getObjectId(), position);
+
         /*
-        点击跳转至商品详细界面
+         * 点击跳转至商品详细界面
          */
         holder.cardView_product.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,12 +97,41 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
                 v.getContext().startActivity(intent);
             }
         });
+    }
 
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, final int position, List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
+//            Student seller = myProducts.get(holder.getAdapterPosition()).getSeller();
+            Student seller = (Student) payloads.get(0);
+            holder.text_seller_name.setText(seller.getName());
+            holder.text_seller_credit.setText(String.valueOf(seller.getCredit()));
+            // 设置卖家头像
+            if (seller.getImage() != null && !seller.getImage().getUrl().equals("")) {
+                holder.image_seller.setImageDrawable(LoadImageFromUrl(seller.getImage().getUrl()));
+            }
+        }
     }
 
     @Override
     public int getItemCount(){
         return myProducts.size();
+    }
+
+    /**
+     * 显示URL图像
+     * @param url String
+     * @return Drawable
+     */
+    public static Drawable LoadImageFromUrl(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            return Drawable.createFromStream(is, "src name");
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

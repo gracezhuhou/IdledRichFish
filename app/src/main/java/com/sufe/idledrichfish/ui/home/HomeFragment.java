@@ -17,16 +17,11 @@ import android.view.ViewGroup;
 
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.ProductDataSource;
-import com.sufe.idledrichfish.database.Label;
-import com.sufe.idledrichfish.database.LabelBLL;
-import com.sufe.idledrichfish.database.Product;
-import com.sufe.idledrichfish.database.ProductBLL;
-
-import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.datatype.BmobFile;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
@@ -35,6 +30,9 @@ import android.widget.ImageView;
 
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
+import com.sufe.idledrichfish.data.ProductRepository;
+import com.sufe.idledrichfish.data.model.Product;
+import com.sufe.idledrichfish.data.model.Student;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,11 +58,9 @@ public class HomeFragment extends Fragment {
 
     private GridLayoutManager layoutManager;
     private HomeRecyclerViewAdapter productsRecyclerAdapter;
-
-    private ProductBLL productBLL;
-    private List<HomeProductView> products;
-
-    static public Handler homeHandler;
+    private List<Product> products;
+    static public Handler homeProductsHandler;
+    static public Handler homeStudentHandler;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -97,13 +93,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the dialog_price_publishment for this fragment
+        // Inflate the view for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-//        productBLL = new ProductBLL();
-
-//        deleteAllData(); // 数据出问题闪退时使用
-//        insertExampleData(); // 需要有测试的数据时使用，第二次运行时请注释掉
 
         ptrFrameLayout = view.findViewById(R.id.refreshLayout);
         mRecyclerView = view.findViewById(R.id.recyclerView_main);
@@ -113,10 +104,6 @@ public class HomeFragment extends Fragment {
         setRefresh(); // 下拉刷新& 上拉加载
         setRoll(); // 图片轮播
         setHandler();
-
-        // todo
-        ProductDataSource productDataSource = new ProductDataSource();
-        productDataSource.queryProductForHome();
 
         return view;
     }
@@ -161,6 +148,7 @@ public class HomeFragment extends Fragment {
      */
     private void setRecycler() {
         products = new ArrayList<>();
+        ProductRepository.getInstance(new ProductDataSource()).queryProductsForHome();
         layoutManager = new GridLayoutManager(this.getContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
         productsRecyclerAdapter = new HomeRecyclerViewAdapter(products);
@@ -207,12 +195,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 frame.postDelayed(ptrFrameLayout::refreshComplete, 2000);
-                // todo: 更新商品
-//                products.clear();
-//                products.addAll(productBLL.getAllProducts());
-//                productsRecyclerAdapter.notifyDataSetChanged();
-                ProductDataSource productDataSource = new ProductDataSource();
-                productDataSource.queryProductForHome();
+                // 更新商品
+                ProductRepository.getInstance(new ProductDataSource()).queryProductsForHome();
+                productsRecyclerAdapter.notifyDataSetChanged();
             }
         });
         ptrFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
@@ -241,14 +226,14 @@ public class HomeFragment extends Fragment {
     }
 
     /*
-     * Recycler刷新
+     * 获取Recycler所需商品数据
      */
     @SuppressLint("HandlerLeak")
     private void setHandler() {
-        homeHandler = new Handler() {
+        // 获取商品信息
+        homeProductsHandler = new Handler() {
             public void handleMessage(Message msg) {
                 products.clear();
-
                 Bundle bundles = msg.getData();
                 if (bundles.getInt("errorCode") == 0) {
                     bundles.remove("errorCode");
@@ -259,59 +244,50 @@ public class HomeFragment extends Fragment {
                     for (int i = 0; !bundles.isEmpty(); ++i) {
                         Bundle bundle = bundles.getBundle(String.valueOf(i));
                         assert bundle != null;
-                        HomeProductView product = new HomeProductView(bundle.getString("objectId"),
-                                bundle.getString("name"),
-                                bundle.getDouble("price"),
-                                bundle.getBoolean("isNew"),
-                                bundle.getBoolean("canBargain"),
-                                bundle.getString("sellerName"),
-                                bundle.getFloat("sellerCredit"),
-                                bundle.getString("sellerImage"),
-                                bundle.getString("productImage"));
+                        Product product = new Product();
+                        product.setObjectId(bundle.getString("objectId"));
+                        product.setName(bundle.getString("name"));
+                        product.setNew(bundle.getBoolean("isNew"));
+                        product.setPrice(bundle.getDouble("price"));
+                        product.setCanBargain(bundle.getBoolean("canBargain"));
+                        Student seller = new Student();
+                        seller.setObjectId(bundle.getString("sellerId"));
+                        product.setSeller(seller);
+                        BmobFile image = new BmobFile();
+                        image.setUrl(bundle.getString("productImage"));
+                        product.setImage1(image);
                         products.add(product);
                         bundles.remove(String.valueOf(i));
                     }
                 }
                 Log.i("Handler", "Query All Products");
-                // TODO:刷新界面
                 productsRecyclerAdapter.notifyDataSetChanged();
             }
         };
-    }
+        // 获取卖家信息
+        homeStudentHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                Bundle b = msg.getData();
+                if (b.getInt("errorCode") == 0) {
+                    Student student = new Student();
+                    student.setObjectId(b.getString("id"));
+                    student.setName(b.getString("name"));
+                    student.setCredit(b.getFloat("credit"));
+                    BmobFile bmobFile = new BmobFile();
+                    bmobFile.setUrl(b.getString("image"));
+                    student.setImage(bmobFile);
+                    Log.i("Handler", "Query Student Success");
 
-    private void queryAllProducts() {
-
-    }
-
-    private void insertExampleData() {
-        LabelBLL labelBLL = new LabelBLL();
-        Label label = new Label();
-        label.setName("高数");
-        labelBLL.insertLabel(label);
-
-//        StudentBLL studentDAL = new StudentBLL();
-//        Student student = new Student();
-//        student.setName("2017110001");
-//        student.setName("Simon");
-//        student.setGender("male");
-//        studentDAL.insertStudent(student);
-
-        List<Label> labels = new ArrayList<>();
-        labels.add(label);
-        Product product = new Product();
-        product.setName("高数练习册");
-        product.setDescription("涨知识嘻嘻");
-        product.setPublisherId("a41b6f2562");
-        product.setLabels(labels);
-        product.setPrice(999);
-        product.setCategory("书籍");
-        productBLL.insertProduct(product);
-    }
-
-    private void deleteAllData(){
-        LitePal.deleteAll("Product");
-        LitePal.deleteAll("Student");
-        LitePal.deleteAll("Label");
+                    int position = b.getInt("position");
+                    Product product = products.get(position);
+                    product.setSeller(student);
+                    products.set(position, product);
+                    productsRecyclerAdapter.notifyItemChanged(position, student);
+                }
+                Log.i("Handler", "Query Student By Product");
+//                productsRecyclerAdapter.notifyDataSetChanged();
+            }
+        };
     }
 
 }
