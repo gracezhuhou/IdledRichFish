@@ -27,12 +27,6 @@ public class PublishViewModel extends ViewModel {
         productRepository.saveProduct(productName, description, isNew, canBargain, price,
                 oldPrice, labels, category);
 
-//        if (result instanceof Result.Success) {
-//            Student data = ((Result.Success<Student>) result).getData();
-//            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getName())));
-//        } else {
-//            loginResult.setValue(new LoginResult(R.string.login_failed));
-//        }
     }
 
     public void publishDataChanged(String productName, String description, double price,
