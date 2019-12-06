@@ -31,6 +31,8 @@ public class Student extends BmobUser {
 
     private BmobRelation favorites; // 收藏夹
 
+    private BmobRelation history; // 浏览历史记录
+
 
     // generated getters and setters.
 
@@ -98,4 +100,11 @@ public class Student extends BmobUser {
         this.favorites = favorites;
     }
 
+    public BmobRelation getHistory() {
+        return history;
+    }
+
+    public void setHistory(BmobRelation history) {
+        this.history = history;
+    }
 }

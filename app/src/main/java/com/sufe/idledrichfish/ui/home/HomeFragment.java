@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
     static public Handler homeProductsHandler;
     static public Handler homeStudentHandler;
 
+
     public HomeFragment() {
         // Required empty public constructor
     }
