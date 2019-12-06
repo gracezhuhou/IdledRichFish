@@ -39,6 +39,7 @@
     <string name="action_settings">设置</string>
     <string name="action_publish">发布</string>
     <string name="action_cancel">取消</string>
+    <string name="action_log_out">退出登录</string>
 
     <string name="invalid_student_id">不存在该学号</string>
     <string name="invalid_password">密码长度至少6位</string>
@@ -50,6 +51,7 @@
 
     <string name="login_fail">"登录失败"</string>
     <string name="welcome">欢迎回来！</string>
+    <string name="loading">......</string>
 
     <string name="checkbox_isNew">全新</string>
     <string name="checkbox_canNotBargain">不讲价</string>

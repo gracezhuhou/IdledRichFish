@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MyFragment"
+    tools:showIn="@layout/fragment_my">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <!-- 我发布的 -->
+        <Button
+            android:id="@+id/button_myPublish"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/my_height"
+            android:background="@color/white"
+            android:paddingStart="@dimen/my_padding_start"
+            android:paddingEnd="0dp"
+            android:drawableStart="@drawable/ic_example"
+            android:drawablePadding="@dimen/my_drawable_padding"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/my_text_size"
+            android:textColor="@color/black"
+            android:text="@string/my_publish" />
+
+        <!-- 我卖出的 -->
+        <Button
+            android:id="@+id/button_mySale"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/my_height"
+            android:background="@color/white"
+            android:paddingStart="@dimen/my_padding_start"
+            android:paddingEnd="0dp"
+            android:drawableStart="@drawable/ic_example"
+            android:drawablePadding="@dimen/my_drawable_padding"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/my_text_size"
+            android:textColor="@color/black"
+            android:text="@string/my_sale" />
+
+        <!-- 买到 -->
+        <Button
+            android:id="@+id/button_myBuy"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/my_height"
+            android:background="@color/white"
+            android:paddingStart="@dimen/my_padding_start"
+            android:paddingEnd="0dp"
+            android:drawableStart="@drawable/ic_example"
+            android:drawablePadding="@dimen/my_drawable_padding"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/my_text_size"
+            android:textColor="@color/black"
+            android:text="@string/my_buy" />
+
+        <!-- 收藏 -->
+        <Button
+            android:id="@+id/button_myFavorate"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/my_height"
+            android:background="@color/white"
+            android:paddingStart="@dimen/my_padding_start"
+            android:paddingEnd="0dp"
+            android:drawableStart="@drawable/ic_example"
+            android:drawablePadding="@dimen/my_drawable_padding"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/my_text_size"
+            android:textColor="@color/black"
+            android:text="@string/my_favorite" />
+
+            <Button
+            android:id="@+id/button_logOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:padding="25dp"
+            android:background="@color/white"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/action_log_out"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

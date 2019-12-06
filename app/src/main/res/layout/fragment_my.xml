@@ -1,134 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".MyFragment">
 
-    <LinearLayout
-        android:id="@+id/information"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:ignore="MissingConstraints">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/head" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_alignLeft="@id/imageView"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="CC" />
-
-            <TextView
-                android:id="@+id/number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="2016111492" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/person"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/user" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout_category"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <!-- 发布 -->
-        <View
-            android:id="@+id/divider"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="?android:attr/listDivider" />
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar" >
 
-        <Button
-            android:id="@+id/imageButton_publish"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="#cc3333"
-            android:drawableLeft="@drawable/ic_example"
-            android:drawablePadding="15dp"
-            android:text="@string/my_publish" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <!-- 卖出 -->
-        <Button
-            android:id="@+id/imageButton_sale"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:background="#cc3333"
-            android:drawableLeft="@drawable/ic_example"
-            android:drawablePadding="15dp"
-            android:text="@string/my_sale" />
+            <LinearLayout
+                android:id="@+id/layout_myStudent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/colorPrimary"
+                tools:ignore="MissingConstraints">
 
-        <!-- 买到 -->
-        <Button
-            android:id="@+id/imageButton_buy"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:background="#cc3333"
-            android:drawableLeft="@drawable/ic_example"
-            android:drawablePadding="15dp"
-            android:text="@string/my_buy" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/image_student"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="40dp"
+                    circleimageview:civ_border_color="@android:color/white"
+                    circleimageview:civ_border_overlay="true"
+                    circleimageview:civ_border_width="2dp"
+                    android:src="@drawable/head" />
 
-        <!-- 收藏 -->
-        <Button
-            android:id="@+id/imageButton_star"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:background="#cc3333"
-            android:drawableLeft="@drawable/ic_example"
-            android:drawablePadding="15dp"
-            android:text="@string/my_favorite" />
+                <LinearLayout
+                    android:id="@+id/layout_stuInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="40dp"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="0dp"
+                    android:orientation="vertical">
 
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/text_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:text="@string/loading" />
 
-    <Button
-        android:id="@+id/button_logOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:padding="20dp"
-        android:textSize="20sp"
-        android:text="退出登录"/>
+                    <TextView
+                        android:id="@+id/text_stuNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:text="No." />
+                </LinearLayout>
+            </LinearLayout>
 
-    <!--</android.support.constraint.ConstraintLayout>-->
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-</LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_my" />
+
+</android.support.design.widget.CoordinatorLayout>

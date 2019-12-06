@@ -64,4 +64,5 @@ dependencies {
     implementation 'com.jude:rollviewpager:1.2.9'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'de.hdodenhof:circleimageview:2.1.0' // 圆形头像
 }
