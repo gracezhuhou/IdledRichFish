@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.home.HomeFragment"
+    tools:showIn="@layout/fragment_home">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp">
+
+            <!-- 图片轮播 -->
+            <com.jude.rollviewpager.RollPagerView
+                android:id="@+id/roll_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                app:rollviewpager_play_delay="3000"/>
+
+        </android.support.v7.widget.CardView>
+
+        <!-- 分类按钮 -->
+        <LinearLayout
+            android:id="@+id/linearLayout_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- 书 -->
+            <Button
+                android:id="@+id/imageButton_catogory_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_book"
+                android:background="@color/white"
+                android:text="@string/category_book" />
+
+            <!-- 化妆品 -->
+            <Button
+                android:id="@+id/imageButton_catogory_makeup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_cosmetic"
+                android:background="@color/white"
+                android:text="@string/category_makeup" />
+
+            <!-- 服饰 -->
+            <Button
+                android:id="@+id/imageButton_catogory_clothes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_clothes"
+                android:background="@color/white"
+                android:text="@string/category_clothes" />
+
+            <!-- 数码产品 -->
+            <Button
+                android:id="@+id/imageButton_catogory_digital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_computer"
+                android:background="@color/white"
+                android:text="@string/category_digital" />
+
+        </LinearLayout>
+
+        <!-- 商品浏览 -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

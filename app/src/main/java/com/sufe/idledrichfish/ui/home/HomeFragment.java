@@ -43,11 +43,11 @@ import com.sufe.idledrichfish.data.model.Student;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-    // TO DO: Rename parameter arguments, choose names that match
+    // Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
 
-    // TO DO: Rename and change types of parameters
+    // Rename and change types of parameters
     private String mParam1;
 
     private OnFragmentInteractionListener mListener;
@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
      * @param param1 Parameter 1.
      * @return A new instance of fragment HomeFragment.
      */
-    // TO DO: Rename and change types and number of parameters
+    // Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -109,7 +109,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    // TO DO: Rename method, update argument and hook method into UI event
+    // Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    /*
+    /**
      * 商品展示
      */
     private void setRecycler() {
@@ -157,7 +157,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
     }
 
-    /*
+    /**
      * 下拉刷新的头部 & 上拉加载的底部
      */
     private void setRefresh() {
@@ -204,7 +204,7 @@ public class HomeFragment extends Fragment {
         ptrFrameLayout.setMode(PtrFrameLayout.Mode.BOTH);
     }
 
-    /*
+    /**
      * 图片轮播
      */
     private void setRoll() {
@@ -226,8 +226,8 @@ public class HomeFragment extends Fragment {
         //mRollViewPager.setHintView(null);
     }
 
-    /*
-     * 获取Recycler所需商品数据
+    /**
+     * 获取RecyclerView所需商品数据
      */
     @SuppressLint("HandlerLeak")
     private void setHandler() {
@@ -260,9 +260,11 @@ public class HomeFragment extends Fragment {
                         products.add(product);
                         bundles.remove(String.valueOf(i));
                     }
+                    Log.i("Handler", "Query All Products");
+                    productsRecyclerAdapter.notifyDataSetChanged();
+                } else {
+                    // 9016 网络问题
                 }
-                Log.i("Handler", "Query All Products");
-                productsRecyclerAdapter.notifyDataSetChanged();
             }
         };
         // 获取卖家信息
@@ -293,7 +295,7 @@ public class HomeFragment extends Fragment {
 
 }
 
-/*
+/**
  * Adapter: 图片轮播
  */
 class TestNormalAdapter extends StaticPagerAdapter {

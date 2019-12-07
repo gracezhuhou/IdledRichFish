@@ -30,6 +30,10 @@ public class ProductRepository {
                 labels, category);
     }
 
+    public void queryProduct(String id){
+        dataSource.queryProduct(id);
+    }
+
     public void queryProductsForHome() {
         dataSource.queryProductForHome();
     }

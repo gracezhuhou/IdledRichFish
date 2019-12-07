@@ -24,9 +24,9 @@ public class StudentDataSource {
     /**
      * 查询用户
      */
-    public void queryStudentForHome(String ObjectId, int position) {
+    public void queryStudentForHome(String objectId, int position) {
         BmobQuery<Student> bmobQuery = new BmobQuery<>();
-        bmobQuery.getObject(ObjectId, new QueryListener<Student>() {
+        bmobQuery.getObject(objectId, new QueryListener<Student>() {
             @Override
             public void done(Student student, BmobException e) {
                 Message msg = new Message();
@@ -47,7 +47,6 @@ public class StudentDataSource {
                 } else {
                     Log.e("BMOB", "Query Student Fail", e);
                 }
-
             }
         });
     }
@@ -177,16 +176,4 @@ public class StudentDataSource {
         quickSort(arr, arrNum, j + 1, high);
     }
 
-
-    /**
-     * 根据用户浏览历史记录进行Tab计数
-     */
-    public void CountTabs() {
-        Student student = Student.getCurrentUser(Student.class);
-        BmobRelation history = student.getHistory();
-        List<BmobPointer> products = history.getObjects();
-
-        for (BmobPointer product: products) {
-        }
-    }
 }

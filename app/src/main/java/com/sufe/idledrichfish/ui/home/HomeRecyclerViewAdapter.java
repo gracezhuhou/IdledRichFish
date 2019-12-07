@@ -2,8 +2,6 @@ package com.sufe.idledrichfish.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,10 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sufe.idledrichfish.ProductViewActivity;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.data.ProductDataSource;
-import com.sufe.idledrichfish.data.ProductRepository;
 import com.sufe.idledrichfish.data.StudentDataSource;
 import com.sufe.idledrichfish.data.StudentRepository;
 import com.sufe.idledrichfish.data.model.Product;
@@ -25,34 +22,35 @@ import com.sufe.idledrichfish.data.model.Student;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
     private List<Product> myProducts;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView text_product_title;
+        private TextView text_product_name;
         private TextView text_product_price;
-        private TextView text_product_id;
         private TextView text_seller_name;
         private TextView text_seller_credit;
         private ImageView image_product;
         private ImageView image_seller;
-        private CardView cardView_product;
+        private CardView card_product;
+        private SpinKitView spin_kit;
         private Context context;
+        private String productId;
 
         public ViewHolder(View view){
             super(view);
             context = view.getContext();
-            text_product_title = view.findViewById(R.id.textView_productTitle);
-            text_product_price = view.findViewById(R.id.textView_productPrice);
-            text_product_id = view.findViewById(R.id.textView_productId);
-            text_seller_name = view.findViewById(R.id.textView_sellerName);
-            text_seller_credit = view.findViewById(R.id.textView_sellerCredit);
-            text_seller_credit = view.findViewById(R.id.textView_sellerCredit);
-            image_product = view.findViewById(R.id.imageView_product);
-            image_seller = view.findViewById(R.id.imageView_seller);
-            cardView_product = view.findViewById(R.id.cardView_main);
+            text_product_name = view.findViewById(R.id.text_product_name);
+            text_product_price = view.findViewById(R.id.text_product_price);
+            text_seller_name = view.findViewById(R.id.text_seller_name);
+            text_seller_credit = view.findViewById(R.id.text_seller_credit);
+            image_product = view.findViewById(R.id.image_product);
+            image_seller = view.findViewById(R.id.image_seller);
+            card_product = view.findViewById(R.id.card_product);
+            spin_kit = view.findViewById(R.id.spin_kit);
         }
     }
 
@@ -71,13 +69,17 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         // 设置item宽度 —— 1/2屏幕
         DisplayMetrics dm = holder.context.getResources().getDisplayMetrics();
         int width = dm.widthPixels;
-        holder.cardView_product.setMinimumWidth((width - 21) / 2);
+        holder.card_product.setMinimumWidth((width - 21) / 2);
+        holder.image_product.setMinimumHeight((width - 21) / 2);
+        holder.image_product.setMaxHeight((width - 21) / 2);
+        holder.spin_kit.setMinimumWidth((width - 21) / 2);
 
         // 设置商品信息
         Product product = myProducts.get(holder.getAdapterPosition());
-        holder.text_product_title.setText(product.getName());
-        holder.text_product_price.setText(String.valueOf(product.getPrice()));
-        holder.text_product_id.setText(String.valueOf(product.getObjectId()));
+        holder.text_product_name.setText(product.getName());
+        DecimalFormat format = new java.text.DecimalFormat("¥ 0.00"); // 保留小数点两位
+        holder.text_product_price.setText(format.format(product.getPrice()));
+        holder.productId = product.getObjectId();
         // 设置商品图片
         if (!product.getImage1().getUrl().equals("")) {
             holder.image_product.setImageDrawable(LoadImageFromUrl(product.getImage1().getUrl()));
@@ -88,12 +90,11 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         /*
          * 点击跳转至商品详细界面
          */
-        holder.cardView_product.setOnClickListener(new View.OnClickListener() {
+        holder.card_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                String product_id = holder.text_product_id.getText().toString();
-                Intent intent = new Intent(v.getContext(), ProductViewActivity.class);
-                intent.putExtra("product_id_extra", product_id);
+                Intent intent = new Intent(v.getContext(), ProductInfoActivity.class);
+                intent.putExtra("product_id_extra", holder.productId);
                 v.getContext().startActivity(intent);
             }
         });
