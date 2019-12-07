@@ -69,7 +69,7 @@ public class PublishFragment extends Fragment {
 
     private double price;
     private double oldPrice;
-    private BmobRelation labels;
+    private BmobRelation tabs;
 
     private PublishViewModel publishViewModel;
     static public Handler publishmentHandler;
@@ -123,10 +123,15 @@ public class PublishFragment extends Fragment {
 
         // todo: labels和category 暂用例子
         categoryTextView.setText("其他");
-        Tab label = new Tab();
-        label.setName("高数");
-        labels = new BmobRelation();
-        labels.add(label);
+        Tab tab = new Tab();
+        tab.setObjectId("QOjbEEEF");
+        tab.setName("高数");
+        Tab tab2 = new Tab();
+        tab2.setObjectId("u3ckAAAE");
+        tab.setName("数学");
+        tabs = new BmobRelation();
+        tabs.add(tab);
+        tabs.add(tab2);
 
         setHandler();
         setPublishForm();
@@ -212,7 +217,7 @@ public class PublishFragment extends Fragment {
                         !canNotBargainCheckBox.isChecked(),
                         price,
                         oldPrice,
-                        labels,
+                        tabs,
                         categoryTextView.getText().toString());
             }
         });
@@ -358,7 +363,7 @@ public class PublishFragment extends Fragment {
      */
     private void changeData() {
         publishViewModel.publishDataChanged(nameEditText.getText().toString(),
-                descriptionEditText.getText().toString(), price, labels, categoryTextView.getText().toString());
+                descriptionEditText.getText().toString(), price, tabs, categoryTextView.getText().toString());
     }
 
 }

@@ -58,7 +58,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:paddingTop="40dp"
+                    android:paddingTop="60dp"
                     android:paddingStart="30dp"
                     android:paddingEnd="0dp"
                     android:orientation="vertical">

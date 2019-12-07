@@ -5,18 +5,22 @@ import android.os.Message;
 import android.util.Log;
 
 import com.sufe.idledrichfish.MyPublishActivity;
+import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
 import com.sufe.idledrichfish.ui.publish.PublishFragment;
 
+import java.sql.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
@@ -118,6 +122,94 @@ public class ProductDataSource {
         });
     }
 
+    /**
+     * 根据Id查商品
+     */
+    public void queryProduct(String objectId) {
+        BmobQuery<Product> bmobQuery = new BmobQuery<>();
+        bmobQuery.include("seller");
+//        bmobQuery.include("Student,product.seller");
+
+        bmobQuery.getObject(objectId, new QueryListener<Product>() {
+            @Override
+            public void done(Product product, BmobException e) {
+                Message msg = new Message();
+                Bundle b = new Bundle();
+                if (e == null) {
+                    b.putInt("errorCode", 0);
+                    b.putString("name", product.getName());
+                    b.putString("description", product.getDescription());
+                    b.putDouble("price", product.getPrice());
+                    b.putDouble("oldPrice", product.getOldPrice());
+                    b.putBoolean("isNew", product.isNew());
+                    b.putBoolean("canBargain", product.isCanBargain());
+                    b.putString("publishDate", product.getPublishDate().getDate()); // String 存放BmobData
+                    b.putString("sellerId", product.getSeller().getObjectId());
+                    b.putString("sellerName", product.getSeller().getName());
+                    b.putFloat("credit", product.getSeller().getCredit());
+                    b.putString("gender", product.getSeller().getGender());
+                    b.putString("lastLoginDate", product.getSeller().getLastLoginDate().getDate());
+                    if (product.getSeller().getImage() != null) {
+                        b.putString("studentImage", product.getSeller().getImage().getFileUrl());
+                    } else {
+                        b.putString("studentImage", "");
+                    }
+                    if (product.getImage1() != null) {
+                        b.putString("image1", product.getImage1().getFileUrl());
+                    } else {
+                        b.putString("image1", "");
+                    }
+                    if (product.getImage2() != null) {
+                        b.putString("image2", product.getImage2().getFileUrl());
+                    } else {
+                        b.putString("image2", "");
+                    }
+                    if (product.getImage3() != null) {
+                        b.putString("image3", product.getImage3().getFileUrl());
+                    } else {
+                        b.putString("image3", "");
+                    }
+                    if (product.getImage4() != null) {
+                        b.putString("image4", product.getImage4().getFileUrl());
+                    } else {
+                        b.putString("image4", "");
+                    }
+                    if (product.getImage5() != null) {
+                        b.putString("image5", product.getImage5().getFileUrl());
+                    } else {
+                        b.putString("image5", "");
+                    }
+                    if (product.getImage6() != null) {
+                        b.putString("image6", product.getImage6().getFileUrl());
+                    } else {
+                        b.putString("image6", "");
+                    }
+                    if (product.getImage7() != null) {
+                        b.putString("image7", product.getImage7().getFileUrl());
+                    } else {
+                        b.putString("image7", "");
+                    }
+                    if (product.getImage8() != null) {
+                        b.putString("image8", product.getImage8().getFileUrl());
+                    } else {
+                        b.putString("image8", "");
+                    }if (product.getImage9() != null) {
+                        b.putString("image9", product.getImage9().getFileUrl());
+                    } else {
+                        b.putString("image9", "");
+                    }
+                    msg.setData(b);
+                    ProductInfoActivity.productInfoHandler.sendMessage(msg);
+                    Log.i("BMOB", "Query Student Success");
+                } else {
+                    b.putInt("errorCode", e.getErrorCode());
+                    b.putString("e", e.toString());
+                    Log.e("BMOB", "Query Student Fail", e);
+                }
+
+            }
+        });
+    }
     /**
      * 查询商品
      */

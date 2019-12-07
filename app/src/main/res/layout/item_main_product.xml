@@ -2,10 +2,13 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardView_main"
+    android:id="@+id/card_product"
     android:layout_margin="5dp"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="0dp">
 
     <!-- 主页商品 -->
     <android.support.constraint.ConstraintLayout
@@ -13,65 +16,70 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView_product"
+            android:id="@+id/image_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@tools:sample/avatars[3]" />
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.Large.Wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:SpinKit_Color="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/image_product"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/image_product"
+            app:layout_constraintTop_toTopOf="@+id/image_product" />
 
 
         <TextView
-            android:id="@+id/textView_productTitle"
+            android:id="@+id/text_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="产品名称"
+            android:text="@string/loading"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_product" />
+            app:layout_constraintTop_toBottomOf="@+id/image_product" />
 
         <TextView
-            android:id="@+id/textView_productPrice"
+            android:id="@+id/text_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="产品价格"
+            android:text="@string/price_symbol"
             android:textColor='#FF0000'
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_productTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/text_product_name" />
 
         <ImageView
-            android:id="@+id/imageView_seller"
+            android:id="@+id/image_seller"
             android:layout_width="35dp"
             android:layout_height="35dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_productPrice"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintTop_toBottomOf="@+id/text_product_price"
+            tools:srcCompat="@tools:sample/avatars[1]" />
 
         <TextView
-            android:id="@+id/textView_sellerName"
+            android:id="@+id/text_seller_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="买家姓名"
+            android:text="@string/loading"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/imageView_seller"
-            app:layout_constraintTop_toTopOf="@+id/imageView_seller" />
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@+id/image_seller"
+            app:layout_constraintTop_toTopOf="@+id/image_seller" />
 
         <TextView
-            android:id="@+id/textView_sellerCredit"
+            android:id="@+id/text_seller_credit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="买家信用"
-            app:layout_constraintStart_toEndOf="@+id/imageView_seller"
-            app:layout_constraintTop_toBottomOf="@+id/textView_sellerName" />
-
-        <TextView
-            android:id="@+id/textView_productId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="产品id"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/loading"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@+id/image_seller"
+            app:layout_constraintTop_toBottomOf="@+id/text_seller_name" />
 
     </android.support.constraint.ConstraintLayout>
 

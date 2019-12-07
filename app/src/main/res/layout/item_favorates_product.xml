@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_sellerName" />
 
     <TextView
-        android:id="@+id/text_productPrice"
+        android:id="@+id/text_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="¥199"

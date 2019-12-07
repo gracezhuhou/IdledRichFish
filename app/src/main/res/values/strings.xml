@@ -31,6 +31,8 @@
     <string name="seller_name">卖家</string>
     <string name="credit">信用值</string>
     <string name="category">类别</string>
+    <string name="product_new">全新</string>
+    <string name="cannot_bargain">一口价</string>
     <string name="price_symbol">¥</string>
     <string name="price_number">0.00</string>
 
@@ -52,9 +54,6 @@
     <string name="login_fail">"登录失败"</string>
     <string name="welcome">欢迎回来！</string>
     <string name="loading">......</string>
-
-    <string name="checkbox_isNew">全新</string>
-    <string name="checkbox_canNotBargain">不讲价</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

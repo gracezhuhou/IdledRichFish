@@ -27,7 +27,7 @@
         <activity android:name=".MyPublishActivity" />
         <activity android:name=".MyFavoratesActivity" />
         <activity
-            android:name=".ProductViewActivity"
+            android:name=".ProductInfoActivity"
             android:label="@string/title_activity_product_view"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
