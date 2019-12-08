@@ -35,6 +35,10 @@ public class ProductRepository {
     }
 
     public void queryProductsForHome() {
-        dataSource.queryProductForHome();
+        dataSource.queryProductsForHome();
+    }
+
+    public void queryMyPublishProducts() {
+        dataSource.queryMyPublishProducts();
     }
 }

@@ -86,7 +86,7 @@
         tools:srcCompat="@drawable/product_eg_4" />
 
     <TextView
-        android:id="@+id/text_productTitle"
+        android:id="@+id/text_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"

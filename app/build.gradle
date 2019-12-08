@@ -66,4 +66,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0' // 圆形头像
     implementation 'com.github.ybq:Android-SpinKit:1.4.0' // Loading动画
+    implementation 'com.daimajia.swipelayout:library:1.2.0@aar' // 滑动删除
 }

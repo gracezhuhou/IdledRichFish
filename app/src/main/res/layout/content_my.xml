@@ -16,7 +16,7 @@
 
         <!-- 我发布的 -->
         <Button
-            android:id="@+id/button_myPublish"
+            android:id="@+id/button_my_publish"
             android:layout_width="match_parent"
             android:layout_height="@dimen/my_height"
             android:background="@color/white"
@@ -31,7 +31,7 @@
 
         <!-- 我卖出的 -->
         <Button
-            android:id="@+id/button_mySale"
+            android:id="@+id/button_my_sale"
             android:layout_width="match_parent"
             android:layout_height="@dimen/my_height"
             android:background="@color/white"
@@ -46,7 +46,7 @@
 
         <!-- 买到 -->
         <Button
-            android:id="@+id/button_myBuy"
+            android:id="@+id/button_my_buy"
             android:layout_width="match_parent"
             android:layout_height="@dimen/my_height"
             android:background="@color/white"
@@ -61,7 +61,7 @@
 
         <!-- 收藏 -->
         <Button
-            android:id="@+id/button_myFavorate"
+            android:id="@+id/button_my_favorate"
             android:layout_width="match_parent"
             android:layout_height="@dimen/my_height"
             android:background="@color/white"
@@ -75,7 +75,7 @@
             android:text="@string/my_favorite" />
 
             <Button
-            android:id="@+id/button_logOut"
+            android:id="@+id/button_log_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

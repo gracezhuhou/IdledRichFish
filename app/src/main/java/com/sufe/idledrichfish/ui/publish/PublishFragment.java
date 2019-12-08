@@ -31,7 +31,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.sufe.idledrichfish.MyPublishActivity;
+import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.model.Tab;
 

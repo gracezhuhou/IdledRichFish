@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
-import com.sufe.idledrichfish.MyPublishActivity;
+import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
 import com.sufe.idledrichfish.ui.publish.PublishFragment;
 
-import java.sql.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -108,14 +107,14 @@ public class ProductDataSource {
                 if(e == null) {
                     b.putInt("errorCode", 0);
                     msg.setData(b);
-                    MyPublishActivity.myPublishedHandler.sendMessage(msg);
+                    MyPublishActivity.myPublishDeleteHandler.sendMessage(msg);
                     Log.i("BMOB", "Delete Product Success");
                 }
                 else {
                     b.putInt("errorCode", e.getErrorCode());
                     b.putString("e", e.toString());
                     msg.setData(b);
-                    MyPublishActivity.myPublishedHandler.sendMessage(msg);
+                    MyPublishActivity.myPublishDeleteHandler.sendMessage(msg);
                     Log.e("BMOB", "Delete Product Fail", e);
                 }
             }
@@ -210,10 +209,11 @@ public class ProductDataSource {
             }
         });
     }
+
     /**
-     * 查询商品
+     * 查询商品ForHome
      */
-    public void queryProductForHome() {
+    public void queryProductsForHome() {
         BmobQuery<Product> bmobQuery = new BmobQuery<>();
         bmobQuery.findObjects(new FindListener<Product>() {
             @Override
@@ -252,5 +252,63 @@ public class ProductDataSource {
                 }
             }
         });
+    }
+
+    /**
+     * 查询我发布的商品
+     */
+    public void queryMyPublishProducts() {
+        BmobQuery<Product> query = new BmobQuery<Product>();
+        Student student = Student.getCurrentUser(Student.class);
+        query.addWhereEqualTo("seller",new BmobPointer(student));
+        query.findObjects(new FindListener<Product>() {
+            @Override
+            public void done(List<Product> objects,BmobException e) {
+                Message msg = new Message();
+                Bundle bundles = new Bundle();
+                if (e == null) {
+                    bundles.putInt("errorCode", 0);
+                    int i = 0;
+                    for (Product product : objects) {
+                        Bundle b = new Bundle();
+                        b.putString("objectId", product.getObjectId());
+                        b.putString("name", product.getName());
+                        b.putDouble("price", product.getPrice());
+                        if (product.getImage1() != null) {
+                            b.putString("image1", product.getImage1().getFileUrl());
+                        } else{
+                            b.putString("image1", "");
+                        }
+                        if (product.getImage2() != null) {
+                            b.putString("image2", product.getImage2().getFileUrl());
+                        } else {
+                            b.putString("image2", "");
+                        }
+                        if (product.getImage3() != null) {
+                            b.putString("image3", product.getImage3().getFileUrl());
+                        } else {
+                            b.putString("image3", "");
+                        }
+                        if (product.getImage4() != null) {
+                            b.putString("image4", product.getImage4().getFileUrl());
+                        } else {
+                            b.putString("image4", "");
+                        }
+                        bundles.putBundle(String.valueOf(i), b);
+                        ++i;
+                    }
+                    msg.setData(bundles);
+                    MyPublishActivity.myPublishHandler.sendMessage(msg);
+                    Log.i("BMOB", "Query Products Success");
+                } else {
+                    bundles.putInt("errorCode", e.getErrorCode());
+                    bundles.putString("e", e.toString());
+                    msg.setData(bundles);
+                    MyPublishActivity.myPublishHandler.sendMessage(msg);
+                    Log.e("BMOB", "Query Products Fail", e);
+                }
+            }
+        });
+
     }
 }

@@ -2,7 +2,6 @@ package com.sufe.idledrichfish;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -18,8 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sufe.idledrichfish.data.LoginDataSource;
+import com.sufe.idledrichfish.data.LoginRepository;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.login.LoginActivity;
+import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 
 import java.util.Objects;
 
@@ -40,10 +41,13 @@ public class MyFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private Button button_my_publish;
     private Button button_log_out;
     private TextView text_stu_name;
-    private  TextView text_stu_number;
+    private TextView text_stu_number;
     private LinearLayout layout_my_stu;
+    private Toolbar toolbar;
+    private AppBarLayout appBarLayout;
 
     public MyFragment() {
         // Required empty public constructor
@@ -79,36 +83,9 @@ public class MyFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_my, container, false);
 
-        button_log_out = view.findViewById(R.id.button_logOut);
-        text_stu_name = view.findViewById(R.id.text_name);
-        text_stu_number = view.findViewById(R.id.text_stuNumber);
-        layout_my_stu = view.findViewById(R.id.layout_myStudent);
+        initView(view);
 
-
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayShowTitleEnabled(false);
-
-        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar);
-        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                Log.d("STATE", state.name());
-                if( state == State.EXPANDED ) {
-                    //展开状态
-                    layout_my_stu.setVisibility(View.VISIBLE);
-                }else if(state == State.COLLAPSED){
-                    //折叠状态
-                    layout_my_stu.setVisibility(View.INVISIBLE);
-                }else {
-                    //中间状态
-                    text_stu_name.setTextColor(getResources().getColor(R.color.colorPrimaryTransparent));
-                }
-            }
-        });
-
-
-
+        setAppBar();
 
         // 显示账户信息
         Student student = Student.getCurrentUser(Student.class);
@@ -116,7 +93,6 @@ public class MyFragment extends Fragment {
         String numberText = "No." + student.getUsername();
         text_stu_number.setText(numberText);
         // todo: image
-
 
 //        Drawable drawable1 = getResources().getDrawable(R.drawable.info);
 //        drawable1.setBounds(0, 0, 40, 40);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
@@ -127,13 +103,24 @@ public class MyFragment extends Fragment {
         button_log_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo:
-                LoginDataSource loginDataSource = new LoginDataSource();
-                loginDataSource.logOut();
+                // 登出
+                LoginRepository.getInstance(new LoginDataSource()).logout();
                 // 跳转至登录界面
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
                 Objects.requireNonNull(getActivity()).finish();
+            }
+        });
+
+        /*
+         * 点击“我发布的”
+         */
+        button_my_publish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 跳转至“我发布的”界面
+                Intent intent = new Intent(getContext(), MyPublishActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -173,6 +160,50 @@ public class MyFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    /**
+     * 设置AppBar
+     * AppBar的折叠效果
+     */
+    private void setAppBar() {
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                Log.d("STATE", state.name());
+                if( state == State.EXPANDED ) {
+                    //展开状态
+                    layout_my_stu.setVisibility(View.VISIBLE);
+                }else if(state == State.COLLAPSED){
+                    //折叠状态
+                    layout_my_stu.setVisibility(View.INVISIBLE);
+                }else {
+                    //中间状态
+                    layout_my_stu.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                float alpha = ((float)128 + (float)i) / (float)128; // todo:128?
+                layout_my_stu.setAlpha(alpha);
+                Log.i("AppBar", String.valueOf(i));
+            }
+        });
+    }
+
+    private void initView(View view) {
+        button_my_publish = view.findViewById(R.id.button_my_publish);
+        button_log_out = view.findViewById(R.id.button_log_out);
+        text_stu_name = view.findViewById(R.id.text_name);
+        text_stu_number = view.findViewById(R.id.text_stuNumber);
+        layout_my_stu = view.findViewById(R.id.layout_myStudent);
+        toolbar = view.findViewById(R.id.toolbar);
+        appBarLayout = view.findViewById(R.id.app_bar);
     }
 }
 

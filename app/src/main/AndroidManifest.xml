@@ -24,7 +24,7 @@
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="com.sufe.idledrichfish.BmobContentProvider"></provider>
 
-        <activity android:name=".MyPublishActivity" />
+        <activity android:name=".ui.myPublish.MyPublishActivity" />
         <activity android:name=".MyFavoratesActivity" />
         <activity
             android:name=".ProductInfoActivity"
