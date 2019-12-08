@@ -2,9 +2,12 @@ package com.sufe.idledrichfish;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -39,9 +42,11 @@ public class ProductInfoActivity extends AppCompatActivity {
     private ImageView icon_gender;
     private CardView card_new;
     private CardView card_cannot_bargain;
+    private ConstraintLayout layout_seller;
 
     private String productId;
     private String sellerId;
+    private String sellerName;
     static public Handler productInfoHandler;
 
     @Override
@@ -62,12 +67,51 @@ public class ProductInfoActivity extends AppCompatActivity {
         icon_gender = findViewById(R.id.icon_gender);
         card_new = findViewById(R.id.card_new);
         card_cannot_bargain = findViewById(R.id.card_cannot_bargain);
+        layout_seller = findViewById(R.id.layout_seller);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
+
+        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                Log.d("STATE", state.name());
+                if( state == State.EXPANDED ) {
+                    //展开状态
+                    layout_seller.setVisibility(View.VISIBLE);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+                    getSupportActionBar().setIcon(null);
+                }else if(state == State.COLLAPSED){
+                    //折叠状态
+                    layout_seller.setVisibility(View.INVISIBLE);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(true);
+                    if (sellerName != null) {
+                        getSupportActionBar().setTitle(sellerName);
+                    }
+                    // todo:设置标题头像
+                    getSupportActionBar().setIcon(R.drawable.ic_user); // 暂时
+
+                }else {
+                    //中间状态
+                    layout_seller.setVisibility(View.VISIBLE);
+                    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+                    getSupportActionBar().setIcon(null);
+                }
+            }
+        });
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                float alpha = ((float)98 + (float)i) / (float)98;
+                layout_seller.setAlpha(alpha);
+                Log.i("AppBar", String.valueOf(i));
+            }
+        });
+
 
         initData();
 
@@ -87,14 +131,14 @@ public class ProductInfoActivity extends AppCompatActivity {
         /*
          * fab按钮监听
          */
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
     }
 
     /**
@@ -134,7 +178,8 @@ public class ProductInfoActivity extends AppCompatActivity {
                     text_publish_date.setText(publishDate);
                     // 卖家信息
                     sellerId = b.getString("sellerId");
-                    text_seller_name.setText(b.getString("sellerName"));
+                    sellerName = b.getString("sellerName");
+                    text_seller_name.setText(sellerName);
                     DecimalFormat format2 = new java.text.DecimalFormat("0.0");
                     text_seller_credit.setText(format2.format(b.getFloat("credit")));
                     if (Objects.requireNonNull(b.getString("gender")).equals("female")) {

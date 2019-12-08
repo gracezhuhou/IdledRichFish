@@ -82,7 +82,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         holder.productId = product.getObjectId();
         // 设置商品图片
         if (!product.getImage1().getUrl().equals("")) {
-            holder.image_product.setImageDrawable(LoadImageFromUrl(product.getImage1().getUrl()));
+//            holder.image_product.setImageDrawable(LoadImageFromUrl(product.getImage1().getUrl()));
         }
 
         StudentRepository.getInstance(new StudentDataSource()).queryStudentForHome(product.getSeller().getObjectId(), position);
@@ -111,7 +111,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
             holder.text_seller_credit.setText(String.valueOf(seller.getCredit()));
             // 设置卖家头像
             if (seller.getImage() != null && !seller.getImage().getUrl().equals("")) {
-                holder.image_seller.setImageDrawable(LoadImageFromUrl(seller.getImage().getUrl()));
+//                holder.image_seller.setImageDrawable(LoadImageFromUrl(seller.getImage().getUrl()));
             }
         }
     }

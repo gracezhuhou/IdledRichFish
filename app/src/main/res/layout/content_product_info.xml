@@ -64,7 +64,8 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="10dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/green_credit">
+                app:cardBackgroundColor="@color/green_credit"
+                app:cardElevation="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -83,7 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/red">
+                app:cardBackgroundColor="@color/red"
+                app:cardElevation="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"

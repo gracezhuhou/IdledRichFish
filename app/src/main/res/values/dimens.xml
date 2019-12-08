@@ -2,7 +2,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="app_bar_height">120dp</dimen>
+    <dimen name="app_bar_height">140dp</dimen>
     <dimen name="fab_margin">15dp</dimen>
     <dimen name="text_margin">15dp</dimen>
     <dimen name="text_size">16sp</dimen>
@@ -21,4 +21,8 @@
     <dimen name="my_drawable_padding">25dp</dimen>
     <dimen name="my_padding_start">20dp</dimen>
     <dimen name="my_text_size">18sp</dimen>
+
+    <dimen name="product_button_width">40dp</dimen>
+    <dimen name="product_button_height">20dp</dimen>
+    <dimen name="product_button_text_size">15sp</dimen>
 </resources>
