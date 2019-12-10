@@ -2,30 +2,30 @@ package com.sufe.idledrichfish;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
+import com.sufe.idledrichfish.data.FavoriteDataSource;
+import com.sufe.idledrichfish.data.FavoriteRepository;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
-import com.sufe.idledrichfish.data.model.Student;
 
 import java.text.DecimalFormat;
 import java.util.Objects;
-
-import cn.bmob.v3.datatype.BmobDate;
 
 public class ProductInfoActivity extends AppCompatActivity {
 
@@ -40,6 +40,7 @@ public class ProductInfoActivity extends AppCompatActivity {
     private ImageView image_product;
     private ImageView image_seller;
     private ImageView icon_gender;
+    private ImageView icon_favorate;
     private CardView card_new;
     private CardView card_cannot_bargain;
     private ConstraintLayout layout_seller;
@@ -48,83 +49,37 @@ public class ProductInfoActivity extends AppCompatActivity {
     private String sellerId;
     private String sellerName;
     static public Handler productInfoHandler;
+    static public Handler addFavoriteHandler;
+    static public Handler cancelFavoriteHandler;
+    static public Handler isFavorateHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_info);
 
-        text_product_name = findViewById(R.id.text_product_name);
-        text_price = findViewById(R.id.text_price);
-        text_old_price = findViewById(R.id.text_old_price);
-        text_product_description = findViewById(R.id.text_product_description);
-        text_seller_name = findViewById(R.id.text_seller_name);
-        text_seller_credit = findViewById(R.id.text_seller_credit);
-        text_login_date = findViewById(R.id.text_login_date);
-        text_publish_date = findViewById(R.id.text_publish_date);
-        image_product = findViewById(R.id.image_product);
-        image_seller = findViewById(R.id.image_seller);
-        icon_gender = findViewById(R.id.icon_gender);
-        card_new = findViewById(R.id.card_new);
-        card_cannot_bargain = findViewById(R.id.card_cannot_bargain);
-        layout_seller = findViewById(R.id.layout_seller);
+        initView();
 
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
-
-        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
-        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                Log.d("STATE", state.name());
-                if( state == State.EXPANDED ) {
-                    //展开状态
-                    layout_seller.setVisibility(View.VISIBLE);
-                    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-                    getSupportActionBar().setIcon(null);
-                }else if(state == State.COLLAPSED){
-                    //折叠状态
-                    layout_seller.setVisibility(View.INVISIBLE);
-                    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(true);
-                    if (sellerName != null) {
-                        getSupportActionBar().setTitle(sellerName);
-                    }
-                    // todo:设置标题头像
-                    getSupportActionBar().setIcon(R.drawable.ic_user); // 暂时
-
-                }else {
-                    //中间状态
-                    layout_seller.setVisibility(View.VISIBLE);
-                    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-                    getSupportActionBar().setIcon(null);
-                }
-            }
-        });
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-                float alpha = ((float)98 + (float)i) / (float)98;
-                layout_seller.setAlpha(alpha);
-                Log.i("AppBar", String.valueOf(i));
-            }
-        });
-
-
+        setAppBar();
         initData();
-
         setHandler();
 
 
-        /*
-         * 返回键监听
-         */
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        final LinearLayout layout_favorate = findViewById(R.id.layout_favorate);
+        layout_favorate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if (icon_favorate.getTag().equals("favor")) {
+                    Log.i("ProductInfo", "Remove Favorate");
+                    icon_favorate.setImageResource(R.drawable.ic_favorate_gray);
+                    icon_favorate.setTag("unfavor");
+                    FavoriteRepository.getInstance(new FavoriteDataSource()).removeFavorite(productId);
+                } else {
+                    Log.i("ProductInfo", "Add Favorate");
+                    icon_favorate.setImageResource(R.drawable.ic_favorate_yellow);
+                    icon_favorate.setTag("favor");
+                    FavoriteRepository.getInstance(new FavoriteDataSource()).saveFavorite(productId);
+                }
             }
         });
 
@@ -142,22 +97,79 @@ public class ProductInfoActivity extends AppCompatActivity {
     }
 
     /**
+     * 设置顶部AppBar
+     * 折叠效果
+     * Toolbar返回键监听
+     */
+    private void setAppBar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
+
+        final AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        // 折叠状态监听
+        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                Log.d("STATE", state.name());
+                if( state == State.EXPANDED ) {
+                    //展开状态
+                    layout_seller.setVisibility(View.VISIBLE);
+                }else if(state == State.COLLAPSED){
+                    //折叠状态
+                    layout_seller.setVisibility(View.INVISIBLE);
+//                    if (sellerName != null) {
+//                        getSupportActionBar().setTitle(sellerName);
+//                    }
+                    // todo:设置标题头像
+                    getSupportActionBar().setIcon(R.drawable.ic_user); // 暂时
+
+                }else {
+                    //中间状态
+                    layout_seller.setVisibility(View.VISIBLE);
+                    getSupportActionBar().setIcon(null);
+                }
+            }
+        });
+        // 折叠时淡出效果
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                float alpha = ((float)98 + (float)i) / (float)98;
+                layout_seller.setAlpha(alpha);
+                Log.i("AppBar", String.valueOf(i));
+            }
+        });
+
+        // 返回键监听
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    /**
      * 根据传入的product_id
-     * 初始化界面
+     * 初始化界面: Product, Favorite
      */
     private void initData() {
         Intent intent = getIntent();
         productId = intent.getStringExtra("product_id_extra");
         ProductRepository.getInstance(new ProductDataSource()).queryProduct(productId);
+        FavoriteRepository.getInstance(new FavoriteDataSource()).isFavorite(productId);
     }
 
     /**
      * 根据Bmob传回的数据
      * 设定界面
+     * 反馈收藏结果
      */
     @SuppressLint("HandlerLeak")
     private void setHandler() {
-        // 获取商品信息
+        // 获取商品信息 设定界面
         productInfoHandler = new Handler() {
             public void handleMessage(Message msg) {
                 Bundle b = msg.getData();
@@ -187,10 +199,81 @@ public class ProductInfoActivity extends AppCompatActivity {
                     }
                     String lastLoginDate = "最晚" + b.getString("lastLoginDate") + "来过";
                     text_login_date.setText(lastLoginDate);
+
                 }
                 Log.i("Handler", "Query Products Info");
             }
         };
+        // 添加收藏反馈
+        addFavoriteHandler = new Handler() {
+            public void handleMessage (Message msg){
+                Bundle b = msg.getData();
+                if (b.getInt("errorCode") != 0) {
+                    NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(ProductInfoActivity.this);
+                    dialogBuilder
+                            .withTitle("添加收藏失败")
+                            .withMessage(b.getString("e"))
+                            .withDialogColor("#770000")
+                            .withIcon(getResources().getDrawable(R.drawable.ic_fail))
+                            .withEffect(Effectstype.SlideBottom)
+                            .show();
+                    icon_favorate.setImageResource(R.drawable.ic_favorate_gray);
+                    icon_favorate.setTag("unfavor");
+                }
+            }
+        };
+        // 删除收藏反馈
+        cancelFavoriteHandler = new Handler() {
+            public void handleMessage (Message msg){
+                Bundle b = msg.getData();
+                if (b.getInt("errorCode") != 0) {
+                    NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(ProductInfoActivity.this);
+                    dialogBuilder
+                            .withTitle("取消收藏失败")
+                            .withMessage(b.getString("e"))
+                            .withDialogColor("#770000")
+                            .withIcon(getResources().getDrawable(R.drawable.ic_fail))
+                            .withEffect(Effectstype.SlideBottom)
+                            .show();
+                    icon_favorate.setImageResource(R.drawable.ic_favorate_yellow);
+                    icon_favorate.setTag("favor");
+                }
+            }
+        };
+        // 根据是否收藏来设定图标
+        isFavorateHandler = new Handler() {
+            public void handleMessage (Message msg){
+                Bundle b = msg.getData();
+                if (b.getInt("errorCode") == 0) {
+                    if (b.getBoolean("favorite")) {
+                        icon_favorate.setImageResource(R.drawable.ic_favorate_yellow);
+                        icon_favorate.setTag("favor");
+                    } else {
+                        icon_favorate.setImageResource(R.drawable.ic_favorate_gray);
+                        icon_favorate.setTag("unfavor");
+                    }
+                }
+            }
+        };
     }
 
+    private void initView() {
+        text_product_name = findViewById(R.id.text_product_name);
+        text_price = findViewById(R.id.text_price);
+        text_old_price = findViewById(R.id.text_old_price);
+        text_product_description = findViewById(R.id.text_product_description);
+        text_seller_name = findViewById(R.id.text_seller_name);
+        text_seller_credit = findViewById(R.id.text_seller_credit);
+        text_login_date = findViewById(R.id.text_login_date);
+        text_publish_date = findViewById(R.id.text_publish_date);
+        image_product = findViewById(R.id.image_product);
+        image_seller = findViewById(R.id.image_seller);
+        icon_favorate = findViewById(R.id.icon_favorate);
+        icon_gender = findViewById(R.id.icon_gender);
+        card_new = findViewById(R.id.card_new);
+        card_cannot_bargain = findViewById(R.id.card_cannot_bargain);
+        layout_seller = findViewById(R.id.layout_seller);
+    }
 }
+
+

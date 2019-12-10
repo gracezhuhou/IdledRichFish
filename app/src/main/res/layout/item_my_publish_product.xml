@@ -8,17 +8,26 @@
 
     <!-- Bottom View Start-->
     <LinearLayout
-        android:background="#66ddff00"
         android:id="@+id/bottom_wrapper"
-        android:layout_width="160dp"
+        android:layout_width="120dp"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_edit"
+            android:text="@string/action_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/yellow"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/button_delete"
-            android:text="删除"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:text="@string/action_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/orange"
+            android:layout_weight="1"/>
 
     </LinearLayout>
     <!-- Bottom View End-->

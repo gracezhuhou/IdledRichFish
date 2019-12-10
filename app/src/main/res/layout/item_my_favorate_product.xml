@@ -1,100 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
-    android:background="@color/white">
+    android:layout_marginTop="5dp">
 
-    <ImageView
-        android:id="@+id/image_seller"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_user" />
+    <!-- Bottom View Start-->
+    <LinearLayout
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/text_sellerName"
+        <Button
+        android:id="@+id/button_delete"
+        android:text="@string/action_delete"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/btn_orange"/>
+
+    </LinearLayout>
+    <!-- Bottom View End-->
+
+    <!-- Surface View Start -->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/seller_name"
-        android:layout_marginStart="5dp"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/image_seller"
-        app:layout_constraintTop_toTopOf="@+id/image_seller" />
+        android:orientation="vertical">
 
-    <!-- 卖家信用-->
-    <TextView
-        android:id="@+id/text_sellerCredit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/credit"
-        android:layout_marginStart="5dp"
-        app:layout_constraintStart_toEndOf="@+id/image_seller"
-        app:layout_constraintTop_toBottomOf="@+id/text_sellerName" />
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="@dimen/card_radius">
 
-    <TextView
-        android:id="@+id/text_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="¥199"
-        android:textColor="@color/red"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
 
-    <ImageView
-    android:id="@+id/image_product1"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:scaleType="centerCrop"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/text_sellerCredit"
-    tools:srcCompat="@drawable/product_eg_1" />
+                <ImageView
+                    android:id="@+id/image_seller"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@drawable/ic_user" />
 
-    <ImageView
-        android:id="@+id/image_product2"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="3dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toEndOf="@+id/image_product1"
-        app:layout_constraintTop_toBottomOf="@+id/text_sellerCredit"
-        tools:srcCompat="@drawable/product_eg_2" />
+                <TextView
+                    android:id="@+id/text_seller_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/seller_name"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/image_seller"
+                    app:layout_constraintTop_toTopOf="@+id/image_seller" />
 
-    <ImageView
-        android:id="@+id/image_product3"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="3dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toEndOf="@+id/image_product2"
-        app:layout_constraintTop_toBottomOf="@+id/text_sellerCredit"
-        tools:srcCompat="@drawable/product_eg_3" />
+                <!-- 卖家信用-->
+                <LinearLayout
+                    android:id="@+id/layout_credit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toEndOf="@+id/image_seller"
+                    app:layout_constraintTop_toBottomOf="@+id/text_seller_name">
 
-    <ImageView
-        android:id="@+id/image_product4"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="3dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toEndOf="@+id/image_product3"
-        app:layout_constraintTop_toBottomOf="@+id/text_sellerCredit"
-        tools:srcCompat="@drawable/product_eg_4" />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_credit" />
 
-    <TextView
-        android:id="@+id/text_product_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:text="@string/product_name"
-        android:textSize="17sp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_product1" />
+                    <TextView
+                        android:id="@+id/text_credit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/credit"
+                        android:textColor="@color/green_credit" />
 
-</android.support.constraint.ConstraintLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/text_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price_symbol"
+                    android:textColor="@color/red"
+                    android:textSize="25dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/image_product1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_credit"
+                    tools:srcCompat="@drawable/product_eg_1" />
+
+                <ImageView
+                    android:id="@+id/image_product2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="3dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toEndOf="@+id/image_product1"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_credit"
+                    tools:srcCompat="@drawable/product_eg_2" />
+
+                <ImageView
+                    android:id="@+id/image_product3"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="3dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toEndOf="@+id/image_product2"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_credit"
+                    tools:srcCompat="@drawable/product_eg_3" />
+
+                <ImageView
+                    android:id="@+id/image_product4"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="3dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toEndOf="@+id/image_product3"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_credit"
+                    tools:srcCompat="@drawable/product_eg_4" />
+
+                <TextView
+                    android:id="@+id/text_product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="7dp"
+                    android:text="@string/product_name"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_product1" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+    <!-- Surface View End -->
+
+</com.daimajia.swipe.SwipeLayout>

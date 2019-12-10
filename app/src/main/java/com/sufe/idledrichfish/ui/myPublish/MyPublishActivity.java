@@ -22,7 +22,7 @@ import cn.bmob.v3.datatype.BmobFile;
 
 public class MyPublishActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView recycler_view;
 
     private LinearLayoutManager layoutManager;
     private MyPublishRecyclerViewAdapter productsRecyclerAdapter;
@@ -35,19 +35,20 @@ public class MyPublishActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_publish);
 
-        mRecyclerView.findViewById(R.id.recycler_my_publish);
+        recycler_view = findViewById(R.id.recycler_view);
 
         setRecycler();
+        setHandler();
     }
 
     private void setRecycler() {
         products = new ArrayList<>();
         ProductRepository.getInstance(new ProductDataSource()).queryMyPublishProducts();
         layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
+        recycler_view.setLayoutManager(layoutManager);
         productsRecyclerAdapter = new MyPublishRecyclerViewAdapter(products);
-        mRecyclerView.setAdapter(productsRecyclerAdapter);
-        mRecyclerView.setHasFixedSize(true);
+        recycler_view.setAdapter(productsRecyclerAdapter);
+        recycler_view.setHasFixedSize(true);
     }
 
     @SuppressLint("HandlerLeak")

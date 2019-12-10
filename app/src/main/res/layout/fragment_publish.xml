@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@color/yellow"
     tools:context=".ui.publish.PublishFragment">
 
     <RelativeLayout
@@ -27,11 +28,12 @@
                 android:textSize="@dimen/text_size"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
-                android:background="#00000000" />
+                android:background="@color/transparent"
+                android:elevation="0dp"/>
 
             <!-- TODO: 发布新商品，返回原界面并刷新 -->
             <Button
-                android:id="@+id/button_launch"
+                android:id="@+id/button_publish"
                 android:layout_width="70dp"
                 android:layout_height="35dp"
                 android:text="@string/action_publish"
@@ -40,7 +42,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
-                android:background="@drawable/btn_launch"
+                android:background="@drawable/btn_orange"
                 android:enabled="false"/>
         </RelativeLayout>
 
@@ -50,7 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/publisment"
             android:layout_margin="10dp"
-            android:background="@color/transparent">
+            app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,7 +76,7 @@
                     android:id="@+id/editText_description"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:hint="简单描述你的商品..."
+                    android:hint="描述一下你的商品..."
                     android:textColorHint="@color/gray"
                     android:gravity="top"
                     android:padding="10dp"
@@ -80,6 +84,7 @@
                 </EditText>
 
             </LinearLayout>
+
         </android.support.v7.widget.CardView>
 
         <RelativeLayout
@@ -316,4 +321,5 @@
             android:layout_marginRight="20dp"/>
 
     </RelativeLayout>
+
 </android.support.v4.widget.NestedScrollView>

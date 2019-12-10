@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:SpinKit_Color="@color/colorPrimary"
+            app:SpinKit_Color="@color/indigo"
             app:layout_constraintBottom_toBottomOf="@+id/image_product"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/image_product"

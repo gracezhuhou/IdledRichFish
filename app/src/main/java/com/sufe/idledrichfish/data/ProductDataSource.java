@@ -199,11 +199,11 @@ public class ProductDataSource {
                     }
                     msg.setData(b);
                     ProductInfoActivity.productInfoHandler.sendMessage(msg);
-                    Log.i("BMOB", "Query Student Success");
+                    Log.i("BMOB", "Query Product By Id Success");
                 } else {
                     b.putInt("errorCode", e.getErrorCode());
                     b.putString("e", e.toString());
-                    Log.e("BMOB", "Query Student Fail", e);
+                    Log.e("BMOB", "Query Product By Id Fail", e);
                 }
 
             }
@@ -215,6 +215,8 @@ public class ProductDataSource {
      */
     public void queryProductsForHome() {
         BmobQuery<Product> bmobQuery = new BmobQuery<>();
+        bmobQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);   // 先从缓存获取数据，如果没有，再从网络获取
+        // todo:当用户执行上拉或者下拉刷新操作时，设置查询的缓存策略为NETWORK_ELSE_CACHE。
         bmobQuery.findObjects(new FindListener<Product>() {
             @Override
             public void done(List<Product> products, BmobException e) {

@@ -20,6 +20,7 @@ import com.sufe.idledrichfish.data.LoginDataSource;
 import com.sufe.idledrichfish.data.LoginRepository;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.login.LoginActivity;
+import com.sufe.idledrichfish.ui.myFavorite.MyFavoriteActivity;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 
 import java.util.Objects;
@@ -94,9 +95,6 @@ public class MyFragment extends Fragment {
         text_stu_number.setText(numberText);
         // todo: image
 
-//        Drawable drawable1 = getResources().getDrawable(R.drawable.info);
-//        drawable1.setBounds(0, 0, 40, 40);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
-
         /*
          * 点击登出按钮
          */
@@ -120,6 +118,19 @@ public class MyFragment extends Fragment {
             public void onClick(View view) {
                 // 跳转至“我发布的”界面
                 Intent intent = new Intent(getContext(), MyPublishActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /*
+         * 点击“我收藏的”
+         */
+        final Button button_my_favorite = view.findViewById(R.id.button_my_favorite);
+        button_my_favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 跳转至“我收藏的”界面
+                Intent intent = new Intent(getContext(), MyFavoriteActivity.class);
                 startActivity(intent);
             }
         });
@@ -207,36 +218,3 @@ public class MyFragment extends Fragment {
     }
 }
 
-
-abstract class AppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {
-
-    public enum State {
-        EXPANDED,
-        COLLAPSED,
-        IDLE
-    }
-
-    private State mCurrentState = State.IDLE;
-
-    @Override
-    public final void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        if (i == 0) {
-            if (mCurrentState != State.EXPANDED) {
-                onStateChanged(appBarLayout, State.EXPANDED);
-            }
-            mCurrentState = State.EXPANDED;
-        } else if (Math.abs(i) >= appBarLayout.getTotalScrollRange()) {
-            if (mCurrentState != State.COLLAPSED) {
-                onStateChanged(appBarLayout, State.COLLAPSED);
-            }
-            mCurrentState = State.COLLAPSED;
-        } else {
-            if (mCurrentState != State.IDLE) {
-                onStateChanged(appBarLayout, State.IDLE);
-            }
-            mCurrentState = State.IDLE;
-        }
-    }
-
-    public abstract void onStateChanged(AppBarLayout appBarLayout, State state);
-}

@@ -15,7 +15,7 @@ import com.sufe.idledrichfish.data.model.Product;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class MyPublishRecyclerViewAdapter  extends RecyclerView.Adapter<MyPublishRecyclerViewAdapter.ViewHolder>{
+public class MyPublishRecyclerViewAdapter extends RecyclerView.Adapter<MyPublishRecyclerViewAdapter.ViewHolder>{
     private List<Product> myProducts;
 
     static class ViewHolder extends RecyclerView.ViewHolder{

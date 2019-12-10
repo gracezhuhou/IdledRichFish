@@ -113,7 +113,7 @@ public class PublishFragment extends Fragment {
         priceLayout = view.findViewById(R.id.layout_price);
         descriptionEditText = view.findViewById(R.id.editText_description);
         descriptionEditText.clearFocus();
-        publishButton = view.findViewById(R.id.button_launch);
+        publishButton = view.findViewById(R.id.button_publish);
         nameEditText = view.findViewById(R.id.editText_name);
         canNotBargainCheckBox = view.findViewById(R.id.if_bargain);
         isNewCheckBox = view.findViewById(R.id.if_new);
@@ -143,7 +143,7 @@ public class PublishFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (isNewCheckBox.isChecked()) {
-                    isNewCheckBox.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    isNewCheckBox.setBackgroundColor(getResources().getColor(R.color.primary));
                     isNewCheckBox.setTextColor(Color.WHITE);
                 }
                 else {
@@ -157,7 +157,7 @@ public class PublishFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (canNotBargainCheckBox.isChecked()) {
-                    canNotBargainCheckBox.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    canNotBargainCheckBox.setBackgroundColor(getResources().getColor(R.color.primary));
                     canNotBargainCheckBox.setTextColor(Color.WHITE);
                 }
                 else {

@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
-    <!-- 查找栏 -->
-    <EditText
-        android:id="@+id/editText_lookUp"
+    <RelativeLayout
+        android:id="@+id/layout_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:inputType="text"
-        android:ems="10"
-        android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="@dimen/home_search_height"
+        android:orientation="vertical"
+        android:background="@color/indigo">
+
+        <ImageView
+            android:id="@+id/icon_search"
+            android:layout_width="@dimen/home_search_height"
+            android:layout_height="@dimen/home_search_height"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/ic_search"
+            android:padding="20dp"
+            android:layout_alignParentEnd="true"/>
+
+        <com.quinny898.library.persistentsearch.SearchBox
+            android:id="@+id/search_box"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/home_search_height"
+            android:padding="0dp"
+            android:gravity="center"/>
+
+    </RelativeLayout>
 
     <in.srain.cube.views.ptr.PtrFrameLayout
-        android:id="@+id/refreshLayout"
+        android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_lookUp"
-        xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-        cube_ptr:ptr_resistance_header="1.7"
-        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_duration_to_back_header="300"
-        cube_ptr:ptr_duration_to_close_header="2000"
-        cube_ptr:ptr_keep_header_when_refresh="true"
-        cube_ptr:ptr_pull_to_fresh="false"
-        cube_ptr:ptr_resistance_footer="1.3"
-        cube_ptr:ptr_duration_to_back_footer="300"
-        cube_ptr:ptr_duration_to_close_footer="2000">
-<!--            android:fillViewport="true"-->
+        android:layout_weight="1"
+        app:ptr_resistance_header="1.7"
+        app:ptr_ratio_of_header_height_to_refresh="1.2"
+        app:ptr_duration_to_back_header="300"
+        app:ptr_duration_to_close_header="2000"
+        app:ptr_keep_header_when_refresh="true"
+        app:ptr_pull_to_fresh="false"
+        app:ptr_resistance_footer="1.3"
+        app:ptr_duration_to_back_footer="300"
+        app:ptr_duration_to_close_footer="2000">
 
         <include layout="@layout/content_home_refresh" />
 
     </in.srain.cube.views.ptr.PtrFrameLayout>
 
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
