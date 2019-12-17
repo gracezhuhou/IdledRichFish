@@ -8,9 +8,14 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 获取sd卡写的权限，用于文件上传和下载 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name="org.litepal.LitePalApplication"
+        android:name="android.app.Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,14 +23,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".ui.publish.PublishActivity"></activity>
+        <activity android:name=".SignUpActivity" />
 
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
-            android:authorities="com.sufe.idledrichfish.BmobContentProvider"></provider>
+            android:authorities="com.sufe.idledrichfish.BmobContentProvider" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="PhotoPicker"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/photo_path" />
+        </provider>
 
-        <activity android:name=".MyPublishActivity" />
-        <activity android:name=".MyFavoratesActivity" />
+        <activity android:name=".ui.myPublish.MyPublishActivity" />
+        <activity android:name=".ui.myFavorite.MyFavoriteActivity" />
         <activity
             android:name=".ProductInfoActivity"
             android:label="@string/title_activity_product_view"

@@ -1,7 +1,5 @@
 package com.sufe.idledrichfish.data.model;
 
-import org.litepal.annotation.Column;
-
 import cn.bmob.v3.BmobObject;
 
 public class Admin extends BmobObject {

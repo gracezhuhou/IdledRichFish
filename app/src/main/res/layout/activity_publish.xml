@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/yellow"
+    tools:context=".ui.publish.PublishActivity">
+
+    <RelativeLayout
+        android:id="@+id/layout_publish"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toorbar_height"
+        android:background="@color/orange">
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:text="@string/action_cancel"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:background="@color/transparent"/>
+
+        <!-- TODO: 发布新商品，返回原界面并刷新 -->
+        <Button
+            android:id="@+id/button_publish"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:text="@string/action_publish"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/card_orange"
+            android:enabled="false"/>
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_margin_horizontal"
+        android:layout_marginEnd="@dimen/card_margin_horizontal"
+        android:layout_marginTop="@dimen/card_margin_vertical"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/editText_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="商品名称"
+                        android:textColorHint="@color/gray"
+                        android:gravity="top"
+                        android:paddingTop="20dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp"
+                        android:paddingBottom="10dp"
+                        android:background="@color/transparent">
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/editText_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:hint="描述一下你的商品..."
+                        android:textColorHint="@color/gray"
+                        android:gravity="top"
+                        android:paddingTop="20dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp"
+                        android:paddingBottom="10dp"
+                        android:background="@color/transparent">
+                    </EditText>
+
+                    <com.lzy.ninegrid.NineGridView
+                        android:id="@+id/nine_grid_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        app:ngv_maxSize="9"
+                        app:ngv_mode="fill" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/layout_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/card_margin_vertical"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/if_new"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/product_new"
+                    android:button="@null"
+                    android:textSize="@dimen/text_size"
+                    android:gravity="center"
+                    android:layout_marginStart="30dp"
+                    android:paddingTop="@dimen/publish_checkbox_padding_vertical"
+                    android:paddingBottom="@dimen/publish_checkbox_padding_vertical"
+                    android:textColor="@color/white"
+                    android:background="@drawable/card_banana"
+                    android:checked="false"/>
+
+                <CheckBox
+                    android:id="@+id/if_bargain"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cannot_bargain"
+                    android:button="@null"
+                    android:textSize="@dimen/text_size"
+                    android:gravity="center"
+                    android:layout_marginStart="40dp"
+                    android:paddingTop="@dimen/publish_checkbox_padding_vertical"
+                    android:paddingBottom="@dimen/publish_checkbox_padding_vertical"
+                    android:textColor="@color/white"
+                    android:background="@drawable/card_banana"
+                    android:checked="false"/>
+
+            </LinearLayout>
+
+            <!-- TODO:以下都为layout的点击事件 -->
+            <!-- 点击后以Dialog形式输入价格，显示在textview中 -->
+            <LinearLayout
+                android:id="@+id/layout_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/card_margin_horizontal"
+                android:paddingEnd="@dimen/card_margin_horizontal"
+                android:paddingTop="@dimen/card_margin_vertical"
+                android:paddingBottom="@dimen/card_margin_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/publish_text_height"
+                    android:layout_height="@dimen/publish_text_height"
+                    android:src="@drawable/ic_money"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/publish_text_height"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="@string/product_price"
+                    android:textSize="@dimen/text_size"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/publish_text_height"
+                    android:layout_gravity="center"
+                    android:text="@string/price_symbol"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/orange"
+                    android:layout_marginEnd="5dp"/>
+
+                <TextView
+                    android:id="@+id/text_price_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/publish_text_height"
+                    android:text="@string/price_number"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/orange"
+                    android:layout_marginEnd="10dp"/>
+
+                <ImageView
+                    android:layout_width="@dimen/publish_text_height"
+                    android:layout_height="@dimen/publish_text_height"
+                    android:src="@drawable/ic_right"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/card_margin_horizontal"
+                android:paddingEnd="@dimen/card_margin_horizontal"
+                android:paddingTop="@dimen/card_margin_vertical"
+                android:paddingBottom="@dimen/card_margin_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ic2"
+                    android:layout_width="@dimen/publish_text_height"
+                    android:layout_height="@dimen/publish_text_height"
+                    android:src="@drawable/ic_tab"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/publish_text_height"
+                    android:layout_weight="1"
+                    android:text="标签"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/text_size"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:id="@+id/text_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/publish_text_height"/>
+
+                <ImageView
+                    android:layout_width="@dimen/publish_text_height"
+                    android:layout_height="@dimen/publish_text_height"
+                    android:src="@drawable/ic_right"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/card_margin_horizontal"
+                android:paddingEnd="@dimen/card_margin_horizontal"
+                android:paddingTop="@dimen/card_margin_vertical"
+                android:paddingBottom="@dimen/card_margin_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_sort"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/publish_text_height"
+                    android:layout_weight="1"
+                    android:text="@string/category"
+                    android:textSize="@dimen/text_size"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:id="@+id/text_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end"
+                    android:src="@drawable/ic_right"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>
