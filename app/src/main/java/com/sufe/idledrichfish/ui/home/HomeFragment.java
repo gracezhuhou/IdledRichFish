@@ -2,6 +2,7 @@ package com.sufe.idledrichfish.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.quinny898.library.persistentsearch.SearchResult;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.ProductDataSource;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +39,7 @@ import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.sufe.idledrichfish.data.ProductRepository;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
+import com.sufe.idledrichfish.ui.publish.PublishActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +64,7 @@ public class HomeFragment extends Fragment {
     private PtrFrameLayout layout_refresh;
     private RollPagerView mRollViewPager;
     private ImageView icon_search;
+    private ImageView icon_publish;
 
     private GridLayoutManager layoutManager;
     private HomeRecyclerViewAdapter productsRecyclerAdapter;
@@ -108,12 +112,22 @@ public class HomeFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recycler_home);
         mRollViewPager = view.findViewById(R.id.roll_view_pager);
         icon_search = view.findViewById(R.id.icon_search);
+        icon_publish = view.findViewById(R.id.icon_publish);
 
         setRecycler(); // 商品浏览
         setRefresh(); // 下拉刷新& 上拉加载
         setRoll(); // 图片轮播
-        setSearch();
+        setSearch(); // 搜索框
         setHandler();
+
+        // 点击发布按钮
+        icon_publish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), PublishActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -142,6 +156,18 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onResume() {
+        search_box.post(new Runnable() {
+            @Override
+            public void run() {
+                search_box.hideCircularlyToMenuItem(R.id.icon_search, Objects.requireNonNull(getActivity()));
+            }
+        });
+//        search_box.hideCircularlyToMenuItem(R.id.icon_search, Objects.requireNonNull(getActivity()));
+        super.onResume();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -158,7 +184,7 @@ public class HomeFragment extends Fragment {
      */
     private void setRecycler() {
         products = new ArrayList<>();
-        ProductRepository.getInstance(new ProductDataSource()).queryProductsForHome();
+        ProductRepository.getInstance(new ProductDataSource()).queryProductsForHome(false);
         layoutManager = new GridLayoutManager(this.getContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
         productsRecyclerAdapter = new HomeRecyclerViewAdapter(products);
@@ -206,7 +232,7 @@ public class HomeFragment extends Fragment {
             public void onRefreshBegin(PtrFrameLayout frame) {
                 frame.postDelayed(layout_refresh::refreshComplete, 2000);
                 // 更新商品
-                ProductRepository.getInstance(new ProductDataSource()).queryProductsForHome();
+                ProductRepository.getInstance(new ProductDataSource()).queryProductsForHome(true);
                 productsRecyclerAdapter.notifyDataSetChanged();
             }
         });
@@ -240,7 +266,12 @@ public class HomeFragment extends Fragment {
      */
     private void setSearch() {
         search_box.enableVoiceRecognition(this);
-        search_box.hideCircularlyToMenuItem(R.id.icon_search, Objects.requireNonNull(getActivity()));
+        search_box.post(new Runnable() {
+            @Override
+            public void run() {
+                search_box.hideCircularly( Objects.requireNonNull(getActivity()));
+            }
+        });
 
         for(int x = 0; x < 10; x++){
             SearchResult option = new SearchResult("Result " + Integer.toString(x), getResources().getDrawable(R.drawable.ic_history));
@@ -337,8 +368,8 @@ public class HomeFragment extends Fragment {
                         Student seller = new Student();
                         seller.setObjectId(bundle.getString("sellerId"));
                         product.setSeller(seller);
-                        BmobFile image = new BmobFile();
-                        image.setUrl(bundle.getString("productImage"));
+                        BmobFile image = new BmobFile("image1", "", bundle.getString("productImage"));
+//                        image.setUrl(bundle.getString("productImage"));
                         product.setImage1(image);
                         products.add(product);
                         bundles.remove(String.valueOf(i));

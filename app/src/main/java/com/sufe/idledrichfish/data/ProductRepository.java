@@ -1,5 +1,7 @@
 package com.sufe.idledrichfish.data;
 
+import java.util.List;
+
 import cn.bmob.v3.datatype.BmobRelation;
 
 public class ProductRepository {
@@ -25,17 +27,18 @@ public class ProductRepository {
     }
 
     public void saveProduct(String productName, String description, boolean isNew, boolean canBargain,
-                            double price, double oldPrice, BmobRelation labels, String category) {
+                            double price, double oldPrice, BmobRelation labels, String category,
+                            List<String> imagePath) {
         dataSource.saveProduct(productName, description, isNew, canBargain, price, oldPrice,
-                labels, category);
+                labels, category, imagePath);
     }
 
     public void queryProduct(String id){
         dataSource.queryProduct(id);
     }
 
-    public void queryProductsForHome() {
-        dataSource.queryProductsForHome();
+    public void queryProductsForHome(Boolean policy) {
+        dataSource.queryProductsForHome(policy);
     }
 
     public void queryMyPublishProducts() {

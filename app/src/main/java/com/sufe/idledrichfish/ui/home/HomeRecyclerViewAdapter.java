@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.R;
@@ -82,7 +83,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         holder.productId = product.getObjectId();
         // 设置商品图片
         if (!product.getImage1().getUrl().equals("")) {
-//            holder.image_product.setImageDrawable(LoadImageFromUrl(product.getImage1().getUrl()));
+            // todo: 获取图片
+            Glide.with(holder.context).load(product.getImage1().getFileUrl()).into(holder.image_product);
         }
 
         StudentRepository.getInstance(new StudentDataSource()).queryStudentForHome(product.getSeller().getObjectId(), position);
@@ -120,19 +122,4 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     public int getItemCount(){
         return myProducts.size();
     }
-
-    /**
-     * 显示URL图像
-     * @param url String
-     * @return Drawable
-     */
-    public static Drawable LoadImageFromUrl(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            return Drawable.createFromStream(is, "src name");
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
 }

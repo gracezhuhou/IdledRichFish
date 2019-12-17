@@ -19,7 +19,7 @@
         android:text="@string/action_delete"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@drawable/btn_orange"/>
+        android:background="@drawable/card_orange"/>
 
     </LinearLayout>
     <!-- Bottom View End-->

@@ -7,6 +7,10 @@
     <dimen name="text_margin">15dp</dimen>
     <dimen name="text_size">16sp</dimen>
     <dimen name="card_radius">20dp</dimen>
+    <dimen name="toorbar_height">65dp</dimen>
+    <dimen name="card_margin_horizontal">10dp</dimen>
+    <dimen name="card_margin_vertical">15dp</dimen>
+
 
     <dimen name="sign_in_btn_margin">45dp</dimen>
     <dimen name="sign_up_text_margin_vertical">30dp</dimen>
@@ -17,7 +21,8 @@
     <dimen name="home_search_height">65dp</dimen>
 
     <dimen name="publish_text_height">20dp</dimen>
-    <dimen name="publish_checkBox_padding">6dp</dimen>
+    <dimen name="publish_checkbox_padding_vertical">10dp</dimen>
+    <dimen name="publish_checkbox_padding_horizontal">30dp</dimen>
     <dimen name="publish_dialog_padding">12dp</dimen>
 
     <dimen name="my_height">70dp</dimen>

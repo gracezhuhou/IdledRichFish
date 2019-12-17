@@ -9,11 +9,10 @@
     tools:context=".SignUpActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_signUp"
+        android:id="@+id/toolbar_sign_up"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/toorbar_height"
         android:background="@color/orange"
-        android:minHeight="?attr/actionBarSize"
         android:theme="@style/Toolbar.TitleText"
         app:titleTextColor="@color/white"
         app:title="@string/title_activity_sign_up"/>
@@ -21,9 +20,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="15dp">
+        android:layout_marginStart="@dimen/card_margin_horizontal"
+        android:layout_marginEnd="@dimen/card_margin_horizontal"
+        android:layout_marginTop="@dimen/card_margin_vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -164,7 +163,7 @@
                 android:id="@+id/btn_signUp"
                 android:layout_gravity="fill"
                 android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:background="@drawable/btn_orange"
+                android:background="@drawable/card_orange"
                 android:padding="15dp"
                 android:text="@string/action_sign_up"
                 android:textColor="@color/white"

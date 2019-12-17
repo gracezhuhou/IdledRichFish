@@ -15,13 +15,21 @@
         android:background="@color/indigo">
 
         <ImageView
+            android:id="@+id/icon_publish"
+            android:layout_width="@dimen/home_search_height"
+            android:layout_height="@dimen/home_search_height"
+            android:background="@color/transparent"
+            android:padding="15dp"
+            android:src="@drawable/ic_publish"/>
+
+        <ImageView
             android:id="@+id/icon_search"
             android:layout_width="@dimen/home_search_height"
             android:layout_height="@dimen/home_search_height"
             android:background="@color/transparent"
-            app:srcCompat="@drawable/ic_search"
             android:padding="20dp"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            app:srcCompat="@drawable/ic_search"/>
 
         <com.quinny898.library.persistentsearch.SearchBox
             android:id="@+id/search_box"

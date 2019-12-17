@@ -11,10 +11,10 @@
         android:icon="@drawable/ic_message"
         android:title="@string/title_message" />
 
-    <item
-        android:id="@+id/navigation_publishment"
-        android:icon="@drawable/ic_publishment"
-        android:title="@string/title_publish" />
+<!--    <item-->
+<!--        android:id="@+id/navigation_publishment"-->
+<!--        android:icon="@drawable/ic_publishment"-->
+<!--        android:title="@string/title_publish" />-->
 
     <item
         android:id="@+id/navigation_personal_info"

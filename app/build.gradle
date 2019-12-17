@@ -62,7 +62,7 @@ dependencies {
     implementation 'in.srain.cube:ptr-load-more:1.0.6'
     implementation 'com.youth.banner:banner:1.4.10'
     implementation 'com.jude:rollviewpager:1.2.9'
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.github.bumptech.glide:glide:4.7.1' // glide加载图片
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0' // 圆形头像
     implementation 'com.github.ybq:Android-SpinKit:1.4.0' // Loading动画
@@ -70,4 +70,5 @@ dependencies {
     implementation 'com.quinny898.library.persistentsearch:library:1.1.0-SNAPSHOT' // 搜索框
     implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3' // 弹出框
     implementation 'com.zhihu.android:matisse:0.5.2-beta2' // 本地图像选择器
+    implementation 'com.lzy.widget:ninegridview:0.2.0' // 九宫格图像控件
 }
