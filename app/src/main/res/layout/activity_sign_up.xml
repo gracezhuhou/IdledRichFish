@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toorbar_height"
         android:background="@color/orange"
-        android:theme="@style/Toolbar.TitleText"
+        android:theme="?attr/actionBarTheme"
         app:titleTextColor="@color/white"
         app:title="@string/title_activity_sign_up"/>
 
