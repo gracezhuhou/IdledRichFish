@@ -36,7 +36,7 @@
                     app:layout_collapseMode="pin"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:titleTextAppearance="@style/Toolbar.TitleText"
+                    android:theme="?attr/actionBarTheme"
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
 
                 <android.support.constraint.ConstraintLayout
