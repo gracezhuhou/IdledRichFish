@@ -1,5 +1,6 @@
 package com.sufe.idledrichfish;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -11,18 +12,18 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.sufe.idledrichfish.ui.home.HomeFragment;
-import com.sufe.idledrichfish.ui.publish.PublishFragment;
+
+import java.util.List;
 
 import cn.bmob.v3.Bmob;
 
 public class MainActivity extends AppCompatActivity implements
-        HomeFragment.OnFragmentInteractionListener, PublishFragment.OnFragmentInteractionListener,
-        MessageFragment.OnFragmentInteractionListener, MyFragment.OnFragmentInteractionListener {
+        HomeFragment.OnFragmentInteractionListener, MessageFragment.OnFragmentInteractionListener,
+        MyFragment.OnFragmentInteractionListener {
 
     private FrameLayout mainFrame;
     private BottomNavigationView navView;
     private HomeFragment homeFragment;
-    private PublishFragment publishFragment;
     private MessageFragment messageFragment;
     private MyFragment myFragment;
     private Fragment[] fragments;
@@ -47,18 +48,18 @@ public class MainActivity extends AppCompatActivity implements
                         lastfragment = 1;
                     }
                     return true;
-                case R.id.navigation_publishment:
+                case R.id.navigation_personal_info:
                     if (lastfragment != 2) {
                         switchFragment(lastfragment, 2);
                         lastfragment = 2;
                     }
                     return true;
-                case R.id.navigation_personal_info:
-                    if (lastfragment != 3) {
-                        switchFragment(lastfragment, 3);
-                        lastfragment = 3;
-                    }
-                    return true;
+//                case R.id.navigation_personal_info:
+//                    if (lastfragment != 3) {
+//                        switchFragment(lastfragment, 3);
+//                        lastfragment = 3;
+//                    }
+//                    return true;
             }
             return false;
         }
@@ -93,11 +94,11 @@ public class MainActivity extends AppCompatActivity implements
 
     void initView() {
         homeFragment = new HomeFragment();
-        publishFragment = new PublishFragment();
+//        publishFragment = new PublishFragment();
         messageFragment = new MessageFragment();
         myFragment = new MyFragment();
-        fragments = new Fragment[]{homeFragment, messageFragment, publishFragment, myFragment};
-        mainFrame = findViewById(R.id.mainFrame);
+        fragments = new Fragment[]{homeFragment, messageFragment, myFragment};
+        mainFrame = (FrameLayout) findViewById(R.id.mainFrame);
         //设置fragment到布局
         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, homeFragment).show(homeFragment).commit();
 

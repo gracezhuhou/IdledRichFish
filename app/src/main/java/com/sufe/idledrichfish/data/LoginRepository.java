@@ -41,4 +41,5 @@ public class LoginRepository {
     public void logout() {
         dataSource.logOut();
     }
+
 }

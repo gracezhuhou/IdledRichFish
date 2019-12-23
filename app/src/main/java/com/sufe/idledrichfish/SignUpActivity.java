@@ -39,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        toolbar = findViewById(R.id.toolbar_signUp);
+        toolbar = findViewById(R.id.toolbar_sign_up);
         button_signUp = findViewById(R.id.btn_signUp);
         text_studentNumber = findViewById(R.id.text_stuNumber);
         text_name = findViewById(R.id.text_name);

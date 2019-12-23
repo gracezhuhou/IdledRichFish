@@ -29,9 +29,9 @@ public class Student extends BmobUser {
 
     private Admin admin;   // 注册时审核此学号的admin
 
-    private BmobRelation favorites; // 收藏夹
-
     private BmobRelation history; // 浏览历史记录
+
+    private BmobDate historyDate; // 历史记录里的商品的浏览时间
 
 
     // generated getters and setters.
@@ -92,19 +92,19 @@ public class Student extends BmobUser {
         this.admin = admin;
     }
 
-    public BmobRelation getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(BmobRelation favorites) {
-        this.favorites = favorites;
-    }
-
     public BmobRelation getHistory() {
         return history;
     }
 
     public void setHistory(BmobRelation history) {
         this.history = history;
+    }
+
+    public BmobDate getHistoryDate() {
+        return historyDate;
+    }
+
+    public void setHistoryDate(BmobDate historyDate) {
+        this.historyDate = historyDate;
     }
 }

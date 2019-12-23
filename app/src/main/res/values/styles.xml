@@ -3,12 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/indigo</item>
+        <item name="colorAccent">@color/banana</item>
+        <item name="android:textColorPrimary">@color/dark</item>
         <!--textColorPrimary字体默认颜色-->
         <!--colorAccent控件默认颜色-->
-        <!--textColorPrimary字体默认颜色-->
         <!--colorPrimaryDark顶部状态栏默认颜色-->
         <!--colorPrimary顶部背景默认颜色-->
         <!--navigationBarColor-->
@@ -19,9 +19,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@color/indigo</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textSize">5sp</item>
     </style>
 
