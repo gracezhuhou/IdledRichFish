@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/price_symbol"
-                android:textColor="@color/gray_dark"
+                android:textColor="@color/dark"
                 android:textSize="18sp"
                 android:layout_marginStart="15dp"
                 android:layout_marginBottom="16dp"/>
@@ -64,7 +64,8 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="10dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/green_credit">
+                app:cardBackgroundColor="@color/green_credit"
+                app:cardElevation="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -83,7 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/red">
+                app:cardBackgroundColor="@color/red"
+                app:cardElevation="0dp">
 
                 <TextView
                     android:layout_width="wrap_content"

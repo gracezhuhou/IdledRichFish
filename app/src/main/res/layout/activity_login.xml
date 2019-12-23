@@ -60,7 +60,7 @@
             android:layout_marginEnd="@dimen/sign_in_btn_margin"
             android:enabled="false"
             android:text="@string/action_sign_in"
-            android:background="@color/colorPrimary"
+            android:background="@color/orange"
             android:textColor="@color/white"/>
 
         <Button
@@ -71,8 +71,8 @@
             android:layout_marginStart="@dimen/sign_in_btn_margin"
             android:layout_marginEnd="@dimen/sign_in_btn_margin"
             android:text="@string/action_sign_up"
-            android:background="@color/gray"
-            android:textColor="@color/colorPrimary"/>
+            android:background="@color/banana"
+            android:textColor="@color/orange"/>
 
     </LinearLayout>
 

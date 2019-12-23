@@ -7,6 +7,8 @@ import android.arch.lifecycle.ViewModel;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.ProductRepository;
 
+import java.util.List;
+
 import cn.bmob.v3.datatype.BmobRelation;
 
 public class PublishViewModel extends ViewModel {
@@ -22,10 +24,11 @@ public class PublishViewModel extends ViewModel {
     }
 
     public void saveProduct(String productName, String description, boolean isNew, boolean canBargain,
-                                double price, double oldPrice, BmobRelation labels, String category) {
+                            double price, double oldPrice, BmobRelation labels, String category,
+                            List<String> imagePath) {
         // can be launched in a separate asynchronous job
         productRepository.saveProduct(productName, description, isNew, canBargain, price,
-                oldPrice, labels, category);
+                oldPrice, labels, category, imagePath);
 
     }
 

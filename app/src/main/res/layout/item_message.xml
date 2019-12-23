@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:text="第三方男的罚款缴纳"
         android:textSize="@dimen/text_size"
-        android:textColor="@color/gray_dark"
+        android:textColor="@color/dark"
         android:layout_toRightOf="@id/pic"
         android:layout_alignBottom="@+id/pic"
         android:layout_marginBottom="4dp"/>
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:text="2019-10-29"
         android:textSize="12dp"
-        android:textColor="@color/gray_dark"
+        android:textColor="@color/dark"
         android:layout_below="@+id/content"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/pic"

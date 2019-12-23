@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Bottom View Start-->
+    <LinearLayout
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_edit"
+            android:text="@string/action_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/yellow"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/button_delete"
+            android:text="@string/action_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/orange"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+    <!-- Bottom View End-->
+
+    <!-- Surface View Start -->
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="@color/white">
+
+        <!--    产品名称-->
+        <TextView
+            android:id="@+id/text_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:paddingBottom="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/price_symbol"
+            android:textColor="@color/red"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_product1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_product_name"
+            tools:srcCompat="@drawable/product_eg_1" />
+
+        <ImageView
+            android:id="@+id/image_product2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="3dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toEndOf="@+id/image_product1"
+            app:layout_constraintTop_toBottomOf="@+id/text_product_name"
+            tools:srcCompat="@drawable/product_eg_2" />
+
+        <ImageView
+            android:id="@+id/image_product3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="3dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toEndOf="@+id/image_product2"
+            app:layout_constraintTop_toBottomOf="@+id/text_product_name"
+            tools:srcCompat="@drawable/product_eg_3" />
+
+        <ImageView
+            android:id="@+id/image_product4"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="3dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toEndOf="@+id/image_product3"
+            app:layout_constraintTop_toBottomOf="@+id/text_product_name"
+            tools:srcCompat="@drawable/product_eg_4" />
+
+    </android.support.constraint.ConstraintLayout>
+    <!-- Surface View End -->
+
+</com.daimajia.swipe.SwipeLayout>

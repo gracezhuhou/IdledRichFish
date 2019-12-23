@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/blue"
     tools:context=".MyFragment">
 
     <android.support.design.widget.AppBarLayout
@@ -19,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar" >
 
@@ -37,7 +37,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/colorPrimary"
                 tools:ignore="MissingConstraints">
 
                 <de.hdodenhof.circleimageview.CircleImageView

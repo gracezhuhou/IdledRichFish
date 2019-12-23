@@ -5,151 +5,171 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/yellow"
     tools:context=".SignUpActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_signUp"
+        android:id="@+id/toolbar_sign_up"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/Toolbar.TitleText"
+        android:layout_height="@dimen/toorbar_height"
+        android:background="@color/orange"
+        android:theme="?attr/actionBarTheme"
+        app:titleTextColor="@color/white"
         app:title="@string/title_activity_sign_up"/>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/card_margin_horizontal"
+        android:layout_marginEnd="@dimen/card_margin_horizontal"
+        android:layout_marginTop="@dimen/card_margin_vertical">
 
-        <GridLayout
-            android:id="@+id/container"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="3"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:rowCount="7">
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:cardElevation="0dp">
+
+                <GridLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:rowCount="6">
 
 
-            <TextView
-                android:layout_gravity="fill"
-                android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
-                android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:text="@string/student_id"
-                android:textSize="@dimen/sign_up_text_size" />
+                    <TextView
+                        android:layout_gravity="fill"
+                        android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
+                        android:layout_marginTop="@dimen/sign_up_text_margin_top"
+                        android:text="@string/student_id"
+                        android:textSize="@dimen/sign_up_text_size" />
 
-            <EditText
-                android:id="@+id/text_stuNumber"
-                android:layout_height="@dimen/sign_up_text_height"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
-                android:inputType="number"
-                android:selectAllOnFocus="true"
-                android:textSize="@dimen/sign_up_text_size" />
+                    <EditText
+                        android:id="@+id/text_stuNumber"
+                        android:layout_height="@dimen/sign_up_text_height"
+                        android:layout_columnSpan="2"
+                        android:layout_gravity="fill"
+                        android:layout_marginTop="@dimen/sign_up_text_margin_top"
+                        android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
+                        android:inputType="number"
+                        android:selectAllOnFocus="true"
+                        android:textSize="@dimen/sign_up_text_size" />
 
-            <TextView
-                android:layout_gravity="fill"
-                android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
-                android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:text="@string/student_name"
-                android:textSize="@dimen/sign_up_text_size" />
+                    <TextView
+                        android:layout_gravity="fill"
+                        android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
+                        android:layout_marginTop="@dimen/sign_up_text_margin_top"
+                        android:text="@string/student_name"
+                        android:textSize="@dimen/sign_up_text_size" />
 
-            <EditText
-                android:id="@+id/text_name"
-                android:layout_height="@dimen/sign_up_text_height"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
-                android:inputType="text"
-                android:selectAllOnFocus="true"
-                android:textSize="@dimen/sign_up_text_size" />
+                    <EditText
+                        android:id="@+id/text_name"
+                        android:layout_height="@dimen/sign_up_text_height"
+                        android:layout_columnSpan="2"
+                        android:layout_gravity="fill"
+                        android:layout_marginTop="@dimen/sign_up_text_margin_top"
+                        android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
+                        android:inputType="text"
+                        android:selectAllOnFocus="true"
+                        android:textSize="@dimen/sign_up_text_size" />
 
-            <TextView
-                android:layout_gravity="fill"
-                android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
-                android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:text="@string/password"
-                android:textSize="@dimen/sign_up_text_size" />
+                    <TextView
+                        android:layout_gravity="fill"
+                        android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
+                        android:layout_marginTop="@dimen/sign_up_text_margin_top"
+                        android:text="@string/password"
+                        android:textSize="@dimen/sign_up_text_size" />
 
-            <EditText
-                android:id="@+id/text_password"
-                android:layout_height="@dimen/sign_up_text_height"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
-                android:imeActionLabel="@string/action_sign_in"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:selectAllOnFocus="true"
-                android:textSize="@dimen/sign_up_text_size" />
+                    <EditText
+                        android:id="@+id/text_password"
+                        android:layout_height="@dimen/sign_up_text_height"
+                        android:layout_columnSpan="2"
+                        android:layout_gravity="fill"
+                        android:layout_marginTop="@dimen/sign_up_text_margin_top"
+                        android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
+                        android:imeActionLabel="@string/action_sign_in"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:selectAllOnFocus="true"
+                        android:textSize="@dimen/sign_up_text_size" />
 
-            <TextView
-                android:layout_gravity="fill"
-                android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
-                android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:text="@string/gender"
-                android:textSize="@dimen/sign_up_text_size" />
+                    <TextView
+                        android:layout_gravity="fill"
+                        android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
+                        android:layout_marginTop="@dimen/sign_up_text_margin_top"
+                        android:text="@string/gender"
+                        android:textSize="@dimen/sign_up_text_size" />
 
-            <RadioGroup
-                android:layout_height="@dimen/sign_up_text_height"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
-                android:orientation="horizontal">
+                    <RadioGroup
+                        android:layout_height="@dimen/sign_up_text_height"
+                        android:layout_columnSpan="2"
+                        android:layout_gravity="fill"
+                        android:layout_marginTop="@dimen/sign_up_text_margin_top"
+                        android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
+                        android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/radioBtn_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/sign_up_text_height"
-                    android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
-                    android:textSize="@dimen/sign_up_text_size"
-                    android:text="@string/gender_male"
-                    android:checked="true"/>
+                        <RadioButton
+                            android:id="@+id/radioBtn_male"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/sign_up_text_height"
+                            android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
+                            android:textSize="@dimen/sign_up_text_size"
+                            android:text="@string/gender_male"
+                            android:checked="true"/>
 
-                <RadioButton
-                    android:id="@+id/radioBtn_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/sign_up_text_height"
-                    android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
-                    android:text="@string/gender_female"
-                    android:textSize="@dimen/sign_up_text_size" />
+                        <RadioButton
+                            android:id="@+id/radioBtn_female"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/sign_up_text_height"
+                            android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
+                            android:text="@string/gender_female"
+                            android:textSize="@dimen/sign_up_text_size" />
 
-            </RadioGroup>
+                    </RadioGroup>
 
-            <TextView
-                android:layout_gravity="fill"
-                android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
-                android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:text="@string/student_image"
-                android:textSize="@dimen/sign_up_text_size" />
+                    <TextView
+                        android:layout_gravity="fill"
+                        android:layout_marginStart="@dimen/sign_up_text_margin_vertical"
+                        android:layout_marginTop="@dimen/sign_up_text_margin_top"
+                        android:text="@string/student_image"
+                        android:textSize="@dimen/sign_up_text_size" />
 
-            <ImageView
-                android:id="@+id/image_student"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:layout_columnSpan="2"
-                android:layout_gravity="left"
-                android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
-                tools:srcCompat="@tools:sample/avatars" />
+                    <ImageView
+                        android:id="@+id/image_student"
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:layout_columnSpan="2"
+                        android:layout_gravity="start"
+                        android:layout_marginTop="@dimen/sign_up_text_margin_top"
+                        android:layout_marginEnd="@dimen/sign_up_text_margin_vertical"
+                        tools:srcCompat="@tools:sample/avatars[4]" />
+
+                </GridLayout>
+
+            </android.support.v7.widget.CardView>
 
             <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/btn_signUp"
-                android:layout_columnSpan="3"
                 android:layout_gravity="fill"
                 android:layout_marginTop="@dimen/sign_up_text_margin_top"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/card_orange"
                 android:padding="15dp"
                 android:text="@string/action_sign_up"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
-        </GridLayout>
+        </LinearLayout>
 
     </ScrollView>
 

@@ -83,7 +83,7 @@
 
         <!-- 商品浏览 -->
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView_main"
+            android:id="@+id/recycler_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
