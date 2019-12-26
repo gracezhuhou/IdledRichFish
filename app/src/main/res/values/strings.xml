@@ -43,10 +43,11 @@
     <string name="action_cancel">取消</string>
     <string name="action_log_out">退出登录</string>
     <string name="action_comment">留言</string>
-    <string name="action_favorate">收藏</string>
+    <string name="action_favorite">收藏</string>
     <string name="action_go_message">联系卖家</string>
     <string name="action_delete">删除</string>
     <string name="action_edit">编辑</string>
+    <string name="action_buy">购买</string>
 
     <string name="invalid_student_id">不存在该学号</string>
     <string name="invalid_password">密码长度至少6位</string>

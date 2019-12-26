@@ -13,6 +13,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,7 +65,7 @@ public class ProductInfoActivity extends AppCompatActivity {
         initData();
         setHandler();
 
-
+        // 点击“收藏”
         final LinearLayout layout_favorate = findViewById(R.id.layout_favorate);
         layout_favorate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,17 +84,17 @@ public class ProductInfoActivity extends AppCompatActivity {
             }
         });
 
-        /*
-         * fab按钮监听
-         */
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        // 点击“联系卖家”
+        final Button button_message = findViewById(R.id.button_message);
+        button_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                intent.putExtra("product_id_extra", productId);
+                startActivity(intent);
+            }
+        });
+
     }
 
     /**
@@ -152,8 +153,8 @@ public class ProductInfoActivity extends AppCompatActivity {
     }
 
     /**
-     * 根据传入的product_id
      * 初始化界面: Product, Favorite
+     * 根据传入的product_id
      */
     private void initData() {
         Intent intent = getIntent();

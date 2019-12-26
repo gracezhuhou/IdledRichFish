@@ -188,7 +188,7 @@
                 android:layout_height="@dimen/product_button_height"
                 android:gravity="center"
                 android:background="@color/transparent"
-                android:text="@string/action_favorate"
+                android:text="@string/action_favorite"
                 android:textColor="@color/dark"
                 android:textSize="@dimen/product_button_text_size"/>
 

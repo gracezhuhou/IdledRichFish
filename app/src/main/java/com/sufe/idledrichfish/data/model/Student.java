@@ -1,5 +1,7 @@
 package com.sufe.idledrichfish.data.model;
 
+import java.util.List;
+
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
@@ -21,7 +23,7 @@ public class Student extends BmobUser {
 
     private float credit;
 
-    private BmobFile image;
+    private List<Byte> image;
 
     private BmobDate lastLoginDate;
 
@@ -60,11 +62,11 @@ public class Student extends BmobUser {
         this.credit = credit;
     }
 
-    public BmobFile getImage() {
+    public List<Byte> getImage() {
         return image;
     }
 
-    public void setImage(BmobFile image) {
+    public void setImage(List<Byte> image) {
         this.image = image;
     }
 
