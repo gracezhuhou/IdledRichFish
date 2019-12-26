@@ -11,11 +11,11 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_sign_up"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toorbar_height"
+        android:layout_height="@dimen/toolbar_height"
         android:background="@color/orange"
         android:theme="?attr/actionBarTheme"
         app:titleTextColor="@color/white"
-        app:title="@string/title_activity_sign_up"/>
+        app:title="@string/title_sign_up"/>
 
     <ScrollView
         android:layout_width="match_parent"

@@ -24,32 +24,32 @@ public class StudentDataSource {
     /**
      * 查询用户
      */
-    public void queryStudentForHome(String objectId, int position) {
-        BmobQuery<Student> bmobQuery = new BmobQuery<>();
-        bmobQuery.getObject(objectId, new QueryListener<Student>() {
-            @Override
-            public void done(Student student, BmobException e) {
-                Message msg = new Message();
-                Bundle b = new Bundle();
-                b.putInt("position", position);
-                if (e == null) {
-                    b.putString("id", student.getObjectId());
-                    b.putString("name", student.getName());
-                    b.putFloat("credit", student.getCredit());
-                    if (student.getImage() != null) {
-                        b.putString("image", student.getImage().getUrl());
-                    } else {
-                        b.putString("image", "");
-                    }
-                    msg.setData(b);
-                    HomeFragment.homeStudentHandler.sendMessage(msg);
-                    Log.i("BMOB", "Query Student Success");
-                } else {
-                    Log.e("BMOB", "Query Student Fail", e);
-                }
-            }
-        });
-    }
+//    public void queryStudentForHome(String objectId, int position) {
+//        BmobQuery<Student> bmobQuery = new BmobQuery<>();
+//        bmobQuery.getObject(objectId, new QueryListener<Student>() {
+//            @Override
+//            public void done(Student student, BmobException e) {
+//                Message msg = new Message();
+//                Bundle b = new Bundle();
+//                b.putInt("position", position);
+//                if (e == null) {
+//                    b.putString("id", student.getObjectId());
+//                    b.putString("name", student.getName());
+//                    b.putFloat("credit", student.getCredit());
+//                    if (student.getImage() != null) {
+//                        b.putString("image", student.getImage().getUrl());
+//                    } else {
+//                        b.putString("image", "");
+//                    }
+//                    msg.setData(b);
+//                    HomeFragment.homeStudentHandler.sendMessage(msg);
+//                    Log.i("BMOB", "Query Student Success");
+//                } else {
+//                    Log.e("BMOB", "Query Student Fail", e);
+//                }
+//            }
+//        });
+//    }
 
 
     /**

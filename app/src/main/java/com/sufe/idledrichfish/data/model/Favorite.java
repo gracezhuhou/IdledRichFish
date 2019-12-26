@@ -8,6 +8,7 @@ public class Favorite extends BmobObject {
 
     private Product product;
 
+
     public Student getStudent() {
         return student;
     }

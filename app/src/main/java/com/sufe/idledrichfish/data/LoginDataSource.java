@@ -39,18 +39,8 @@ public class LoginDataSource {
         else
             student.setGender("female");
         // todo: 图片
-//        File file = Tool.drawableToFile(R.drawable.user);
-//        BmobFile image = new BmobFile(file);
-//        student.setImage(image); // 默认
         student.setCredit(10);
         student.setLastLoginDate(new BmobDate(Tool.getNetTime()));
-        //获取图片
-//        String picPath = Environment.getExternalStorageDirectory().getPath() + "/cardPic.jpg";
-//        Bitmap pic= BitmapFactory.decodeFile(picPath);
-//        if (pic != null) {
-//            //把图片转换字节流
-//            byte[] images = img();
-//            card.setPicture(images);    //保存图片
 
         student.signUp(new SaveListener<Student>() {
             @Override

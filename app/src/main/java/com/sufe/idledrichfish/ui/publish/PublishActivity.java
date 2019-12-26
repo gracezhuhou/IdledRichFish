@@ -124,12 +124,12 @@ public class PublishActivity extends AppCompatActivity {
                 imageInfo.setBigImageUrl(path);
                 imageInfo.setThumbnailUrl(path);
                 imagesInfo.add(imageInfo);
-                Log.i("Image", path);
+                Log.i("ImageByte", path);
                 //System.out.println(_Uri.getPath());
             }
             nine_grid_view.setAdapter(new NineGridViewClickAdapter(this, imagesInfo));
         }
-        Log.i("Image", "Result Fail");
+        Log.i("ImageByte", "Result Fail");
     }
 
     /**

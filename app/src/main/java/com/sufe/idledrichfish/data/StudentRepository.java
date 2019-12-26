@@ -21,7 +21,7 @@ public class StudentRepository {
     }
 
     // 查询某用户信息
-    public void queryStudentForHome(String ObjectId, int position) {
-        dataSource.queryStudentForHome(ObjectId, position);
-    }
+//    public void queryStudentForHome(String ObjectId, int position) {
+//        dataSource.queryStudentForHome(ObjectId, position);
+//    }
 }
