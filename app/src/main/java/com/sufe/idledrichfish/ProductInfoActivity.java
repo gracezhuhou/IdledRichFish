@@ -2,7 +2,6 @@ package com.sufe.idledrichfish;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -41,7 +40,7 @@ public class ProductInfoActivity extends AppCompatActivity {
     private ImageView image_product;
     private ImageView image_seller;
     private ImageView icon_gender;
-    private ImageView icon_favorate;
+    private ImageView icon_favorite;
     private CardView card_new;
     private CardView card_cannot_bargain;
     private ConstraintLayout layout_seller;
@@ -70,15 +69,15 @@ public class ProductInfoActivity extends AppCompatActivity {
         layout_favorate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (icon_favorate.getTag().equals("favor")) {
+                if (icon_favorite.getTag().equals("favor")) {
                     Log.i("ProductInfo", "Remove Favorate");
-                    icon_favorate.setImageResource(R.drawable.ic_favorate_gray);
-                    icon_favorate.setTag("unfavor");
+                    icon_favorite.setImageResource(R.drawable.ic_favorate_gray);
+                    icon_favorite.setTag("unfavor");
                     FavoriteRepository.getInstance(new FavoriteDataSource()).removeFavorite(productId);
                 } else {
                     Log.i("ProductInfo", "Add Favorate");
-                    icon_favorate.setImageResource(R.drawable.ic_favorate_yellow);
-                    icon_favorate.setTag("favor");
+                    icon_favorite.setImageResource(R.drawable.ic_favorate_yellow);
+                    icon_favorite.setTag("favor");
                     FavoriteRepository.getInstance(new FavoriteDataSource()).saveFavorite(productId);
                 }
             }
@@ -91,6 +90,8 @@ public class ProductInfoActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                 intent.putExtra("product_id_extra", productId);
+                intent.putExtra("seller_id_extra", sellerId);
+                intent.putExtra("seller_name_extra", sellerName);
                 startActivity(intent);
             }
         });
@@ -159,7 +160,7 @@ public class ProductInfoActivity extends AppCompatActivity {
     private void initData() {
         Intent intent = getIntent();
         productId = intent.getStringExtra("product_id_extra");
-        ProductRepository.getInstance(new ProductDataSource()).queryProduct(productId);
+        ProductRepository.getInstance(new ProductDataSource()).queryProduct(productId, "productInfo");
         FavoriteRepository.getInstance(new FavoriteDataSource()).isFavorite(productId);
     }
 
@@ -218,8 +219,8 @@ public class ProductInfoActivity extends AppCompatActivity {
                             .withIcon(getResources().getDrawable(R.drawable.ic_fail))
                             .withEffect(Effectstype.SlideBottom)
                             .show();
-                    icon_favorate.setImageResource(R.drawable.ic_favorate_gray);
-                    icon_favorate.setTag("unfavor");
+                    icon_favorite.setImageResource(R.drawable.ic_favorate_gray);
+                    icon_favorite.setTag("unfavor");
                 }
             }
         };
@@ -236,8 +237,8 @@ public class ProductInfoActivity extends AppCompatActivity {
                             .withIcon(getResources().getDrawable(R.drawable.ic_fail))
                             .withEffect(Effectstype.SlideBottom)
                             .show();
-                    icon_favorate.setImageResource(R.drawable.ic_favorate_yellow);
-                    icon_favorate.setTag("favor");
+                    icon_favorite.setImageResource(R.drawable.ic_favorate_yellow);
+                    icon_favorite.setTag("favor");
                 }
             }
         };
@@ -247,11 +248,11 @@ public class ProductInfoActivity extends AppCompatActivity {
                 Bundle b = msg.getData();
                 if (b.getInt("errorCode") == 0) {
                     if (b.getBoolean("favorite")) {
-                        icon_favorate.setImageResource(R.drawable.ic_favorate_yellow);
-                        icon_favorate.setTag("favor");
+                        icon_favorite.setImageResource(R.drawable.ic_favorate_yellow);
+                        icon_favorite.setTag("favor");
                     } else {
-                        icon_favorate.setImageResource(R.drawable.ic_favorate_gray);
-                        icon_favorate.setTag("unfavor");
+                        icon_favorite.setImageResource(R.drawable.ic_favorate_gray);
+                        icon_favorite.setTag("unfavor");
                     }
                 }
             }
@@ -269,7 +270,7 @@ public class ProductInfoActivity extends AppCompatActivity {
         text_publish_date = findViewById(R.id.text_publish_date);
         image_product = findViewById(R.id.image_product);
         image_seller = findViewById(R.id.image_seller);
-        icon_favorate = findViewById(R.id.icon_favorate);
+        icon_favorite = findViewById(R.id.icon_favorate);
         icon_gender = findViewById(R.id.icon_gender);
         card_new = findViewById(R.id.card_new);
         card_cannot_bargain = findViewById(R.id.card_cannot_bargain);

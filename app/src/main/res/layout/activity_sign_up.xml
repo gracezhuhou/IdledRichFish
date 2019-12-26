@@ -15,7 +15,7 @@
         android:background="@color/orange"
         android:theme="?attr/actionBarTheme"
         app:titleTextColor="@color/white"
-        app:title="@string/title_activity_sign_up"/>
+        app:title="@string/title_sign_up"/>
 
     <ScrollView
         android:layout_width="match_parent"

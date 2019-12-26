@@ -70,11 +70,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void setToolbar() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
-        /*
-         * 返回键监听
-         */
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
+        }
+        // 返回键监听
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

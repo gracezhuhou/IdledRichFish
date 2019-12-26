@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        hideStatusBar(); // 全屏并且隐藏状态栏
+//        hideStatusBar(); // 全屏并且隐藏状态栏
 
         // 初始化BmobSDK
         Bmob.initialize(this, "a0ed5f46dbb3be388267b3726f33ca5c");

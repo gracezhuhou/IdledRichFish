@@ -212,7 +212,7 @@ public class MyFragment extends Fragment {
         button_log_out = view.findViewById(R.id.button_log_out);
         text_stu_name = view.findViewById(R.id.text_name);
         text_stu_number = view.findViewById(R.id.text_stuNumber);
-        layout_my_stu = view.findViewById(R.id.layout_myStudent);
+        layout_my_stu = view.findViewById(R.id.layout_my_info);
         toolbar = view.findViewById(R.id.toolbar);
         appBarLayout = view.findViewById(R.id.app_bar);
     }

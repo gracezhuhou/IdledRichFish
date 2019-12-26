@@ -33,8 +33,12 @@ public class ProductRepository {
                 labels, category, imagePath);
     }
 
-    public void queryProduct(String id){
-        dataSource.queryProduct(id);
+    public void queryProduct(String id, String type){
+        if (type.equals("productInfo")){
+            dataSource.queryProductAllInfo(id);
+        } else if (type.equals("chat")) {
+            dataSource.queryProductForChat(id);
+        }
     }
 
     public void queryProductsForHome(Boolean policy) {
