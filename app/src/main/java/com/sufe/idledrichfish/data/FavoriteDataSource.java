@@ -61,7 +61,7 @@ public class FavoriteDataSource {
         product.setObjectId(productId);
         query.addWhereEqualTo("student",new BmobPointer(student));
         query.addWhereEqualTo("product",new BmobPointer(product));
-        query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK); // 先从缓存获取数据，如果没有，再从网络获取
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY); // 网络
         query.findObjects(new FindListener<Favorite>() {
             @Override
             public void done(List<Favorite> objects, BmobException e) {
@@ -108,7 +108,7 @@ public class FavoriteDataSource {
         product.setObjectId(productId);
         query.addWhereEqualTo("student",new BmobPointer(student));
         query.addWhereEqualTo("product",new BmobPointer(product));
-        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY); // 只从网络获取数据，同时会在本地缓存数据
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY); // 网络
         query.findObjects(new FindListener<Favorite>() {
             @Override
             public void done(List<Favorite> objects, BmobException e) {
@@ -128,7 +128,7 @@ public class FavoriteDataSource {
                     b.putString("e", e.toString());
                 }
                 msg.setData(b);
-                ProductInfoActivity.isFavorateHandler.sendMessage(msg);
+                ProductInfoActivity.isFavoriteHandler.sendMessage(msg);
             }
         });
     }

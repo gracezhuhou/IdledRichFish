@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.sufe.idledrichfish.data.FavoriteDataSource;
@@ -51,7 +52,7 @@ public class ProductInfoActivity extends AppCompatActivity {
     static public Handler productInfoHandler;
     static public Handler addFavoriteHandler;
     static public Handler cancelFavoriteHandler;
-    static public Handler isFavorateHandler;
+    static public Handler isFavoriteHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,42 +60,16 @@ public class ProductInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_info);
 
         initView();
-
         setAppBar();
         initData();
         setHandler();
 
         // 点击“收藏”
-        final LinearLayout layout_favorate = findViewById(R.id.layout_favorate);
-        layout_favorate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (icon_favorite.getTag().equals("favor")) {
-                    Log.i("ProductInfo", "Remove Favorate");
-                    icon_favorite.setImageResource(R.drawable.ic_favorate_gray);
-                    icon_favorite.setTag("unfavor");
-                    FavoriteRepository.getInstance(new FavoriteDataSource()).removeFavorite(productId);
-                } else {
-                    Log.i("ProductInfo", "Add Favorate");
-                    icon_favorite.setImageResource(R.drawable.ic_favorate_yellow);
-                    icon_favorite.setTag("favor");
-                    FavoriteRepository.getInstance(new FavoriteDataSource()).saveFavorite(productId);
-                }
-            }
-        });
-
+        final LinearLayout layout_favorite = findViewById(R.id.layout_favorite);
+        layout_favorite.setOnClickListener(view -> clickFavorite());
         // 点击“联系卖家”
         final Button button_message = findViewById(R.id.button_message);
-        button_message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                intent.putExtra("product_id_extra", productId);
-                intent.putExtra("seller_id_extra", sellerId);
-                intent.putExtra("seller_name_extra", sellerName);
-                startActivity(intent);
-            }
-        });
+        button_message.setOnClickListener(view -> chat());
 
     }
 
@@ -190,6 +165,25 @@ public class ProductInfoActivity extends AppCompatActivity {
                     }
                     String publishDate = "发布于" + b.getString("publishDate");
                     text_publish_date.setText(publishDate);
+                    final ImageView image1_product = findViewById(R.id.image1_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image1")).into(image1_product);
+                    final ImageView image2_product = findViewById(R.id.image2_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image2")).into(image2_product);
+                    final ImageView image3_product = findViewById(R.id.image3_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image3")).into(image3_product);
+                    final ImageView image4_product = findViewById(R.id.image4_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image4")).into(image4_product);
+                    final ImageView image5_product = findViewById(R.id.image5_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image5")).into(image5_product);
+                    final ImageView image6_product = findViewById(R.id.image6_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image6")).into(image6_product);
+                    final ImageView image7_product = findViewById(R.id.image7_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image7")).into(image7_product);
+                    final ImageView image8_product = findViewById(R.id.image8_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image8")).into(image8_product);
+                    final ImageView image9_product = findViewById(R.id.image9_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image9")).into(image9_product);
+
                     // 卖家信息
                     sellerId = b.getString("sellerId");
                     sellerName = b.getString("sellerName");
@@ -201,7 +195,7 @@ public class ProductInfoActivity extends AppCompatActivity {
                     }
                     String lastLoginDate = "最晚" + b.getString("lastLoginDate") + "来过";
                     text_login_date.setText(lastLoginDate);
-
+                    Glide.with(getApplicationContext()).load(b.getByteArray("studentImage")).into(image_seller);
                 }
                 Log.i("Handler", "Query Products Info");
             }
@@ -219,7 +213,7 @@ public class ProductInfoActivity extends AppCompatActivity {
                             .withIcon(getResources().getDrawable(R.drawable.ic_fail))
                             .withEffect(Effectstype.SlideBottom)
                             .show();
-                    icon_favorite.setImageResource(R.drawable.ic_favorate_gray);
+                    icon_favorite.setImageResource(R.drawable.ic_favorite_gray);
                     icon_favorite.setTag("unfavor");
                 }
             }
@@ -237,21 +231,21 @@ public class ProductInfoActivity extends AppCompatActivity {
                             .withIcon(getResources().getDrawable(R.drawable.ic_fail))
                             .withEffect(Effectstype.SlideBottom)
                             .show();
-                    icon_favorite.setImageResource(R.drawable.ic_favorate_yellow);
+                    icon_favorite.setImageResource(R.drawable.ic_favorite_yellow);
                     icon_favorite.setTag("favor");
                 }
             }
         };
         // 根据是否收藏来设定图标
-        isFavorateHandler = new Handler() {
+        isFavoriteHandler = new Handler() {
             public void handleMessage (Message msg){
                 Bundle b = msg.getData();
                 if (b.getInt("errorCode") == 0) {
                     if (b.getBoolean("favorite")) {
-                        icon_favorite.setImageResource(R.drawable.ic_favorate_yellow);
+                        icon_favorite.setImageResource(R.drawable.ic_favorite_yellow);
                         icon_favorite.setTag("favor");
                     } else {
-                        icon_favorite.setImageResource(R.drawable.ic_favorate_gray);
+                        icon_favorite.setImageResource(R.drawable.ic_favorite_gray);
                         icon_favorite.setTag("unfavor");
                     }
                 }
@@ -275,6 +269,34 @@ public class ProductInfoActivity extends AppCompatActivity {
         card_new = findViewById(R.id.card_new);
         card_cannot_bargain = findViewById(R.id.card_cannot_bargain);
         layout_seller = findViewById(R.id.layout_seller);
+    }
+
+    /**
+     * 点击“收藏”
+     */
+    private void clickFavorite() {
+        if (icon_favorite.getTag().equals("favor")) {
+            Log.i("ProductInfo", "Remove Favorite");
+            icon_favorite.setImageResource(R.drawable.ic_favorite_gray);
+            icon_favorite.setTag("unfavor");
+            FavoriteRepository.getInstance(new FavoriteDataSource()).removeFavorite(productId);
+        } else {
+            Log.i("ProductInfo", "Add Favorite");
+            icon_favorite.setImageResource(R.drawable.ic_favorite_yellow);
+            icon_favorite.setTag("favor");
+            FavoriteRepository.getInstance(new FavoriteDataSource()).saveFavorite(productId);
+        }
+    }
+
+    /**
+     * 点击联系卖家
+     */
+    private void chat() {
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        intent.putExtra("product_id_extra", productId);
+        intent.putExtra("seller_id_extra", sellerId);
+        intent.putExtra("seller_name_extra", sellerName);
+        startActivity(intent);
     }
 }
 

@@ -43,9 +43,9 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_margin_horizontal"
-        android:layout_marginEnd="@dimen/card_margin_horizontal"
-        android:layout_marginTop="@dimen/card_margin_vertical"
+        android:layout_marginStart="@dimen/card_margin_hrz"
+        android:layout_marginEnd="@dimen/card_margin_hrz"
+        android:layout_marginTop="@dimen/card_margin_vtc"
         android:fillViewport="true">
 
         <LinearLayout
@@ -109,7 +109,7 @@
                 android:id="@+id/layout_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/card_margin_vertical"
+                android:layout_marginTop="@dimen/card_margin_vtc"
                 android:orientation="horizontal">
 
                 <CheckBox
@@ -121,8 +121,8 @@
                     android:textSize="@dimen/text_size"
                     android:gravity="center"
                     android:layout_marginStart="30dp"
-                    android:paddingTop="@dimen/publish_checkbox_padding_vertical"
-                    android:paddingBottom="@dimen/publish_checkbox_padding_vertical"
+                    android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                    android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                     android:textColor="@color/white"
                     android:background="@drawable/card_banana"
                     android:checked="false"/>
@@ -136,8 +136,8 @@
                     android:textSize="@dimen/text_size"
                     android:gravity="center"
                     android:layout_marginStart="40dp"
-                    android:paddingTop="@dimen/publish_checkbox_padding_vertical"
-                    android:paddingBottom="@dimen/publish_checkbox_padding_vertical"
+                    android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                    android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                     android:textColor="@color/white"
                     android:background="@drawable/card_banana"
                     android:checked="false"/>
@@ -150,10 +150,10 @@
                 android:id="@+id/layout_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/card_margin_horizontal"
-                android:paddingEnd="@dimen/card_margin_horizontal"
-                android:paddingTop="@dimen/card_margin_vertical"
-                android:paddingBottom="@dimen/card_margin_vertical"
+                android:paddingStart="@dimen/card_margin_hrz"
+                android:paddingEnd="@dimen/card_margin_hrz"
+                android:paddingTop="@dimen/card_margin_vtc"
+                android:paddingBottom="@dimen/card_margin_vtc"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -199,10 +199,10 @@
                 android:id="@+id/layout_tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/card_margin_horizontal"
-                android:paddingEnd="@dimen/card_margin_horizontal"
-                android:paddingTop="@dimen/card_margin_vertical"
-                android:paddingBottom="@dimen/card_margin_vertical"
+                android:paddingStart="@dimen/card_margin_hrz"
+                android:paddingEnd="@dimen/card_margin_hrz"
+                android:paddingTop="@dimen/card_margin_vtc"
+                android:paddingBottom="@dimen/card_margin_vtc"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -236,10 +236,10 @@
                 android:id="@+id/layout_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/card_margin_horizontal"
-                android:paddingEnd="@dimen/card_margin_horizontal"
-                android:paddingTop="@dimen/card_margin_vertical"
-                android:paddingBottom="@dimen/card_margin_vertical"
+                android:paddingStart="@dimen/card_margin_hrz"
+                android:paddingEnd="@dimen/card_margin_hrz"
+                android:paddingTop="@dimen/card_margin_vtc"
+                android:paddingBottom="@dimen/card_margin_vtc"
                 android:orientation="horizontal">
 
                 <ImageView

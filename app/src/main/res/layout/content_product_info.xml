@@ -34,7 +34,6 @@
                 android:id="@+id/text_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/price_symbol"
                 android:textColor="@color/red"
                 android:textSize="23sp"
                 android:textStyle="bold"
@@ -44,7 +43,6 @@
                 android:id="@+id/text_old_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/price_symbol"
                 android:textColor="@color/dark"
                 android:textSize="18sp"
                 android:layout_marginStart="15dp"
@@ -110,10 +108,49 @@
             android:layout_marginBottom="5dp" />
 
         <ImageView
-            android:id="@+id/image_product"
+            android:id="@+id/image1_product"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            app:srcCompat="@drawable/product_example_coat"/>
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image2_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image3_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image4_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image5_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image6_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image7_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image8_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/image9_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/text_publish_date"

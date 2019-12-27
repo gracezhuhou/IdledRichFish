@@ -367,7 +367,7 @@ public class HomeFragment extends Fragment {
                                 bundle.getString("sellerId"),
                                 bundle.getString("sellerName"),
                                 bundle.getFloat("credit"),
-                                bundle.getByteArray("productImage"));
+                                bundle.getByteArray("studentImage"));
 //                        Product product = new Product();
 //                        product.setObjectId(bundle.getString("objectId"));
 //                        product.setName(bundle.getString("name"));

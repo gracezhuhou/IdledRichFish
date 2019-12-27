@@ -39,17 +39,16 @@
                 tools:ignore="MissingConstraints">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/image_student"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginBottom="20dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="40dp"
-                    circleimageview:civ_border_color="@android:color/white"
-                    circleimageview:civ_border_overlay="true"
-                    circleimageview:civ_border_width="2dp"
-                    android:src="@drawable/head" />
+                    android:src="@drawable/head"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="2dp"/>
 
                 <LinearLayout
                     android:id="@+id/layout_stu_info"
