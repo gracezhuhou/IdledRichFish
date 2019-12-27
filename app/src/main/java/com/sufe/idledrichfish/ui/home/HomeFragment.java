@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 import com.sufe.idledrichfish.R;
+import com.sufe.idledrichfish.SearchActivity;
 import com.sufe.idledrichfish.data.ProductDataSource;
 
 import java.io.File;
@@ -31,7 +33,11 @@ import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jude.rollviewpager.RollPagerView;
@@ -40,6 +46,8 @@ import com.sufe.idledrichfish.data.ProductRepository;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.publish.PublishActivity;
+
+import static cn.bmob.v3.Bmob.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,12 +73,27 @@ public class HomeFragment extends Fragment {
     private RollPagerView mRollViewPager;
     private ImageView icon_search;
     private ImageView icon_publish;
+    private Button imageButton_catogory_book;
 
     private GridLayoutManager layoutManager;
     private HomeRecyclerViewAdapter productsRecyclerAdapter;
     private List<Product> products;
     static public Handler homeProductsHandler;
     static public Handler homeStudentHandler;
+
+    private Context mContext;
+    private SearchBox sbSearch;
+    private TextView tvBottom;
+    //数据列表
+    private List<Product> listSearch;
+    //结果列表
+    private List<Product> listResult;
+    private ListView mSearchResult ;
+    private SearchBox.SearchAdapter mResultAdapter ;
+
+    private ListView mHistory ;
+    //private SearchBox.HistoryAdapter mHistoryAdapter;
+
 
 
     public HomeFragment() {
@@ -108,11 +131,13 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         search_box = view.findViewById(R.id.search_box);
+        mSearchResult = view.findViewById(R.id.content_lis_search);
         layout_refresh = view.findViewById(R.id.layout_refresh);
         mRecyclerView = view.findViewById(R.id.recycler_home);
         mRollViewPager = view.findViewById(R.id.roll_view_pager);
         icon_search = view.findViewById(R.id.icon_search);
         icon_publish = view.findViewById(R.id.icon_publish);
+        imageButton_catogory_book = view.findViewById(R.id.imageButton_catogory_book);
 
         setRecycler(); // 商品浏览
         setRefresh(); // 下拉刷新& 上拉加载
@@ -125,6 +150,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), PublishActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imageButton_catogory_book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 跳转至搜索页面
+                Intent intent = new Intent(getContext(), SearchActivity.class);
                 startActivity(intent);
             }
         });
@@ -264,6 +298,13 @@ public class HomeFragment extends Fragment {
     /**
      * 搜索框
      */
+    private void initData() {
+        //本地可供检索数据获取,每次resume就要重新渲染
+        listSearch = new ArrayList<>();
+        ProductRepository.getInstance(new ProductDataSource()).queryProductsForHome(false);
+    }
+
+
     private void setSearch() {
         search_box.enableVoiceRecognition(this);
         search_box.post(new Runnable() {
@@ -314,15 +355,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSearchTermChanged(String searchTerm) {
                 //React to the search term changing
-
-
                 //Called after it has updated results
+                search(searchTerm);
             }
 
             @Override
             public void onSearch(String searchTerm) {
                 Toast.makeText(getContext(), searchTerm +" Searched", Toast.LENGTH_LONG).show();
-
+                search(searchTerm);
             }
 
             @Override
@@ -339,6 +379,32 @@ public class HomeFragment extends Fragment {
 
         });
     }
+    private void search(String newText){
+
+        //若搜索内容为空
+        if(newText.isEmpty()){
+            listResult.clear();
+        }
+        else{
+
+            for (Product product : listSearch) {//开始搜索
+                //搜索内容搜索到相关
+                if (product.getName().contains(newText) || product.getDescription().contains(newText)) {
+
+                    if(listResult.indexOf(product)==-1) {//且 结果集内不含有此内容
+                        listResult.add(product);
+                    }
+                }else{
+                    //搜索内容搜索不到相关 检测是否之前有加入结果集 有则删除
+                    if(listResult.indexOf(product)!=-1) {
+                        listResult.remove(product);
+                    }
+                }
+            }
+        }
+        mResultAdapter.notifyDataSetChanged();
+    }
+
 
     /**
      * 获取RecyclerView所需商品数据
@@ -407,6 +473,11 @@ public class HomeFragment extends Fragment {
         };
     }
 
+    private void goToActivity(Class c) {
+        Intent intent = new Intent(getApplicationContext(), c);
+        startActivity(intent);
+    }
+
 }
 
 /**
@@ -434,4 +505,5 @@ class TestNormalAdapter extends StaticPagerAdapter {
         return imgs.length;
     }
 }
+
 
