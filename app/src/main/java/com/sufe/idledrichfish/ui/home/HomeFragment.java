@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
+import com.sufe.idledrichfish.MoreActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
@@ -37,7 +39,6 @@ import cn.bmob.v3.datatype.BmobFile;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -69,6 +70,7 @@ public class HomeFragment extends Fragment {
     static public Handler homeProductsHandler;
     static public Handler homeStudentHandler;
 
+    private Button More_Button;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -98,6 +100,8 @@ public class HomeFragment extends Fragment {
 
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -110,6 +114,7 @@ public class HomeFragment extends Fragment {
         mRollViewPager = view.findViewById(R.id.roll_view_pager);
         icon_search = view.findViewById(R.id.icon_search);
         icon_publish = view.findViewById(R.id.icon_publish);
+        More_Button = view.findViewById(R.id.imageButton_catogory_more);
 
         setRecycler(); // 商品浏览
         setRefresh(); // 下拉刷新& 上拉加载
@@ -122,6 +127,19 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), PublishActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        /*
+         * 点击更多按钮
+         */
+        More_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 跳转至更多类别页面
+                Intent intent = new Intent(getContext(), MoreActivity.class);
                 startActivity(intent);
             }
         });
@@ -430,5 +448,6 @@ class TestNormalAdapter extends StaticPagerAdapter {
     public int getCount() {
         return imgs.length;
     }
+
 }
 

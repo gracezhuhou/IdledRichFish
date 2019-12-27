@@ -41,6 +41,7 @@
 
         <activity android:name=".ui.myPublish.MyPublishActivity" />
         <activity android:name=".ui.myFavorite.MyFavoriteActivity" />
+        <activity android:name=".MoreActivity" />
         <activity
             android:name=".ProductInfoActivity"
             android:label="@string/title_activity_product_view"
