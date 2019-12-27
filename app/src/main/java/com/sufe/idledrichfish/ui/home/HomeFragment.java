@@ -15,11 +15,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.jude.rollviewpager.RollPagerView;
+import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.ProductDataSource;
+import com.sufe.idledrichfish.data.ProductRepository;
+import com.sufe.idledrichfish.data.model.Product;
+import com.sufe.idledrichfish.data.model.Student;
+import com.sufe.idledrichfish.ui.publish.PublishActivity;
 
 import java.util.ArrayList;
 import java.util.List;
