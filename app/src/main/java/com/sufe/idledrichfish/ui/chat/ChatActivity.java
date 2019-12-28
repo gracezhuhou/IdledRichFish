@@ -98,7 +98,7 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
             public void onClick(View v) {
                 String content = mInputEdit.getText().toString().trim();
                 if (!TextUtils.isEmpty(content)) {
-//                ...//环信部分的发送消息
+//                  环信部分的发送消息
                     Msg msg = new Msg(content, Msg.TYPE_SEND);
                     mList.add(msg);
                     adapter = new MsgAdapter((List<Msg>) mList);
@@ -138,8 +138,7 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
      * 初始化会话对象，并且根据需要加载更多消息
      */
     private void initConversation() {
-
-        /**
+        /*
          * 初始化会话对象，这里有三个参数么，
          * 第一个表示会话的当前聊天的 useranme 或者 groupid
          * 第二个是绘画类型可以为空

@@ -67,7 +67,7 @@ public class PublishActivity extends AppCompatActivity {
     private CheckBox checkbox_cannot_bargain;
     private NineGridView nine_grid_view;
 
-    private double price;
+    private double price = 0;
     private double oldPrice;
     private BmobRelation tabs;
     private ArrayList<ImageInfo> imagesInfo;
@@ -99,12 +99,11 @@ public class PublishActivity extends AppCompatActivity {
         NineGridView.setImageLoader(new GlideImageLoader());
         imagesInfo = new ArrayList<>();
 
-
         choosePhoto();
 
         setHandler();
         setPublishForm(); // 格式监听
-        setFormListner(); // 按键监听
+        setFormListener(); // 按键监听
 
     }
 
@@ -266,10 +265,8 @@ public class PublishActivity extends AppCompatActivity {
     /**
      * 表单按键监听
      */
-    private void setFormListner() {
-        /*
-         * 选中or取消选中“全新”&“不讲价”
-         */
+    private void setFormListener() {
+        // 选中or取消选中“全新”&“不讲价”
         checkbox_is_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -298,9 +295,7 @@ public class PublishActivity extends AppCompatActivity {
             }
         });
 
-        /*
-         * 点击价格栏，弹出Dialog
-         */
+        // 点击价格栏，弹出Dialog
         layout_price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -336,9 +331,7 @@ public class PublishActivity extends AppCompatActivity {
             }
         });
 
-        /*
-         * 点击发布Button
-         */
+        // 点击发布Button
         button_publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -355,9 +348,7 @@ public class PublishActivity extends AppCompatActivity {
             }
         });
 
-        /*
-         * 点击取消，返回Home
-         */
+        // 点击取消，返回Home
         final Button button_cancel = findViewById(R.id.button_cancel);
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -391,7 +382,7 @@ public class PublishActivity extends AppCompatActivity {
 }
 
 
-/*
+/**
  * 自定义弹出的价格Dialog
  */
 class PriceDialog extends Dialog {
