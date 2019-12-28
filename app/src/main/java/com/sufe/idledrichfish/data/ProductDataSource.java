@@ -5,7 +5,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.google.common.primitives.Bytes;
-import com.sufe.idledrichfish.ChatActivity;
+import com.sufe.idledrichfish.ui.chat.ChatActivity;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.data.model.Product;

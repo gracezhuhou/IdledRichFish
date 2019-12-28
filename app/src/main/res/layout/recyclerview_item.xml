@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_alignParentLeft="true"
+        android:id="@+id/ll_msg_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:padding="2dp">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/from_person_avator"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/user" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@color/ash"
+            android:orientation="horizontal">
+            <TextView
+                android:singleLine="false"
+                android:layout_marginLeft="60dp"
+                android:id="@+id/tv_msg_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_alignParentRight="true"
+        android:id="@+id/ll_msg_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@color/zhihu_bottom_toolbar_apply_text_disable"
+            android:orientation="horizontal">
+
+            <TextView
+                android:singleLine="false"
+                android:layout_marginLeft="35dp"
+                android:id="@+id/tv_msg_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="70dp"
+                android:textColor="#000000" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/user" />
+
+    </LinearLayout>
+</RelativeLayout>

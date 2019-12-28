@@ -23,16 +23,15 @@ public class PublishViewModel extends ViewModel {
         return publishFormState;
     }
 
-    public void saveProduct(String productName, String description, boolean isNew, boolean canBargain,
+    void saveProduct(String productName, String description, boolean isNew, boolean canBargain,
                             double price, double oldPrice, BmobRelation labels, String category,
                             List<String> imagePath) {
         // can be launched in a separate asynchronous job
         productRepository.saveProduct(productName, description, isNew, canBargain, price,
                 oldPrice, labels, category, imagePath);
-
     }
 
-    public void publishDataChanged(String productName, String description, double price,
+    void publishDataChanged(String productName, String description, double price,
                                    BmobRelation labels, String category) {
         if (!(isProductNameValid(productName))) {
             publishFormState.setValue(new PublishFormState(R.string.invalid_product_name, null,
@@ -56,20 +55,22 @@ public class PublishViewModel extends ViewModel {
 
     // validation check
     private boolean isProductNameValid(String productName) {
-        return productName != null;
+        return productName != null && !productName.equals("");
     }
 
     private boolean isDescriptionValid(String description) {
-        return description != null;
+        return description != null && !description.equals("");
     }
 
     private boolean isPriceValid(double price) {
-        return price != 0;
+        return price != 0.0;
     }
+
     private boolean isLabelsValid(BmobRelation labels) {
         return labels != null;
     }
+
     private boolean isCategoryValid(String category) {
-        return category != null;
+        return category != null && !category.equals("");
     }
 }
