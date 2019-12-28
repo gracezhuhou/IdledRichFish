@@ -1,4 +1,4 @@
-package com.sufe.idledrichfish;
+package com.sufe.idledrichfish.ui.chat;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -6,13 +6,15 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.sufe.idledrichfish.R;
+
 import java.util.List;
 
 public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
 
-    private List<MSG> mMsgList;
+    private List<Msg> mMsgList;
 
-    public MsgAdapter(List<MSG> mMsgList) {
+    public MsgAdapter(List<Msg> mMsgList) {
         this.mMsgList = mMsgList;
     }
 
@@ -26,13 +28,13 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        MSG msg = mMsgList.get(position);
-        if (msg.getType() == MSG.TYPE_RECEIVED) {
+        Msg msg = mMsgList.get(position);
+        if (msg.getType() == Msg.TYPE_RECEIVED) {
             //如果是收到的消息，显示左边布局，隐藏右边布局
             holder.llLeft.setVisibility(View.VISIBLE);
             holder.llRight.setVisibility(View.GONE);
             holder.tv_Left.setText(msg.getContent());
-        } else if (msg.getType() == MSG.TYPE_SEND) {
+        } else if (msg.getType() == Msg.TYPE_SEND) {
             //如果是发送的消息，显示右边布局，隐藏左边布局
             holder.llLeft.setVisibility(View.GONE);
             holder.llRight.setVisibility(View.VISIBLE);

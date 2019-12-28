@@ -5,11 +5,11 @@ import android.os.Message;
 import android.util.Log;
 
 import com.google.common.primitives.Bytes;
-import com.sufe.idledrichfish.ChatActivity;
 import com.sufe.idledrichfish.OrderInfoActivity;
 import com.sufe.idledrichfish.data.model.Order;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
+import com.sufe.idledrichfish.ui.chat.ChatActivity;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;

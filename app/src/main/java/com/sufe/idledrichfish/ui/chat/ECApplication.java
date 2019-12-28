@@ -1,4 +1,4 @@
-package com.sufe.idledrichfish;
+package com.sufe.idledrichfish.ui.chat;
 
 import android.app.ActivityManager;
 import android.app.Application;
