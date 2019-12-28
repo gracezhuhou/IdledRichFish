@@ -89,7 +89,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         // 显示卖家信息
         holder.text_seller_name.setText(product.getSellerName());
         holder.text_seller_credit.setText(String.valueOf(product.getCredit()));
-        Glide.with(holder.context).load(product.getSellerImage()).into(holder.image_product);
+        Glide.with(holder.context).load(product.getSellerImage()).into(holder.image_seller);
 
 
         // 点击跳转至商品详细界面

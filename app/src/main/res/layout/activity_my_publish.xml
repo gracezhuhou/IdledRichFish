@@ -14,7 +14,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="我买到的"
+        app:title="我发布的"
         app:titleTextColor="@color/white"
         app:titleMarginStart="165dp"/>
 

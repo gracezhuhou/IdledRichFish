@@ -10,6 +10,8 @@ import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.login.LoginActivity;
 
+import java.util.List;
+
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
@@ -26,10 +28,10 @@ import static cn.bmob.v3.Bmob.getApplicationContext;
  */
 public class LoginDataSource {
 
-    /*
+    /**
      * 用户注册
      */
-    public void signUp(String studentNumber, String name, String password, boolean gender, String imagePath) {
+    void signUp(String studentNumber, String name, String password, boolean gender, String imagePath) {
         Student student = new Student();
         student.setUsername(studentNumber);
         student.setName(name);
@@ -38,7 +40,9 @@ public class LoginDataSource {
             student.setGender("male");
         else
             student.setGender("female");
-        // todo: 图片
+        if (imagePath != null) {
+            student.setImage(Tool.file2List(imagePath));
+        }
         student.setCredit(10);
         student.setLastLoginDate(new BmobDate(Tool.getNetTime()));
 
@@ -61,15 +65,14 @@ public class LoginDataSource {
                     SignUpActivity.signUpHandler.sendMessage(msg);
                     Log.e("BMOB", "Sign Up Fail", e);
                 }
-
             }
         });
     }
 
-    /*
+    /**
      * 学号密码登录
      */
-    public void login(String stuNumber, String password) {
+    void login(String stuNumber, String password) {
         final Student user = new Student();
         //此处替换为你的用户名
         user.setUsername(stuNumber);
@@ -96,19 +99,18 @@ public class LoginDataSource {
         });
     }
 
-    /*
+    /**
      * 查询用户是否已注册
      */
-    public boolean isLoggedIn() {
+    boolean isLoggedIn() {
         return Student.isLogin();
     }
 
-    /*
+    /**
      * 用户登出
      */
-    public void logOut() {
+    void logOut() {
         Student.logOut();
     }
-
 
 }

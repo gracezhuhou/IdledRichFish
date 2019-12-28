@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@color/white"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout
@@ -158,7 +159,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_favorate"
+            android:id="@+id/layout_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -171,7 +172,7 @@
                 android:padding="5dp"
                 android:tag="favor"
                 android:background="@color/transparent"
-                android:src="@drawable/ic_favorate_gray"/>
+                android:src="@drawable/ic_favorite_gray"/>
 
             <Button
                 android:layout_width="@dimen/product_button_width"

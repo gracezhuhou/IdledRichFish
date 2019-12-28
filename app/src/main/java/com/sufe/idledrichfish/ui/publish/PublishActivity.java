@@ -75,7 +75,7 @@ public class PublishActivity extends AppCompatActivity {
 
     private PublishViewModel publishViewModel;
     private final int REQUEST_CODE_CHOOSE_PHOTO_ALBUM = 1;
-    static public Handler publishmentHandler;
+    static public Handler publishHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +117,7 @@ public class PublishActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_CHOOSE_PHOTO_ALBUM && resultCode == RESULT_OK) {
             // 图片路径 根据requestCode
             pathList = Matisse.obtainPathResult(data);
-            for (String path : pathList)
-            {
+            for (String path : pathList) {
 //                String path = uri.getPath();
                 ImageInfo imageInfo = new ImageInfo();
                 imageInfo.setBigImageUrl(path);
@@ -169,7 +168,7 @@ public class PublishActivity extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     private void setHandler() {
         // 获取Bmob返回的注册ErrorCode
-        publishmentHandler = new Handler() {
+        publishHandler = new Handler() {
             public void handleMessage(Message msg) {
                 int errorCode = msg.getData().getInt("errorCode");
                 Log.i("Handler", "Error Code " + errorCode);
