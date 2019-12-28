@@ -76,4 +76,6 @@ dependencies {
     // 工具类
     implementation("com.google.guava:guava:28.1-android")
     implementation 'com.android.support:multidex:1.0.3'
+    //环信
+    implementation 'com.hyphenate:hyphenate-sdk:3.6.1'
 }
