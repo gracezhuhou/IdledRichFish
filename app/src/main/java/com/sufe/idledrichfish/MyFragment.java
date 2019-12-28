@@ -1,13 +1,29 @@
 package com.sufe.idledrichfish;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.sufe.idledrichfish.data.LoginDataSource;
+import com.sufe.idledrichfish.data.LoginRepository;
+import com.sufe.idledrichfish.data.model.Student;
+import com.sufe.idledrichfish.ui.login.LoginActivity;
+import com.sufe.idledrichfish.ui.myFavorite.MyFavoriteActivity;
+import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,16 +34,21 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class MyFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    // Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private Button button_my_publish;
+    private Button button_log_out;
+    private TextView text_stu_name;
+    private TextView text_stu_number;
+    private LinearLayout layout_my_stu;
+    private Toolbar toolbar;
+    private AppBarLayout appBarLayout;
 
     public MyFragment() {
         // Required empty public constructor
@@ -36,17 +57,14 @@ public class MyFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
      * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment MyFragment.
      */
-    // TODO: Rename and change types and number of parameters
+    // Rename and change types and number of parameters
     public static MyFragment newInstance(String param1, String param2) {
         MyFragment fragment = new MyFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,7 +74,6 @@ public class MyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -64,10 +81,64 @@ public class MyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my, container, false);
+        super.onActivityCreated(savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_my, container, false);
+
+        initView(view);
+
+        setAppBar();
+
+        // 显示账户信息
+        Student student = Student.getCurrentUser(Student.class);
+        text_stu_name.setText(student.getName());
+        String numberText = "No." + student.getUsername();
+        text_stu_number.setText(numberText);
+        // todo: image
+
+        /*
+         * 点击登出按钮
+         */
+        button_log_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 登出
+                LoginRepository.getInstance(new LoginDataSource()).logout();
+                // 跳转至登录界面
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+                Objects.requireNonNull(getActivity()).finish();
+            }
+        });
+
+        /*
+         * 点击“我发布的”
+         */
+        button_my_publish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 跳转至“我发布的”界面
+                Intent intent = new Intent(getContext(), MyPublishActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /*
+         * 点击“我收藏的”
+         */
+        final Button button_my_favorite = view.findViewById(R.id.button_my_favorite);
+        button_my_favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 跳转至“我收藏的”界面
+                Intent intent = new Intent(getContext(), MyFavoriteActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -96,13 +167,54 @@ public class MyFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+        // Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    /**
+     * 设置AppBar
+     * AppBar的折叠效果
+     */
+    private void setAppBar() {
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                Log.d("STATE", state.name());
+                if( state == State.EXPANDED ) {
+                    //展开状态
+                    layout_my_stu.setVisibility(View.VISIBLE);
+                }else if(state == State.COLLAPSED){
+                    //折叠状态
+                    layout_my_stu.setVisibility(View.INVISIBLE);
+                }else {
+                    //中间状态
+                    layout_my_stu.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                float alpha = ((float)128 + (float)i) / (float)128; // todo:128?
+                layout_my_stu.setAlpha(alpha);
+                Log.i("AppBar", String.valueOf(i));
+            }
+        });
+    }
+
+    private void initView(View view) {
+        button_my_publish = view.findViewById(R.id.button_my_publish);
+        button_log_out = view.findViewById(R.id.button_log_out);
+        text_stu_name = view.findViewById(R.id.text_name);
+        text_stu_number = view.findViewById(R.id.text_stuNumber);
+        layout_my_stu = view.findViewById(R.id.layout_my_info);
+        toolbar = view.findViewById(R.id.toolbar);
+        appBarLayout = view.findViewById(R.id.app_bar);
+    }
 }
+

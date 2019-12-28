@@ -1,7 +1,5 @@
 package com.sufe.idledrichfish.data;
 
-import com.sufe.idledrichfish.data.model.LoggedInUser;
-
 /**
  * Class that requests authentication and user information from the remote data source and
  * maintains an in-memory cache of login status and user credentials information.
@@ -11,10 +9,6 @@ public class LoginRepository {
     private static volatile LoginRepository instance;
 
     private LoginDataSource dataSource;
-
-    // If user credentials will be cached in local storage, it is recommended it be encrypted
-    // @see https://developer.android.com/training/articles/keystore
-    private LoggedInUser user = null;
 
     // private constructor : singleton access
     private LoginRepository(LoginDataSource dataSource) {
@@ -28,27 +22,24 @@ public class LoginRepository {
         return instance;
     }
 
+    // 登录
+    public void login(String username, String password) {
+        dataSource.login(username, password);
+    }
+
+    // 是否登录
     public boolean isLoggedIn() {
-        return user != null;
+        return dataSource.isLoggedIn();
     }
 
+    // 注册
+    public void signUp(String studentNumber, String name, String password, boolean gender, String imagePath) {
+        dataSource.signUp(studentNumber, name, password, gender, imagePath);
+    }
+
+    // 登出
     public void logout() {
-        user = null;
-        dataSource.logout();
+        dataSource.logOut();
     }
 
-    private void setLoggedInUser(LoggedInUser user) {
-        this.user = user;
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
-    }
-
-    public Result<LoggedInUser> login(String username, String password) {
-        // handle login
-        Result<LoggedInUser> result = dataSource.login(username, password);
-        if (result instanceof Result.Success) {
-            setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
-        }
-        return result;
-    }
 }

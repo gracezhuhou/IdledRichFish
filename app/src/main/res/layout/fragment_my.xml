@@ -1,94 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blue"
     tools:context=".MyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <android.support.constraint.ConstraintLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="61dp" />
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar" >
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/layout_my_info"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:src="@tools:sample/avatars" />
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="119dp"
-                android:layout_height="wrap_content"
-                android:text="CC"
-                tools:layout_editor_absoluteX="196dp"
-                tools:layout_editor_absoluteY="16dp" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/image_student"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="40dp"
+                    circleimageview:civ_border_color="@android:color/white"
+                    circleimageview:civ_border_overlay="true"
+                    circleimageview:civ_border_width="2dp"
+                    android:src="@drawable/head" />
 
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layout_stu_info"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="60dp"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="0dp"
+                    android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/linearLayout_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="160dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                    <TextView
+                        android:id="@+id/text_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:text="@string/loading" />
 
-            <!-- 发布 -->
-            <Button
-                android:id="@+id/imageButton_catogory_book"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_example"
-                android:text="我发布的" />
+                    <TextView
+                        android:id="@+id/text_stuNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:text="No." />
+                </LinearLayout>
+            </LinearLayout>
 
-            <!-- 卖出 -->
-            <Button
-                android:id="@+id/imageButton_catogory_makeup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_example"
-                android:text="我卖出的" />
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-            <!-- 买到 -->
-            <Button
-                android:id="@+id/imageButton_catogory_clothes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_example"
-                android:text="我买到的" />
+    </android.support.design.widget.AppBarLayout>
 
-            <!-- 收藏 -->
-            <Button
-                android:id="@+id/imageButton_catogory_digital"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_example"
-                android:text="我收藏的" />
+    <include layout="@layout/content_my" />
 
-        </LinearLayout>
-
-    </android.support.constraint.ConstraintLayout>
-
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

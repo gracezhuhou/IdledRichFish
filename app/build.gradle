@@ -10,14 +10,16 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        multiDexEnabled true
+
         manifestPlaceholders = [
-                GETUI_APP_ID : "GMhWv0aPCY7mZeLdZgLWT5",
-                GETUI_APP_KEY : "3IV4Bw9g027C0Q82YB45E",
-                GETUI_APP_SECRET : "g5p0Lq6PrF6AfqPbFVAp4"
+                GETUI_APP_ID    : "GMhWv0aPCY7mZeLdZgLWT5",
+                GETUI_APP_KEY   : "3IV4Bw9g027C0Q82YB45E",
+                GETUI_APP_SECRET: "g5p0Lq6PrF6AfqPbFVAp4"
         ]
 
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86_64","x86"
+            abiFilters "armeabi", "armeabi-v7a", "x86_64", "x86"
         }
     }
     buildTypes {
@@ -25,6 +27,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    useLibrary 'org.apache.http.legacy'
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
 }
 
@@ -42,8 +49,31 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation 'org.litepal.android:java:3.0.0'
+    // implementation 'org.litepal.android:java:3.0.0'
     implementation 'com.getui:sdk:2.12.5.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.getui:sdk:2.13.3.0'
+    // Bmob
+    implementation 'cn.bmob.android:bmob-sdk:3.7.3-rc1'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.2"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'com.squareup.okio:okio:2.1.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+    // UI框架
+    implementation 'in.srain.cube:ptr-load-more:1.0.6'
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.jude:rollviewpager:1.2.9'
+    implementation 'com.github.bumptech.glide:glide:4.7.1' // glide加载图片
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'de.hdodenhof:circleimageview:2.1.0' // 圆形头像
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0' // Loading动画
+    implementation 'com.daimajia.swipelayout:library:1.2.0@aar' // 滑动删除
+    implementation 'com.quinny898.library.persistentsearch:library:1.1.0-SNAPSHOT' // 搜索框
+    implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3' // 弹出框
+    implementation 'com.zhihu.android:matisse:0.5.2-beta2' // 本地图像选择器
+    implementation 'com.lzy.widget:ninegridview:0.2.0' // 九宫格图像控件
+    // 工具类
+    implementation("com.google.guava:guava:28.1-android")
+    implementation 'com.android.support:multidex:1.0.3'
 }
