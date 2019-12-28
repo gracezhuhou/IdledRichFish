@@ -37,14 +37,6 @@ import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.jude.rollviewpager.RollPagerView;
-import com.jude.rollviewpager.adapter.StaticPagerAdapter;
-import com.sufe.idledrichfish.data.ProductRepository;
-import com.sufe.idledrichfish.ui.publish.PublishActivity;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
