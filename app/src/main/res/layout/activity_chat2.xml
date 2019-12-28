@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="#404040"
+        android:id="@+id/bt_xx"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:textColor="#ffffff"
+            android:text="username"
+            android:textSize="18sp"
+            android:id="@+id/bt_name"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:background="@drawable/user"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/ec_layout_input"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:background="#A2CD5A"
+            android:id="@+id/ec_btn_send"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:text="发送"/>
+
+        <EditText
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:textColorHint="	#CCCCCC"
+            android:textColor="	#CCCCCC"
+            android:textSize="16sp"
+            android:hint="请输入消息内容"
+            android:layout_centerVertical="true"
+            android:background="@android:drawable/edit_text"
+            android:id="@+id/ec_edit_message_input"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/ec_btn_send"/>
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/bt_xx"
+        android:layout_above="@id/ec_layout_input"
+        android:id="@+id/mRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>
