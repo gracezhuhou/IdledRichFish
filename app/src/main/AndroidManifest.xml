@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.tag.TagActivity"></activity>
 
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
@@ -37,9 +38,9 @@
                 android:resource="@xml/photo_path" />
         </provider>
 
-        <activity android:name=".OrderInfoActivity"/>
-        <activity android:name=".ChatActivity"/>
-        <activity android:name=".ui.publish.PublishActivity"/>
+        <activity android:name=".OrderInfoActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".ui.publish.PublishActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ui.myPublish.MyPublishActivity" />
         <activity android:name=".ui.myFavorite.MyFavoriteActivity" />
@@ -51,6 +52,7 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

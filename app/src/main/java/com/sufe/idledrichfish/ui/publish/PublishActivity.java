@@ -36,7 +36,7 @@ import com.lzy.ninegrid.NineGridView;
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter;
 import com.sufe.idledrichfish.GlideImageEngine;
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.data.model.Tab;
+import com.sufe.idledrichfish.data.model.Tag;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -86,15 +86,15 @@ public class PublishActivity extends AppCompatActivity {
 
         // todo: labels和category 暂用例子
         text_category.setText("其他");
-        Tab tab = new Tab();
-        tab.setObjectId("QOjbEEEF");
-        tab.setName("高数");
-        Tab tab2 = new Tab();
-        tab2.setObjectId("u3ckAAAE");
-        tab.setName("数学");
+        Tag tag = new Tag();
+        tag.setObjectId("QOjbEEEF");
+        tag.setName("高数");
+        Tag tag2 = new Tag();
+        tag2.setObjectId("u3ckAAAE");
+        tag.setName("数学");
         tabs = new BmobRelation();
-        tabs.add(tab);
-        tabs.add(tab2);
+        tabs.add(tag);
+        tabs.add(tag2);
 
         NineGridView.setImageLoader(new GlideImageLoader());
         imagesInfo = new ArrayList<>();
