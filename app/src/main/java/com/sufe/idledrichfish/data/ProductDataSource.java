@@ -5,12 +5,13 @@ import android.os.Message;
 import android.util.Log;
 
 import com.google.common.primitives.Bytes;
-import com.sufe.idledrichfish.ChatActivity;
+import com.sufe.idledrichfish.ui.chat.ChatActivity;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
+import com.sufe.idledrichfish.ui.myPublish.MyPublishRecyclerViewAdapter;
 import com.sufe.idledrichfish.ui.publish.PublishActivity;
 
 import java.util.ArrayList;
@@ -131,14 +132,14 @@ public class ProductDataSource {
                 if(e == null) {
                     b.putInt("errorCode", 0);
                     msg.setData(b);
-                    MyPublishActivity.myPublishDeleteHandler.sendMessage(msg);
+                    MyPublishRecyclerViewAdapter.deleteHandler.sendMessage(msg);
                     Log.i("BMOB", "Delete Product Success");
                 }
                 else {
                     b.putInt("errorCode", e.getErrorCode());
                     b.putString("e", e.toString());
                     msg.setData(b);
-                    MyPublishActivity.myPublishDeleteHandler.sendMessage(msg);
+                    MyPublishRecyclerViewAdapter.deleteHandler.sendMessage(msg);
                     Log.e("BMOB", "Delete Product Fail", e);
                 }
             }
@@ -308,9 +309,9 @@ public class ProductDataSource {
             @Override
             public void done(List<Product> objects,BmobException e) {
                 Message msg = new Message();
-                Bundle bundles = new Bundle();
+                Bundle bs = new Bundle();
                 if (e == null) {
-                    bundles.putInt("errorCode", 0);
+                    bs.putInt("errorCode", 0);
                     int i = 0;
                     for (Product product : objects) {
                         Bundle b = new Bundle();
@@ -329,16 +330,16 @@ public class ProductDataSource {
                         if (product.getImage4() != null) {
                             b.putByteArray("image4", Bytes.toArray(product.getImage4()));
                         }
-                        bundles.putBundle(String.valueOf(i), b);
+                        bs.putBundle(String.valueOf(i), b);
                         ++i;
                     }
-                    msg.setData(bundles);
+                    msg.setData(bs);
                     MyPublishActivity.myPublishHandler.sendMessage(msg);
                     Log.i("BMOB", "Query Products Success");
                 } else {
-                    bundles.putInt("errorCode", e.getErrorCode());
-                    bundles.putString("e", e.toString());
-                    msg.setData(bundles);
+                    bs.putInt("errorCode", e.getErrorCode());
+                    bs.putString("e", e.toString());
+                    msg.setData(bs);
                     MyPublishActivity.myPublishHandler.sendMessage(msg);
                     Log.e("BMOB", "Query Products Fail", e);
                 }

@@ -24,6 +24,7 @@ import com.sufe.idledrichfish.data.FavoriteDataSource;
 import com.sufe.idledrichfish.data.FavoriteRepository;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
+import com.sufe.idledrichfish.ui.chat.ChatActivity;
 
 import java.text.DecimalFormat;
 import java.util.Objects;

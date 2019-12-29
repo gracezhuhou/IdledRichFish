@@ -6,7 +6,7 @@
     android:layout_margin="5dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="20dp"
+    app:cardCornerRadius="0dp"
     app:cardBackgroundColor="@color/white"
     app:cardElevation="0dp">
 
@@ -34,7 +34,8 @@
                 android:id="@+id/image_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:srcCompat="@tools:sample/avatars[3]" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_no_image"/>
 
         </FrameLayout>
 
@@ -56,13 +57,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_product_name" />
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_seller"
             android:layout_width="35dp"
             android:layout_height="35dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_product_price"
-            tools:srcCompat="@tools:sample/avatars[1]" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_no_image"/>
 
         <TextView
             android:id="@+id/text_seller_name"

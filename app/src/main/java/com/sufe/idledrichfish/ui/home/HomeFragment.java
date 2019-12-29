@@ -65,7 +65,6 @@ public class HomeFragment extends Fragment {
     private HomeRecyclerViewAdapter productsRecyclerAdapter;
     private List<HomeProductView> products;
     static public Handler homeProductsHandler;
-    static public Handler homeStudentHandler;
 
 
     public HomeFragment() {

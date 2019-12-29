@@ -17,11 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sufe.idledrichfish.data.LoginDataSource;
 import com.sufe.idledrichfish.data.LoginRepository;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.login.LoginActivity;
 import com.sufe.idledrichfish.ui.myFavorite.MyFavoriteActivity;
+import com.sufe.idledrichfish.ui.myOrder.MyOrderActivity;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 
 import java.util.Objects;
@@ -99,12 +101,27 @@ public class MyFragment extends Fragment {
         // 点击登出按钮
         final Button button_log_out = view.findViewById(R.id.button_log_out);
         button_log_out.setOnClickListener(view1 -> logOut());
-        // 点击“我发布的”
+        // 点击“我的发布”
         final Button button_my_publish = view.findViewById(R.id.button_my_publish);
-        button_my_publish.setOnClickListener(view1 -> go2MyPublish());
-        // 点击“我收藏的”
+        button_my_publish.setOnClickListener(view1 -> {
+            // 跳转至MyPublishActivity
+            Intent intent = new Intent(getContext(), MyPublishActivity.class);
+            startActivity(intent);
+        });
+        // 点击“我的收藏”
         final Button button_my_favorite = view.findViewById(R.id.button_my_favorite);
-        button_my_favorite.setOnClickListener(view1 -> go2MyFavorite());
+        button_my_favorite.setOnClickListener(view1 -> {
+            // 跳转至MyFavoriteActivity
+            Intent intent = new Intent(getContext(), MyFavoriteActivity.class);
+            startActivity(intent);
+        });
+        // 点击“我的订单”
+        final Button button_my_order = view.findViewById(R.id.button_my_order);
+        button_my_order.setOnClickListener(view1 -> {
+            // 跳转至MyOrderActivity
+            Intent intent = new Intent(getContext(), MyOrderActivity.class);
+            startActivity(intent);
+        });
 
         return view;
     }
@@ -152,7 +169,11 @@ public class MyFragment extends Fragment {
         text_stu_name.setText(student.getName());
         String numberText = "No." + student.getUsername();
         text_stu_number.setText(numberText);
-        Glide.with(this).load(student.getImage()).into(image_student);
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
+                .fallback(R.drawable.head) // url为空的时候,显示的图片
+                .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
+        Glide.with(this).load(student.getImage()).apply(options).into(image_student);
     }
 
     /**
@@ -160,8 +181,8 @@ public class MyFragment extends Fragment {
      * AppBar的折叠效果
      */
     private void setAppBar() {
-        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
@@ -200,24 +221,6 @@ public class MyFragment extends Fragment {
         Intent intent = new Intent(getContext(), LoginActivity.class);
         startActivity(intent);
         Objects.requireNonNull(getActivity()).finish();
-    }
-
-    /**
-     * 点击“我发布的”
-     */
-    private void go2MyPublish() {
-        // 跳转至“我发布的”界面
-        Intent intent = new Intent(getContext(), MyPublishActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * 点击“我收藏的”
-     */
-    private void go2MyFavorite() {
-        // 跳转至“我收藏的”界面
-        Intent intent = new Intent(getContext(), MyFavoriteActivity.class);
-        startActivity(intent);
     }
 }
 

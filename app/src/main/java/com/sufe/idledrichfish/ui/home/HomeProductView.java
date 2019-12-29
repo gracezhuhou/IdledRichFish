@@ -1,6 +1,6 @@
 package com.sufe.idledrichfish.ui.home;
 
-public class HomeProductView {
+class HomeProductView {
 
     private String objectId;
 
@@ -24,7 +24,7 @@ public class HomeProductView {
     private byte[] sellerImage;
 
 
-    public HomeProductView(String objectId, String name, double price, boolean isNew,
+    HomeProductView(String objectId, String name, double price, boolean isNew,
                            boolean canBargain, byte[] image1, String sellerId,
                            String sellerName, float credit, byte[] sellerImage) {
         this.objectId = objectId;
@@ -41,83 +41,83 @@ public class HomeProductView {
 
     // generated getters and setters.
 
-    public String getObjectId() {
+    String getObjectId() {
         return objectId;
     }
 
-    public void setObjectId(String objectId) {
+    void setObjectId(String objectId) {
         this.objectId = objectId;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public double getPrice() {
+    double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    void setPrice(double price) {
         this.price = price;
     }
 
-    public boolean isNew() {
+    boolean isNew() {
         return isNew;
     }
 
-    public void setNew(boolean aNew) {
+    void setNew(boolean aNew) {
         isNew = aNew;
     }
 
-    public boolean isCanBargain() {
+    boolean isCanBargain() {
         return canBargain;
     }
 
-    public void setCanBargain(boolean canBargain) {
+    void setCanBargain(boolean canBargain) {
         this.canBargain = canBargain;
     }
 
-    public byte[] getImage1() {
+    byte[] getImage1() {
         return image1;
     }
 
-    public void setImage1(byte[] image1) {
+    void setImage1(byte[] image1) {
         this.image1 = image1;
     }
 
-    public String getSellerId() {
+    String getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(String sellerId) {
+    void setSellerId(String sellerId) {
         this.sellerId = sellerId;
     }
 
-    public String getSellerName() {
+    String getSellerName() {
         return sellerName;
     }
 
-    public void setSellerName(String sellerName) {
+    void setSellerName(String sellerName) {
         this.sellerName = sellerName;
     }
 
-    public float getCredit() {
+    float getCredit() {
         return credit;
     }
 
-    public void setCredit(float credit) {
+    void setCredit(float credit) {
         this.credit = credit;
     }
 
-    public byte[] getSellerImage() {
+    byte[] getSellerImage() {
         return sellerImage;
     }
 
-    public void setSellerImage(byte[] sellerImage) {
+    void setSellerImage(byte[] sellerImage) {
         this.sellerImage = sellerImage;
     }
 }

@@ -141,7 +141,7 @@ public class FavoriteDataSource {
         Student student = Student.getCurrentUser(Student.class);
         query.addWhereEqualTo("student",new BmobPointer(student));
         query.include("product.seller");
-        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY); // 只从网络获取数据，同时会在本地缓存数据
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY); // 网络
         query.findObjects(new FindListener<Favorite>() {
             @Override
             public void done(List<Favorite> objects, BmobException e) {

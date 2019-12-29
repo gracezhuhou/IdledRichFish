@@ -8,40 +8,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
-import com.sufe.idledrichfish.data.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.datatype.BmobFile;
-
 public class MyPublishActivity extends AppCompatActivity {
-
-    private RecyclerView recycler_view;
 
     private LinearLayoutManager layoutManager;
     private MyPublishRecyclerViewAdapter productsRecyclerAdapter;
-    private List<Product> products;
+    private List<MyPublishProductView> products;
     static public Handler myPublishHandler;
-    static public Handler myPublishDeleteHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_publish);
 
-        recycler_view = findViewById(R.id.recycler_view);
-
         setRecycler();
         setHandler();
+        setToolbar();
     }
 
     private void setRecycler() {
+        final RecyclerView recycler_view = findViewById(R.id.recycler_view);
         products = new ArrayList<>();
         ProductRepository.getInstance(new ProductDataSource()).queryMyPublishProducts();
         layoutManager = new LinearLayoutManager(this);
@@ -53,27 +48,25 @@ public class MyPublishActivity extends AppCompatActivity {
 
     @SuppressLint("HandlerLeak")
     private void setHandler() {
-        // 获取用户发布的所以商品
+        // 获取用户发布的所有商品
         myPublishHandler = new Handler() {
             public void handleMessage(Message msg) {
-                Bundle bundles = msg.getData();
-                if (bundles.getInt("errorCode") == 0) {
-                    bundles.remove("errorCode");
-                    if (bundles.isEmpty()) {
-                        productsRecyclerAdapter.notifyDataSetChanged();
-                        return;
-                    }
-                    for (int i = 0; !bundles.isEmpty(); ++i) {
-                        Bundle bundle = bundles.getBundle(String.valueOf(i));
-                        assert bundle != null;
-                        Product product = new Product();
-                        product.setObjectId(bundle.getString("objectId"));
-                        product.setName(bundle.getString("name"));
-                        product.setPrice(bundle.getDouble("price"));
-                        // todo: image
-//                        product.setImage1(image);
+                Bundle bs = msg.getData();
+                if (bs.getInt("errorCode") == 0) {
+                    bs.remove("errorCode");
+                    for (int i = 0; !bs.isEmpty(); ++i) {
+                        Bundle b = bs.getBundle(String.valueOf(i));
+                        assert b != null;
+                        MyPublishProductView product = new MyPublishProductView(
+                                b.getString("objectId"),
+                                b.getString("name"),
+                                b.getDouble("price"),
+                                b.getByteArray("image1"),
+                                b.getByteArray("image2"),
+                                b.getByteArray("image3"),
+                                b.getByteArray("image4"));
                         products.add(product);
-                        bundles.remove(String.valueOf(i));
+                        bs.remove(String.valueOf(i));
                     }
                     Log.i("Handler", "Query All Products");
                     productsRecyclerAdapter.notifyDataSetChanged();
@@ -82,35 +75,19 @@ public class MyPublishActivity extends AppCompatActivity {
                 }
             }
         };
+    }
 
-        // 获取Bmob返回的信息：删除发布商品
-        myPublishDeleteHandler = new Handler() {
-            public void handleMessage(Message msg) {
-                int errorCode = msg.getData().getInt("errorCode");
-                Log.i("Handler", "Error Code " + errorCode);
-
-                if (errorCode == 0) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(MyPublishActivity.this)
-                            .setTitle("商品删除成功")
-                            .setIcon(R.drawable.ic_audit)
-                            .create();
-                    alertDialog.show();
-                }
-                else {
-                    String fail = "失败原因:" + errorCode + msg.getData().getString("e");
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(MyPublishActivity.this)
-                            .setTitle("商品删除失败")
-                            .setMessage(fail)
-                            .setIcon(R.drawable.ic_fail)
-                            .create();
-//                    if (e.getErrorCode() == 202)
-//                        alertDialog.setMessage("");
-//                    else if (e.getErrorCode() == 301)
-//                        alertDialog.setMessage("");
-                    alertDialog.show();
-                }
-            }
-        };
+    /**
+     * 设置Toolbar
+     */
+    private void setToolbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        }
+        // 返回键监听
+        toolbar.setNavigationOnClickListener(view -> finish());
     }
 }
