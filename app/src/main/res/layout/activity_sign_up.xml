@@ -9,7 +9,7 @@
     tools:context=".SignUpActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_sign_up"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:background="@color/orange"
@@ -44,7 +44,6 @@
                     android:paddingTop="@dimen/activity_vtc_margin"
                     android:paddingBottom="@dimen/activity_vtc_margin"
                     android:rowCount="6">
-
 
                     <TextView
                         android:layout_gravity="fill"

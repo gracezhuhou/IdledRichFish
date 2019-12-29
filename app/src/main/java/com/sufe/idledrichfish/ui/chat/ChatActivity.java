@@ -26,6 +26,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMOptions;
 import com.sufe.idledrichfish.OrderInfoActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.OrderDataSource;
@@ -69,14 +70,13 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        // 获取当前会话的username(如果是群聊就是群id)
-        mChatId = getIntent().getStringExtra("ec_chat_id");
         mMessageListener = this;
+        initData(); // 获取intent传入数据
         initView();
         initConversation();
-        initData(); // 获取intent传入数据
+
         setToolbar(); // 设置Toorbar标题&返回键
-        setHandler(); // 创建订单返，回Bmob数据
+        setHandler(); // 创建订单，返回Bmob数据
 
         final Button button_buy = findViewById(R.id.button_buy);
         button_buy.setOnClickListener(view -> buy()); // 创建订单
@@ -86,9 +86,9 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
      * 初始化界面
      */
     private void initView() {
-        mInputEdit = (EditText) findViewById(R.id.ec_edit_message_input);
-        mSendBtn = (Button) findViewById(R.id.ec_btn_send);
-        mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
+        mInputEdit = findViewById(R.id.ec_edit_message_input);
+        mSendBtn = findViewById(R.id.ec_btn_send);
+        mRecyclerView = findViewById(R.id.mRecyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -144,6 +144,11 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
          * 第二个是绘画类型可以为空
          * 第三个表示如果会话不存在是否创建
          */
+        EMOptions options = new EMOptions();
+        //初始化
+        EMClient.getInstance().init(this, options);
+        //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
+        EMClient.getInstance().setDebugMode(true);
         mConversation = EMClient.getInstance().chatManager().getConversation(mChatId, null, true);
         // 设置当前会话未读数为 0
         mConversation.markAllMessagesAsRead();
@@ -252,8 +257,9 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
     private void initData() {
         Intent intent = getIntent();
         productId = intent.getStringExtra("product_id_extra");
-        sellerId = intent.getStringExtra("seller_id_extra");
+        mChatId = sellerId = intent.getStringExtra("seller_id_extra");
         sellerName = intent.getStringExtra("seller_Name_extra");
+        Log.i("Intent", mChatId);
         ProductRepository.getInstance(new ProductDataSource()).queryProduct(productId, "chat");
     }
 
@@ -325,7 +331,7 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
-                        OrderRepository.getInstance(new OrderDataSource()).saveOrder(sellerId, productId);
+                        OrderRepository.getInstance(new OrderDataSource()).saveOrder(productId);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

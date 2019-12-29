@@ -3,7 +3,7 @@ package com.sufe.idledrichfish.ui.chat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sufe.idledrichfish.R;
@@ -20,48 +20,45 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MyViewHolder> {
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(parent.getContext(), R.layout.recyclerview_item, null);
+        View view = View.inflate(parent.getContext(), R.layout.item_chat_msg, null);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
-
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Msg msg = mMsgList.get(position);
         if (msg.getType() == Msg.TYPE_RECEIVED) {
             //如果是收到的消息，显示左边布局，隐藏右边布局
-            holder.llLeft.setVisibility(View.VISIBLE);
-            holder.llRight.setVisibility(View.GONE);
-            holder.tv_Left.setText(msg.getContent());
+            holder.layout_left.setVisibility(View.VISIBLE);
+            holder.layout_right.setVisibility(View.GONE);
+            holder.text_left.setText(msg.getContent());
         } else if (msg.getType() == Msg.TYPE_SEND) {
             //如果是发送的消息，显示右边布局，隐藏左边布局
-            holder.llLeft.setVisibility(View.GONE);
-            holder.llRight.setVisibility(View.VISIBLE);
-            holder.tv_Right.setText(msg.getContent());
+            holder.layout_left.setVisibility(View.GONE);
+            holder.layout_right.setVisibility(View.VISIBLE);
+            holder.text_right.setText(msg.getContent());
         }
     }
 
     @Override
     public int getItemCount() {
-
         return mMsgList.size();
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        RelativeLayout llLeft;
-        RelativeLayout llRight;
-        TextView tv_Left;
-        TextView tv_Right;
+        LinearLayout layout_left;
+        LinearLayout layout_right;
+        TextView text_left;
+        TextView text_right;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            llLeft = itemView.findViewById(R.id.ll_msg_left);
-            llRight = itemView.findViewById(R.id.ll_msg_right);
-            tv_Left = itemView.findViewById(R.id.tv_msg_left);
-            tv_Right = itemView.findViewById(R.id.tv_msg_right);
-
+            layout_left = itemView.findViewById(R.id.ll_msg_left);
+            layout_right = itemView.findViewById(R.id.ll_msg_right);
+            text_left = itemView.findViewById(R.id.tv_msg_left);
+            text_right = itemView.findViewById(R.id.tv_msg_right);
         }
     }
 }

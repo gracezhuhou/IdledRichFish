@@ -5,24 +5,16 @@ import cn.bmob.v3.datatype.BmobDate;
 
 public class Order extends BmobObject {
 
-    private Student seller;
-
     private Student buyer;
 
     private Product product;
 
     private int status;
 
-    private BmobDate orderDate;
+    private BmobDate orderDate; // 下单时间
 
+    private BmobDate finishDate; // 订单完成时间
 
-    public Student getSeller() {
-        return seller;
-    }
-
-    public void setSeller(Student seller) {
-        this.seller = seller;
-    }
 
     public Student getBuyer() {
         return buyer;
@@ -54,5 +46,13 @@ public class Order extends BmobObject {
 
     public void setOrderDate(BmobDate orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public BmobDate getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(BmobDate finishDate) {
+        this.finishDate = finishDate;
     }
 }
