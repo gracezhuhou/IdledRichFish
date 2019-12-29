@@ -23,7 +23,8 @@
             android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:background="@color/transparent"/>
+            android:background="@color/transparent"
+            android:stateListAnimator="@null"/>
 
         <!-- TODO: 发布新商品，返回原界面并刷新 -->
         <Button
@@ -36,8 +37,10 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:background="@drawable/card_orange"
+            android:background="@color/orange"
+            android:stateListAnimator="@null"
             android:enabled="false"/>
+
     </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -124,7 +127,8 @@
                     android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                     android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                     android:textColor="@color/white"
-                    android:background="@drawable/card_banana"
+                    android:background="@color/banana"
+                    android:stateListAnimator="@null"
                     android:checked="false"/>
 
                 <CheckBox
@@ -139,7 +143,8 @@
                     android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                     android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                     android:textColor="@color/white"
-                    android:background="@drawable/card_banana"
+                    android:background="@color/banana"
+                    android:stateListAnimator="@null"
                     android:checked="false"/>
 
             </LinearLayout>
@@ -171,19 +176,9 @@
                     android:layout_marginStart="10dp"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/publish_text_height"
-                    android:layout_gravity="center"
-                    android:text="@string/price_symbol"
-                    android:textSize="@dimen/text_size"
-                    android:textColor="@color/orange"
-                    android:layout_marginEnd="5dp"/>
-
-                <TextView
                     android:id="@+id/text_price_number"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/publish_text_height"
-                    android:text="@string/price_number"
                     android:textSize="@dimen/text_size"
                     android:textColor="@color/orange"
                     android:layout_marginEnd="10dp"/>

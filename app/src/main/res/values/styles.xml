@@ -27,7 +27,7 @@
         <item name="android:textSize">5sp</item>
     </style>
 
-    
+
     <style name="DialogStyle_Price">
         <item name="android:textColor">@color/black</item>
         <item name="android:windowBackground">@android:color/white</item>

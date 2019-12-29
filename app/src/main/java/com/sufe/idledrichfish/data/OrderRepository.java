@@ -18,13 +18,13 @@ public class OrderRepository {
     }
 
     // 添加订单
-    public void saveOrder(String sellerId, String productId) {
-        dataSource.saveOrder(sellerId, productId);
+    public void saveOrder(String productId) {
+        dataSource.saveOrder(productId);
     }
 
-    // 取消订单
-    public void cancelOrder(String orderId) {
-//        dataSource.cancelOrder(orderId);
+    // 更新订单状态
+    public void updateOrderStatus(String orderId, int status) {
+        dataSource.updateOrderStatus(orderId, status);
     }
 
     // 查询订单信息
@@ -32,8 +32,8 @@ public class OrderRepository {
         dataSource.queryOrder(orderId);
     }
 
-    // 获取当前学生所有订单
-    public void queryMyOrder() {
-
+    // 获取当前学生某状态所有订单
+    public void queryOrders(int status) {
+        dataSource.queryOrders(status);
     }
 }

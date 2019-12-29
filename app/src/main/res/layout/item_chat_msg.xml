@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:id="@+id/ll_msg_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,39 +15,45 @@
         android:focusable="true"
         android:orientation="horizontal"
         android:padding="2dp">
-        <ImageView
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/from_person_avator"
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_seller"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/user" />
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/user"
+            app:civ_border_color="@color/blue"
+            app:civ_border_overlay="true"
+            app:civ_border_width="3dp"/>
+
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:background="@color/ash"
+            android:padding="15dp"
             android:orientation="horizontal">
+
             <TextView
-                android:singleLine="false"
-                android:layout_marginLeft="60dp"
                 android:id="@+id/tv_msg_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="200dp"
+                android:singleLine="false"
                 android:layout_gravity="center"
-                android:textColor="#000000" />
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
         </LinearLayout>
-
-
 
     </LinearLayout>
 
     <LinearLayout
-
-        android:layout_alignParentRight="true"
         android:id="@+id/ll_msg_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_alignParentEnd="true"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
@@ -55,30 +61,35 @@
         android:padding="2dp">
 
         <LinearLayout
-
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:background="@color/zhihu_bottom_toolbar_apply_text_disable"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="15dp">
 
             <TextView
-                android:singleLine="false"
-                android:layout_marginLeft="35dp"
                 android:id="@+id/tv_msg_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="200dp"
+                android:singleLine="false"
                 android:layout_gravity="center"
-                android:paddingRight="70dp"
-                android:textColor="#000000" />
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_marginRight="10dp"
-            android:layout_gravity="center_vertical"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_buyer"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/user" />
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/user"
+            app:civ_border_color="@color/blue"
+            app:civ_border_overlay="true"
+            app:civ_border_width="3dp"/>
 
     </LinearLayout>
 </RelativeLayout>

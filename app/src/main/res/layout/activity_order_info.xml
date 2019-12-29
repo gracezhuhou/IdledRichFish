@@ -25,6 +25,7 @@
         android:gravity="end">
 
         <Button
+            android:id="@+id/button_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/orange"
@@ -32,11 +33,30 @@
             android:textColor="@color/white" />
 
         <Button
+            android:id="@+id/button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/banana"
             android:text="@string/action_order_cancel"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/button_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:visibility="gone"
+            android:text="@string/action_give_credit"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/button_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/banana"
+            android:visibility="gone"
+            android:text="@string/action_contact_admin"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 

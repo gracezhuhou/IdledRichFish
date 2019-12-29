@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.sufe.idledrichfish.R;
@@ -24,8 +25,6 @@ import cn.bmob.v3.datatype.BmobFile;
 
 public class MyFavoriteActivity extends AppCompatActivity {
 
-    private RecyclerView recycler_view;
-
     private LinearLayoutManager layoutManager;
     private MyFavoriteRecyclerViewAdapter productsRecyclerAdapter;
     private List<Product> products;
@@ -36,13 +35,13 @@ public class MyFavoriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_favorite);
 
-        recycler_view = findViewById(R.id.recycler_view);
-
         setRecycler();
         setHandler();
+        setToolbar();
     }
 
     private void setRecycler() {
+        final RecyclerView recycler_view = findViewById(R.id.recycler_view);
         products = new ArrayList<>();
         FavoriteRepository.getInstance(new FavoriteDataSource()).queryMyFavorite();
         layoutManager = new LinearLayoutManager(this);
@@ -50,6 +49,20 @@ public class MyFavoriteActivity extends AppCompatActivity {
         productsRecyclerAdapter = new MyFavoriteRecyclerViewAdapter(products);
         recycler_view.setAdapter(productsRecyclerAdapter);
         recycler_view.setHasFixedSize(true);
+    }
+
+    /**
+     * 设置Toolbar
+     */
+    private void setToolbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        }
+        // 返回键监听
+        toolbar.setNavigationOnClickListener(view -> finish());
     }
 
     @SuppressLint("HandlerLeak")
