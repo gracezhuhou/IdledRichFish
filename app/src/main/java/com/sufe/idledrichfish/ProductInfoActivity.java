@@ -265,7 +265,7 @@ public class ProductInfoActivity extends AppCompatActivity {
         text_publish_date = findViewById(R.id.text_publish_date);
         image_product = findViewById(R.id.image_product);
         image_seller = findViewById(R.id.image_seller);
-        icon_favorite = findViewById(R.id.icon_favorate);
+        icon_favorite = findViewById(R.id.icon_favorite);
         icon_gender = findViewById(R.id.icon_gender);
         card_new = findViewById(R.id.card_new);
         card_cannot_bargain = findViewById(R.id.card_cannot_bargain);
