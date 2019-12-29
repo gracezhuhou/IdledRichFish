@@ -46,6 +46,7 @@ import com.zhihu.matisse.internal.entity.IncapableCause;
 import com.zhihu.matisse.internal.entity.Item;
 import com.zhihu.matisse.internal.utils.PhotoMetadataUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -67,7 +68,7 @@ public class PublishActivity extends AppCompatActivity {
     private CheckBox checkbox_cannot_bargain;
     private NineGridView nine_grid_view;
 
-    private double price;
+    private double price = 0;
     private double oldPrice;
     private BmobRelation tabs;
     private ArrayList<ImageInfo> imagesInfo;
@@ -75,7 +76,7 @@ public class PublishActivity extends AppCompatActivity {
 
     private PublishViewModel publishViewModel;
     private final int REQUEST_CODE_CHOOSE_PHOTO_ALBUM = 1;
-    static public Handler publishmentHandler;
+    static public Handler publishHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,12 +100,11 @@ public class PublishActivity extends AppCompatActivity {
         NineGridView.setImageLoader(new GlideImageLoader());
         imagesInfo = new ArrayList<>();
 
-
         choosePhoto();
 
         setHandler();
         setPublishForm(); // 格式监听
-        setFormListner(); // 按键监听
+        setFormListener(); // 按键监听
 
     }
 
@@ -117,8 +117,7 @@ public class PublishActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_CHOOSE_PHOTO_ALBUM && resultCode == RESULT_OK) {
             // 图片路径 根据requestCode
             pathList = Matisse.obtainPathResult(data);
-            for (String path : pathList)
-            {
+            for (String path : pathList) {
 //                String path = uri.getPath();
                 ImageInfo imageInfo = new ImageInfo();
                 imageInfo.setBigImageUrl(path);
@@ -169,7 +168,7 @@ public class PublishActivity extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     private void setHandler() {
         // 获取Bmob返回的注册ErrorCode
-        publishmentHandler = new Handler() {
+        publishHandler = new Handler() {
             public void handleMessage(Message msg) {
                 int errorCode = msg.getData().getInt("errorCode");
                 Log.i("Handler", "Error Code " + errorCode);
@@ -231,13 +230,20 @@ public class PublishActivity extends AppCompatActivity {
                 }
                 if (publishFormState.getPriceError() != null) {
                     text_price.setError(getString(publishFormState.getPriceError()));
+                } else {
+                    text_price.setError(null);
                 }
                 if (publishFormState.getCategoryError() != null) {
                     text_category.setError(getString(publishFormState.getCategoryError()));
+                } else {
+                    text_price.setError(null);
                 }
                 if (publishFormState.getLabelError() != null) {
                     text_tab.setError(getString(publishFormState.getLabelError()));
+                } else {
+                    text_price.setError(null);
                 }
+                Log.i("PublishForm", "On Change:" + publishFormState.getPriceError());
             }
         });
 
@@ -267,20 +273,15 @@ public class PublishActivity extends AppCompatActivity {
     /**
      * 表单按键监听
      */
-    private void setFormListner() {
-        /*
-         * 选中or取消选中“全新”&“不讲价”
-         */
+    private void setFormListener() {
+        // 选中or取消选中“全新”&“不讲价”
         checkbox_is_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkbox_is_new.isChecked()) {
-                    checkbox_is_new.setBackgroundColor(getResources().getColor(R.color.primary));
-                    checkbox_is_new.setTextColor(Color.WHITE);
-                }
-                else {
-                    checkbox_is_new.setBackgroundColor(getResources().getColor(R.color.transparent));
-                    checkbox_is_new.setTextColor(Color.BLACK);
+                    checkbox_is_new.setBackgroundColor(getResources().getColor(R.color.orange));
+                } else {
+                    checkbox_is_new.setBackgroundColor(getResources().getColor(R.color.banana));
                 }
             }
         });
@@ -289,19 +290,14 @@ public class PublishActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkbox_cannot_bargain.isChecked()) {
-                    checkbox_cannot_bargain.setBackgroundColor(getResources().getColor(R.color.primary));
-                    checkbox_cannot_bargain.setTextColor(Color.WHITE);
-                }
-                else {
-                    checkbox_cannot_bargain.setBackgroundColor(getResources().getColor(R.color.transparent));
-                    checkbox_cannot_bargain.setTextColor(Color.BLACK);
+                    checkbox_cannot_bargain.setBackgroundColor(getResources().getColor(R.color.orange));
+                } else {
+                    checkbox_cannot_bargain.setBackgroundColor(getResources().getColor(R.color.banana));
                 }
             }
         });
 
-        /*
-         * 点击价格栏，弹出Dialog
-         */
+        // 点击价格栏，弹出Dialog
         layout_price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -318,54 +314,39 @@ public class PublishActivity extends AppCompatActivity {
                     }
                 });
                 // Dialog关闭(Dismiss)时的监听
-                dialog_price.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        if (!dialog_price.priceInput.getText().toString().equals("")) {
-                            text_price.setText(dialog_price.priceInput.getText().toString());
-                            price = Double.valueOf(dialog_price.priceInput.getText().toString());
-                        }
-                        if (!dialog_price.oldPriceInput.getText().toString().equals("")) {
-                            oldPrice = Double.valueOf(dialog_price.oldPriceInput.getText().toString());
-                        }
-                        dialogInterface.dismiss();
-
-                        changeData();
+                dialog_price.setOnDismissListener(dialogInterface -> {
+                    if (!dialog_price.priceInput.getText().toString().equals("")) {
+                        price = Double.valueOf(dialog_price.priceInput.getText().toString());
+                        DecimalFormat format = new java.text.DecimalFormat("¥ 0.00 "); // 保留小数点两位
+                        text_price.setText(format.format(price));
                     }
+                    if (!dialog_price.oldPriceInput.getText().toString().equals("")) {
+                        oldPrice = Double.valueOf(dialog_price.oldPriceInput.getText().toString());
+                    }
+                    dialogInterface.dismiss();
+                    changeData();
                 });
                 dialog_price.show();
             }
         });
 
-        /*
-         * 点击发布Button
-         */
-        button_publish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                publishViewModel.saveProduct(text_name.getText().toString(),
-                        text_description.getText().toString(),
-                        checkbox_is_new.isChecked(),
-                        !checkbox_cannot_bargain.isChecked(),
-                        price,
-                        oldPrice,
-                        tabs,
-                        text_category.getText().toString(),
-                        pathList);
-                button_publish.setBackgroundResource(R.drawable.card_banana);
-            }
+        // 点击发布Button
+        button_publish.setOnClickListener(view -> {
+            publishViewModel.saveProduct(text_name.getText().toString(),
+                    text_description.getText().toString(),
+                    checkbox_is_new.isChecked(),
+                    !checkbox_cannot_bargain.isChecked(),
+                    price,
+                    oldPrice,
+                    tabs,
+                    text_category.getText().toString(),
+                    pathList);
+            button_publish.setBackgroundResource(R.drawable.card_banana);
         });
 
-        /*
-         * 点击取消，返回Home
-         */
+        // 点击取消，返回Home
         final Button button_cancel = findViewById(R.id.button_cancel);
-        button_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        button_cancel.setOnClickListener(view -> finish());
     }
 
     /**
@@ -392,7 +373,7 @@ public class PublishActivity extends AppCompatActivity {
 }
 
 
-/*
+/**
  * 自定义弹出的价格Dialog
  */
 class PriceDialog extends Dialog {

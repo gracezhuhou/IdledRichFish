@@ -28,6 +28,8 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
     private List<HomeProductView> myProducts;
 
@@ -37,7 +39,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         private TextView text_seller_name;
         private TextView text_seller_credit;
         private ImageView image_product;
-        private ImageView image_seller;
+        private CircleImageView image_seller;
         private CardView card_product;
         private SpinKitView spin_kit;
         private Context context;
@@ -89,17 +91,14 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         // 显示卖家信息
         holder.text_seller_name.setText(product.getSellerName());
         holder.text_seller_credit.setText(String.valueOf(product.getCredit()));
-        Glide.with(holder.context).load(product.getSellerImage()).into(holder.image_product);
+        Glide.with(holder.context).load(product.getSellerImage()).into(holder.image_seller);
 
 
         // 点击跳转至商品详细界面
-        holder.card_product.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(v.getContext(), ProductInfoActivity.class);
-                intent.putExtra("product_id_extra", holder.productId);
-                v.getContext().startActivity(intent);
-            }
+        holder.card_product.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ProductInfoActivity.class);
+            intent.putExtra("product_id_extra", holder.productId);
+            view.getContext().startActivity(intent);
         });
     }
 

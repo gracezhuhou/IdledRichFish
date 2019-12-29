@@ -5,12 +5,13 @@ import android.os.Message;
 import android.util.Log;
 
 import com.google.common.primitives.Bytes;
-import com.sufe.idledrichfish.ChatActivity;
+import com.sufe.idledrichfish.ui.chat.ChatActivity;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
+import com.sufe.idledrichfish.ui.myPublish.MyPublishRecyclerViewAdapter;
 import com.sufe.idledrichfish.ui.publish.PublishActivity;
 
 import java.util.ArrayList;
@@ -49,21 +50,24 @@ public class ProductDataSource {
         product.setSeller(Student.getCurrentUser(Student.class)); // 获取当前用户
         product.setPublishDate(new BmobDate(Tool.getNetTime())); // 获取网络时间
 
-        List<List<Byte>> images = new ArrayList<>();
-        for (String path: imagePath) {
-            images.add(Tool.file2List(path));
-        }
-        // image的byte保存到表中
-        switch(imagePath.size()) {
-            case 9: product.setImage9(images.get(8));
-            case 8: product.setImage8(images.get(7));
-            case 7: product.setImage7(images.get(6));
-            case 6: product.setImage6(images.get(5));
-            case 5: product.setImage5(images.get(4));
-            case 4: product.setImage4(images.get(3));
-            case 3: product.setImage3(images.get(2));
-            case 2: product.setImage2(images.get(1));
-            case 1: product.setImage1(images.get(0));
+        if (imagePath != null) {
+            List<List<Byte>> images = new ArrayList<>();
+
+            for (String path: imagePath) {
+                images.add(Tool.file2List(path));
+            }
+            // image的byte保存到表中
+            switch(imagePath.size()) {
+                case 9: product.setImage9(images.get(8));
+                case 8: product.setImage8(images.get(7));
+                case 7: product.setImage7(images.get(6));
+                case 6: product.setImage6(images.get(5));
+                case 5: product.setImage5(images.get(4));
+                case 4: product.setImage4(images.get(3));
+                case 3: product.setImage3(images.get(2));
+                case 2: product.setImage2(images.get(1));
+                case 1: product.setImage1(images.get(0));
+            }
         }
 
         product.save(new SaveListener<String>() {
@@ -73,14 +77,14 @@ public class ProductDataSource {
                 if(e == null) {
                     b.putInt("errorCode", 0);
                     msg.setData(b);
-                    PublishActivity.publishmentHandler.sendMessage(msg);
+                    PublishActivity.publishHandler.sendMessage(msg);
                     Log.i("BMOB", "Save Product Success");
                 }
                 else {
                     b.putInt("errorCode", e.getErrorCode());
                     b.putString("e", e.toString());
                     msg.setData(b);
-                    PublishActivity.publishmentHandler.sendMessage(msg);
+                    PublishActivity.publishHandler.sendMessage(msg);
                     Log.e("BMOB", "Save Product Fail", e);
                 }
             }
@@ -100,14 +104,14 @@ public class ProductDataSource {
                 if(e == null) {
                     b.putInt("errorCode", 0);
                     msg.setData(b);
-                    //PublishFragment.publishmentHandler.sendMessage(msg);
+                    //PublishFragment.publishHandler.sendMessage(msg);
                     Log.i("BMOB", "Update Product Success");
                 }
                 else {
                     b.putInt("errorCode", e.getErrorCode());
                     b.putString("e", e.toString());
                     msg.setData(b);
-                    //PublishFragment.publishmentHandler.sendMessage(msg);
+                    //PublishFragment.publishHandler.sendMessage(msg);
                     Log.e("BMOB", "Update Product Fail", e);
                 }
             }
@@ -128,14 +132,14 @@ public class ProductDataSource {
                 if(e == null) {
                     b.putInt("errorCode", 0);
                     msg.setData(b);
-                    MyPublishActivity.myPublishDeleteHandler.sendMessage(msg);
+                    MyPublishRecyclerViewAdapter.deleteHandler.sendMessage(msg);
                     Log.i("BMOB", "Delete Product Success");
                 }
                 else {
                     b.putInt("errorCode", e.getErrorCode());
                     b.putString("e", e.toString());
                     msg.setData(b);
-                    MyPublishActivity.myPublishDeleteHandler.sendMessage(msg);
+                    MyPublishRecyclerViewAdapter.deleteHandler.sendMessage(msg);
                     Log.e("BMOB", "Delete Product Fail", e);
                 }
             }
@@ -149,7 +153,7 @@ public class ProductDataSource {
     void queryProductAllInfo(String objectId) {
         BmobQuery<Product> bmobQuery = new BmobQuery<>();
         bmobQuery.include("seller");
-        bmobQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_THEN_NETWORK); // 缓存+网络
+        bmobQuery.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY); // 缓存+网络
         bmobQuery.getObject(objectId, new QueryListener<Product>() {
             @Override
             public void done(Product product, BmobException e) {
@@ -218,7 +222,7 @@ public class ProductDataSource {
         BmobQuery<Product> bmobQuery = new BmobQuery<>();
         bmobQuery.include("seller");
         if (policy) {
-            bmobQuery.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);   // 先从网络获取数据，如果没有，再从缓存获取 （刷新数据）
+            bmobQuery.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);   // 网络
         }else {
             bmobQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);   // 先从缓存获取数据，如果没有，再从网络获取
         }
@@ -269,7 +273,7 @@ public class ProductDataSource {
      */
     void queryProductForChat(String objectId) {
         BmobQuery<Product> bmobQuery = new BmobQuery<>();
-        bmobQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK); // 先从缓存获取数据
+        bmobQuery.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY); // 先从缓存获取数据
         bmobQuery.getObject(objectId, new QueryListener<Product>() {
             @Override
             public void done(Product product, BmobException e) {
@@ -305,9 +309,9 @@ public class ProductDataSource {
             @Override
             public void done(List<Product> objects,BmobException e) {
                 Message msg = new Message();
-                Bundle bundles = new Bundle();
+                Bundle bs = new Bundle();
                 if (e == null) {
-                    bundles.putInt("errorCode", 0);
+                    bs.putInt("errorCode", 0);
                     int i = 0;
                     for (Product product : objects) {
                         Bundle b = new Bundle();
@@ -326,16 +330,16 @@ public class ProductDataSource {
                         if (product.getImage4() != null) {
                             b.putByteArray("image4", Bytes.toArray(product.getImage4()));
                         }
-                        bundles.putBundle(String.valueOf(i), b);
+                        bs.putBundle(String.valueOf(i), b);
                         ++i;
                     }
-                    msg.setData(bundles);
+                    msg.setData(bs);
                     MyPublishActivity.myPublishHandler.sendMessage(msg);
                     Log.i("BMOB", "Query Products Success");
                 } else {
-                    bundles.putInt("errorCode", e.getErrorCode());
-                    bundles.putString("e", e.toString());
-                    msg.setData(bundles);
+                    bs.putInt("errorCode", e.getErrorCode());
+                    bs.putString("e", e.toString());
+                    msg.setData(bs);
                     MyPublishActivity.myPublishHandler.sendMessage(msg);
                     Log.e("BMOB", "Query Products Fail", e);
                 }

@@ -44,7 +44,7 @@ public class Tool {
     static List<Byte> file2List(String filePath) {
         // 采样率压缩
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 10; // 压缩比率
+        options.inSampleSize = 100; // 压缩比率
         Bitmap bm = BitmapFactory.decodeFile(filePath, options);
 
         Log.i("Bitmap", "Size: " + (bm.getByteCount() / 1024 / 1024)

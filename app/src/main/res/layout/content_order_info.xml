@@ -20,8 +20,9 @@
 
             <TextView
                 android:id="@+id/text_order_id"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/order_number"/>
 
             <TextView
@@ -40,20 +41,13 @@
                 android:id="@+id/image_product"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                tools:srcCompat="@tools:sample/avatars[5]"/>
+                android:src="@drawable/ic_no_image"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_product_name"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/text_product_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/text_price"

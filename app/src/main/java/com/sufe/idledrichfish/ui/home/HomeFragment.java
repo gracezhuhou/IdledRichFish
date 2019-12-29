@@ -15,11 +15,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.jude.rollviewpager.RollPagerView;
+import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.ProductDataSource;
+import com.sufe.idledrichfish.data.ProductRepository;
+import com.sufe.idledrichfish.data.model.Product;
+import com.sufe.idledrichfish.data.model.Student;
+import com.sufe.idledrichfish.ui.publish.PublishActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +36,6 @@ import java.util.Objects;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
-
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.jude.rollviewpager.RollPagerView;
-import com.jude.rollviewpager.adapter.StaticPagerAdapter;
-import com.sufe.idledrichfish.data.ProductRepository;
-import com.sufe.idledrichfish.ui.publish.PublishActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,7 +65,6 @@ public class HomeFragment extends Fragment {
     private HomeRecyclerViewAdapter productsRecyclerAdapter;
     private List<HomeProductView> products;
     static public Handler homeProductsHandler;
-    static public Handler homeStudentHandler;
 
 
     public HomeFragment() {
@@ -349,10 +348,10 @@ public class HomeFragment extends Fragment {
                 Bundle bundles = msg.getData();
                 if (bundles.getInt("errorCode") == 0) {
                     bundles.remove("errorCode");
-                    if (bundles.isEmpty()) {
-                        productsRecyclerAdapter.notifyDataSetChanged();
-                        return;
-                    }
+//                    if (bundles.isEmpty()) {
+//                        productsRecyclerAdapter.notifyDataSetChanged();
+//                        return;
+//                    }
                     for (int i = 0; !bundles.isEmpty(); ++i) {
                         Bundle bundle = bundles.getBundle(String.valueOf(i));
                         assert bundle != null;
@@ -367,7 +366,7 @@ public class HomeFragment extends Fragment {
                                 bundle.getString("sellerId"),
                                 bundle.getString("sellerName"),
                                 bundle.getFloat("credit"),
-                                bundle.getByteArray("productImage"));
+                                bundle.getByteArray("studentImage"));
 //                        Product product = new Product();
 //                        product.setObjectId(bundle.getString("objectId"));
 //                        product.setName(bundle.getString("name"));

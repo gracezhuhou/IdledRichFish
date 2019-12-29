@@ -57,7 +57,7 @@ public class StudentDataSource {
         // 查询学生浏览过的商品，因此查询的是Product表
         BmobQuery<Product> query = new BmobQuery<Product>();
         Student student = Student.getCurrentUser(Student.class);
-        // productss是Student表中的字段，用来存储所有浏览过的商品
+        // products是Student表中的字段，用来存储所有浏览过的商品
         query.addWhereRelatedTo("products", new BmobPointer(student));
         query.findObjects(new FindListener<Product>() {
             @Override

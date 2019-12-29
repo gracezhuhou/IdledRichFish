@@ -13,10 +13,10 @@
     <string name="category_digital">数码产品</string>
     <string name="category_clothes">服饰</string>
 
-    <string name="my_publish">我发布的</string>
+    <string name="my_publish">我的发布</string>
     <string name="my_sale">我卖出的</string>
-    <string name="my_buy">我买到的</string>
-    <string name="my_favorite">我收藏的</string>
+    <string name="my_order">我的订单</string>
+    <string name="my_favorite">我的收藏</string>
 
     <string name="student_id">学号</string>
     <string name="password">密码</string>
@@ -53,6 +53,8 @@
     <string name="action_buy">创建订单</string>
     <string name="action_order_finish">交易完成</string>
     <string name="action_order_cancel">交易取消</string>
+    <string name="action_give_credit">评价卖家</string>
+    <string name="action_contact_admin">联系客服</string>
 
     <string name="invalid_student_id">不存在该学号</string>
     <string name="invalid_password">密码长度至少6位</string>
@@ -67,4 +69,9 @@
     <string name="loading">......</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_my_order">MyOrderActivity</string>
+
+    <string name="tab_order_ongoing">进行中</string>
+    <string name="tab_order_no_credit">待评价</string>
+    <string name="tab_order_all">全部</string>
 </resources>

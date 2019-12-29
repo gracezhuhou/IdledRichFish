@@ -14,9 +14,8 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="我买到的"
-        app:titleTextColor="@color/white"
-        app:titleMarginStart="165dp"/>
+        app:title="我发布的"
+        app:titleTextColor="@color/white"/>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

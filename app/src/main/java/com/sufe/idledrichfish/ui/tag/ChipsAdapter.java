@@ -40,7 +40,7 @@ public class ChipsAdapter extends RecyclerView.Adapter<ChipsAdapter.ViewHolder> 
         return tags.size();
     }
 
-    public List<Tag> getChipsEntitys(){
+    public List<Tag> getTags(){
         return tags;
     }
 

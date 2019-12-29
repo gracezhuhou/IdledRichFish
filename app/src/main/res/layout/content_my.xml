@@ -50,19 +50,18 @@
                 android:textAlignment="textStart"
                 android:textSize="@dimen/my_text_size" />
 
-            <!-- 买到 -->
             <Button
-                android:id="@+id/button_my_buy"
+                android:id="@+id/button_my_order"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/my_height"
                 android:background="@color/transparent"
                 android:paddingStart="@dimen/my_padding_start"
                 android:paddingEnd="0dp"
-                android:drawableStart="@drawable/ic_my_buy"
+                android:drawableStart="@drawable/ic_my_order"
                 android:drawablePadding="@dimen/my_drawable_padding"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/my_text_size"
-                android:text="@string/my_buy" />
+                android:text="@string/my_order" />
 
             <Button
                 android:id="@+id/button_my_sale"

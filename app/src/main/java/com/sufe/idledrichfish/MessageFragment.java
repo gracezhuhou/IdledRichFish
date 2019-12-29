@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -66,7 +65,6 @@ public class MessageFragment extends Fragment {
         // Inflate the dialog_price_publishment for this fragment
         super.onActivityCreated(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_message, container, false);
-
 
 
         return view;
