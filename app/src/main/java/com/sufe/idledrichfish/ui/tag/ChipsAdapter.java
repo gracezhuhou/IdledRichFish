@@ -32,7 +32,13 @@ public class ChipsAdapter extends RecyclerView.Adapter<ChipsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bindItem(tags.get(position));
+        Tag tag = tags.get(holder.getAdapterPosition());
+        holder.text_tag_name.setText(tag.getName());
+
+        holder.button_close.setOnClickListener(v -> {
+            tags.remove(holder.getAdapterPosition());
+            notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -47,22 +53,14 @@ public class ChipsAdapter extends RecyclerView.Adapter<ChipsAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView text_tag_name;
-        private ImageButton ibClose;
+        private ImageButton button_close;
 
         ViewHolder(View itemView) {
             super(itemView);
             text_tag_name = itemView.findViewById(R.id.text_tag_name);
-            ibClose = itemView.findViewById(R.id.ibClose);
+            button_close = itemView.findViewById(R.id.button_close);
         }
 
-        void bindItem(Tag tag) {
-            itemView.setTag(tag.getName());
-            text_tag_name.setText(tag.getName());
-
-            ibClose.setOnClickListener(v -> {
-
-            });
-        }
     }
 
 }

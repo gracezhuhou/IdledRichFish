@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
@@ -38,6 +37,7 @@ import com.sufe.idledrichfish.GlideImageEngine;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.model.Tag;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
+import com.sufe.idledrichfish.ui.tag.TagActivity;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
@@ -63,6 +63,7 @@ public class PublishActivity extends AppCompatActivity {
     private EditText text_name;
     private Button button_publish;
     private LinearLayout layout_price;
+    private LinearLayout layout_tag;
     private PriceDialog dialog_price;
     private CheckBox checkbox_is_new;
     private CheckBox checkbox_cannot_bargain;
@@ -330,6 +331,13 @@ public class PublishActivity extends AppCompatActivity {
             }
         });
 
+        // 点击tag跳转
+        layout_tag.setOnClickListener(v -> {
+            // 跳转至tag页面
+            Intent intent = new Intent(getApplicationContext(), TagActivity.class);
+            startActivity(intent);
+        });
+
         // 点击发布Button
         button_publish.setOnClickListener(view -> {
             publishViewModel.saveProduct(text_name.getText().toString(),
@@ -359,6 +367,7 @@ public class PublishActivity extends AppCompatActivity {
 
     private void initView() {
         layout_price = findViewById(R.id.layout_price);
+        layout_tag = findViewById(R.id.layout_tag);
         text_description = findViewById(R.id.editText_description);
         text_description.clearFocus();
         button_publish = findViewById(R.id.button_publish);

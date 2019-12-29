@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.widget.EditText;
@@ -31,12 +32,22 @@ public class TagActivity extends AppCompatActivity {
         setRecycler();
 
         final EditText edit_tag = findViewById(R.id.edit_tag);
+        edit_tag.requestFocus();
         edit_tag.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                Tag tag = new Tag();
-                tag.setName(edit_tag.getText().toString());
-                tags.add(tag);
-                chipsAdapter.notifyDataSetChanged();
+                String s = edit_tag.getText().toString();
+                if (!s.equals("") && !s.equals("\n")) {
+                    Tag tag = new Tag();
+                    tag.setName(s);
+                    tags.add(tag);
+                    Log.i("Tag", s);
+                    chipsAdapter.notifyDataSetChanged();
+                    edit_tag.setText("");
+                    Log.i("Tag", "size" + tags.size());
+                    edit_tag.requestFocus();
+                } else {
+                    edit_tag.setText("");
+                }
             }
             return false;
         });
@@ -46,33 +57,33 @@ public class TagActivity extends AppCompatActivity {
         final RecyclerView recycler_view = findViewById(R.id.recycler_view);
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(this)
                 //set vertical gravity for all items in a row. Default = Gravity.CENTER_VERTICAL
-                .setChildGravity(Gravity.TOP)
+                .setChildGravity(Gravity.LEFT)
                 //whether RecyclerView can scroll. TRUE by default
-                .setScrollingEnabled(true)
+//                .setScrollingEnabled(true)
                 //set maximum views count in a particular row
                 .setMaxViewsInRow(5)
                 //set gravity resolver where you can determine gravity for item in position.
                 //This method have priority over previous one
-                .setGravityResolver(new IChildGravityResolver() {
-                    @Override
-                    public int getItemGravity(int position) {
-                        return Gravity.CENTER;
-                    }
-                })
+//                .setGravityResolver(new IChildGravityResolver() {
+//                    @Override
+//                    public int getItemGravity(int position) {
+//                        return Gravity.CENTER;
+//                    }
+//                })
                 //you are able to break row due to your conditions. Row breaker should return true for that views
-                .setRowBreaker(new IRowBreaker() {
-                    @Override
-                    public boolean isItemBreakRow(@IntRange(from = 0) int position) {
-                        return position == 6 || position == 11 || position == 2;
-                    }
-                })
+//                .setRowBreaker(new IRowBreaker() {
+//                    @Override
+//                    public boolean isItemBreakRow(@IntRange(from = 0) int position) {
+//                        return position == 6 || position == 11 || position == 2;
+//                    }
+//                })
                 //a layoutOrientation of layout manager, could be VERTICAL OR HORIZONTAL. HORIZONTAL by default
-                .setOrientation(ChipsLayoutManager.HORIZONTAL)
+//                .setOrientation(ChipsLayoutManager.HORIZONTAL)
                 // row strategy for views in completed row, could be STRATEGY_DEFAULT, STRATEGY_FILL_VIEW,
                 //STRATEGY_FILL_SPACE or STRATEGY_CENTER
-                .setRowStrategy(ChipsLayoutManager.STRATEGY_FILL_SPACE)
+//                .setRowStrategy(ChipsLayoutManager.STRATEGY_DEFAULT)
                 // whether strategy is applied to last row. FALSE by default
-                .withLastRow(true)
+//                .withLastRow(true)
                 .build();
         recycler_view.setLayoutManager(chipsLayoutManager);
         tags = new ArrayList<>();
