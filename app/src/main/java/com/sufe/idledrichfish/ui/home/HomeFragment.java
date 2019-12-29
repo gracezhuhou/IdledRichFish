@@ -348,10 +348,10 @@ public class HomeFragment extends Fragment {
                 Bundle bundles = msg.getData();
                 if (bundles.getInt("errorCode") == 0) {
                     bundles.remove("errorCode");
-                    if (bundles.isEmpty()) {
-                        productsRecyclerAdapter.notifyDataSetChanged();
-                        return;
-                    }
+//                    if (bundles.isEmpty()) {
+//                        productsRecyclerAdapter.notifyDataSetChanged();
+//                        return;
+//                    }
                     for (int i = 0; !bundles.isEmpty(); ++i) {
                         Bundle bundle = bundles.getBundle(String.valueOf(i));
                         assert bundle != null;

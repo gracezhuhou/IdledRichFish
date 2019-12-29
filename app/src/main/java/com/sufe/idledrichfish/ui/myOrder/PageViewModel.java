@@ -36,8 +36,6 @@ public class PageViewModel extends ViewModel {
         return mText;
     }
 
-    LiveData<Integer> getIndex() {return mIndex;}
-
     LiveData<List<MyOrderView>> getOrders() {
         return orders;
     }

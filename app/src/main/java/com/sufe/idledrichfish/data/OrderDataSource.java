@@ -147,7 +147,7 @@ public class OrderDataSource {
                 Message msg = new Message();
                 Bundle bundles = new Bundle();
                 if (e == null) {
-                    Log.i("BMOB", "Query My Order Success" + objects.size());
+                    Log.i("BMOB", "Query My Order Success " + objects.size());
                     bundles.putInt("errorCode", 0);
                     int i = 0;
                     for (Order order: objects) {
@@ -159,22 +159,28 @@ public class OrderDataSource {
                         b.putDouble("price", product.getPrice());
                         b.putString("sellerId", seller.getObjectId());
                         b.putString("sellerName", seller.getName());
+                        b.putInt("status", order.getStatus());
+                        b.putString("orderId", order.getObjectId());
                         if (product.getImage1() != null) {
                             b.putByteArray("productImage", Bytes.toArray(product.getImage1()));
                         }
                         if (seller.getImage() != null) {
-                            b.putByteArray("sellerImage", Bytes.toArray(product.getImage1()));
+                            b.putByteArray("sellerImage", Bytes.toArray(seller.getImage()));
                         }
                         bundles.putBundle(String.valueOf(i), b);
                         ++i;
                     }
                 } else {
-                    Log.e("BMOB", "Query My Favorite Fail", e);
+                    Log.e("BMOB", "Query My Order Fail", e);
                     bundles.putInt("errorCode", e.getErrorCode());
                     bundles.putString("e", e.toString());
                 }
                 msg.setData(bundles);
-                PlaceholderFragment.orderHandler.sendMessage(msg);
+                switch (status) {
+                    case -1: PlaceholderFragment.orderHandler1.sendMessage(msg); break;
+                    case 0: PlaceholderFragment.orderHandler2.sendMessage(msg); break;
+                    case 1: PlaceholderFragment.orderHandler3.sendMessage(msg);
+                }
             }
         });
     }
