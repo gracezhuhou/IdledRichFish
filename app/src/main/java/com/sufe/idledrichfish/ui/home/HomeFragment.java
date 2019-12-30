@@ -25,8 +25,6 @@ import com.quinny898.library.persistentsearch.SearchResult;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
-import com.sufe.idledrichfish.data.model.Product;
-import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.publish.PublishActivity;
 
 import java.util.ArrayList;
@@ -194,7 +192,7 @@ public class HomeFragment extends Fragment {
         //StoreHouse风格的头部实现
         StoreHouseHeader storeHouseHeader = new StoreHouseHeader(this.getContext());
         storeHouseHeader.setPadding(0,50,0,0);
-        storeHouseHeader.setBackgroundColor(getResources().getColor(R.color.primary_dark));
+        storeHouseHeader.setBackgroundColor(getResources().getColor(R.color.orange));
         storeHouseHeader.setTextColor(Color.WHITE);
         storeHouseHeader.initWithString("sufe loading"); // 只可英文，中文不可运行(添加时间)
         layout_refresh.setHeaderView(storeHouseHeader);
@@ -203,7 +201,7 @@ public class HomeFragment extends Fragment {
         StoreHouseHeader storeHouseFooter = new StoreHouseHeader(this.getContext());
         storeHouseFooter.setPadding(0,10,0,10);
         storeHouseFooter.setBackgroundColor(getResources().getColor(R.color.transparent));
-        storeHouseFooter.setTextColor(getResources().getColor(R.color.primary));
+        storeHouseFooter.setTextColor(getResources().getColor(R.color.orange));
         storeHouseFooter.initWithString("loading"); // 只可英文，中文不可运行(添加时间)
         layout_refresh.setFooterView(storeHouseFooter);
         layout_refresh.addPtrUIHandler(storeHouseFooter);
@@ -270,7 +268,7 @@ public class HomeFragment extends Fragment {
         });
 
         for(int x = 0; x < 10; x++){
-            SearchResult option = new SearchResult("Result " + Integer.toString(x), getResources().getDrawable(R.drawable.ic_history));
+            SearchResult option = new SearchResult("Result " + Integer.toString(x), getResources().getDrawable(R.drawable.ic_my_history));
             search_box.addSearchable(option);
         }
 
@@ -348,10 +346,6 @@ public class HomeFragment extends Fragment {
                 Bundle bundles = msg.getData();
                 if (bundles.getInt("errorCode") == 0) {
                     bundles.remove("errorCode");
-//                    if (bundles.isEmpty()) {
-//                        productsRecyclerAdapter.notifyDataSetChanged();
-//                        return;
-//                    }
                     for (int i = 0; !bundles.isEmpty(); ++i) {
                         Bundle bundle = bundles.getBundle(String.valueOf(i));
                         assert bundle != null;
@@ -367,19 +361,6 @@ public class HomeFragment extends Fragment {
                                 bundle.getString("sellerName"),
                                 bundle.getFloat("credit"),
                                 bundle.getByteArray("studentImage"));
-//                        Product product = new Product();
-//                        product.setObjectId(bundle.getString("objectId"));
-//                        product.setName(bundle.getString("name"));
-//                        product.setNew(bundle.getBoolean("isNew"));
-//                        product.setPrice(bundle.getDouble("price"));
-//                        product.setCanBargain(bundle.getBoolean("canBargain"));
-//                        Student seller = new Student();
-//                        seller.setObjectId(bundle.getString("sellerId"));
-//                        product.setSeller(seller);
-//                        BmobFile image = new BmobFile("image1", "", bundle.getString("productImage"));
-//                        image.setUrl(bundle.getString("productImage"));
-//                        product.setImage1(image);
-//                        product.setImage1(bundle.getByteArray("productImage"));
                         products.add(product);
                         bundles.remove(String.valueOf(i));
                     }

@@ -16,19 +16,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp">
-
-            <!-- 图片轮播 -->
-            <com.jude.rollviewpager.RollPagerView
-                android:id="@+id/roll_view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                app:rollviewpager_play_delay="3000"/>
-
-        </android.support.v7.widget.CardView>
+        <!-- 图片轮播 -->
+        <com.jude.rollviewpager.RollPagerView
+            android:id="@+id/roll_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@color/white"
+            app:rollviewpager_play_delay="2000"/>
 
         <!-- 分类按钮 -->
         <LinearLayout

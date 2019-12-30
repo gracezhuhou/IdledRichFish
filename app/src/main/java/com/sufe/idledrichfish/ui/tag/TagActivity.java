@@ -1,28 +1,26 @@
 package com.sufe.idledrichfish.ui.tag;
 
-import android.support.annotation.IntRange;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
-import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
-import com.beloo.widget.chipslayoutmanager.layouter.breaker.IRowBreaker;
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.data.model.Tag;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TagActivity extends AppCompatActivity {
 
-    private List<Tag> tags;
+    private ArrayList<String> tags;
     private ChipsAdapter chipsAdapter;
+    private final int REQUEST_CODE_GET_TAGS = 11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +33,10 @@ public class TagActivity extends AppCompatActivity {
         edit_tag.requestFocus();
         edit_tag.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                String s = edit_tag.getText().toString();
-                if (!s.equals("") && !s.equals("\n")) {
-                    Tag tag = new Tag();
-                    tag.setName(s);
+                String tag = edit_tag.getText().toString();
+                if (!tag.equals("") && !tag.equals("\n")) {
                     tags.add(tag);
-                    Log.i("Tag", s);
+                    Log.i("Tag", tag);
                     chipsAdapter.notifyDataSetChanged();
                     edit_tag.setText("");
                     Log.i("Tag", "size" + tags.size());
@@ -50,6 +46,18 @@ public class TagActivity extends AppCompatActivity {
                 }
             }
             return false;
+        });
+
+        final Button button_finish = findViewById(R.id.button_finish);
+        button_finish.setOnClickListener(view -> {
+            if (tags.size() >=1 ) {
+                Intent intent = new Intent();
+                intent.putStringArrayListExtra("tags_extra", tags);
+                setResult(REQUEST_CODE_GET_TAGS, intent);
+                finish();
+            } else {
+                Toast.makeText(this, "请输入至少一个标签", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

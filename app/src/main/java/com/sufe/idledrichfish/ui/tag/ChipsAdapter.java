@@ -14,13 +14,13 @@ import java.util.List;
 
 public class ChipsAdapter extends RecyclerView.Adapter<ChipsAdapter.ViewHolder> {
 
-    private List<Tag> tags;
+    private List<String> tags;
 
-    public ChipsAdapter(List<Tag> tags) {
+    public ChipsAdapter(List<String> tags) {
         this.tags = tags;
     }
 
-    public ChipsAdapter(List<Tag> tags, boolean isShowingPosition) {
+    public ChipsAdapter(List<String> tags, boolean isShowingPosition) {
         this.tags = tags;
     }
 
@@ -32,8 +32,8 @@ public class ChipsAdapter extends RecyclerView.Adapter<ChipsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Tag tag = tags.get(holder.getAdapterPosition());
-        holder.text_tag_name.setText(tag.getName());
+        String tag = tags.get(holder.getAdapterPosition());
+        holder.text_tag_name.setText(tag);
 
         holder.button_close.setOnClickListener(v -> {
             tags.remove(holder.getAdapterPosition());
@@ -46,7 +46,7 @@ public class ChipsAdapter extends RecyclerView.Adapter<ChipsAdapter.ViewHolder> 
         return tags.size();
     }
 
-    public List<Tag> getTags(){
+    public List<String> getTags(){
         return tags;
     }
 
@@ -60,7 +60,5 @@ public class ChipsAdapter extends RecyclerView.Adapter<ChipsAdapter.ViewHolder> 
             text_tag_name = itemView.findViewById(R.id.text_tag_name);
             button_close = itemView.findViewById(R.id.button_close);
         }
-
     }
-
 }

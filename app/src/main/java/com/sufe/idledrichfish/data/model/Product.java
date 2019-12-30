@@ -26,7 +26,7 @@ public class Product extends BmobObject{
 
     private String category;
 
-    private BmobRelation tabs;
+//    private BmobRelation tabs;
 
     private List<Byte> image1;
 
@@ -121,13 +121,13 @@ public class Product extends BmobObject{
         this.publishDate = publishDate;
     }
 
-    public BmobRelation getTabs() {
-        return tabs;
-    }
-
-    public void setTabs(BmobRelation tabs) {
-        this.tabs = tabs;
-    }
+//    public BmobRelation getTabs() {
+//        return tabs;
+//    }
+//
+//    public void setTabs(BmobRelation tabs) {
+//        this.tabs = tabs;
+//    }
 
     public List<Byte> getImage1() {
         return image1;

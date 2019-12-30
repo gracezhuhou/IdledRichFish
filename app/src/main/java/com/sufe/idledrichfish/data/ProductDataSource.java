@@ -20,7 +20,6 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
@@ -33,8 +32,8 @@ public class ProductDataSource {
      * 上传商品数据
      */
     void saveProduct(String productName, String description, boolean isNew, boolean canBargain,
-                            double price, double oldPrice, BmobRelation labels, String category,
-                            List<String> imagePath) {
+                     double price, double oldPrice, String category, List<String> imagePath,
+                     List<String> tags) {
         Message msg = new Message();
         Bundle b = new Bundle();
         // 保存Product
@@ -45,7 +44,6 @@ public class ProductDataSource {
         product.setCanBargain(canBargain);
         product.setPrice(price);
         product.setOldPrice(oldPrice);
-        product.setTabs(labels);
         product.setCategory(category);
         product.setSeller(Student.getCurrentUser(Student.class)); // 获取当前用户
         product.setPublishDate(new BmobDate(Tool.getNetTime())); // 获取网络时间
@@ -73,11 +71,9 @@ public class ProductDataSource {
         product.save(new SaveListener<String>() {
             @Override
             public void done(String objectId, BmobException e) {
-                // 反馈给PublishmentFragment
+                // 反馈给PublishFragment
                 if(e == null) {
-                    b.putInt("errorCode", 0);
-                    msg.setData(b);
-                    PublishActivity.publishHandler.sendMessage(msg);
+                    TagRepository.getInstance(new TagDataSource()).saveTags(tags, objectId);
                     Log.i("BMOB", "Save Product Success");
                 }
                 else {

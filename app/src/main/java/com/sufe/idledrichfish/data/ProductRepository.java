@@ -27,10 +27,10 @@ public class ProductRepository {
     }
 
     public void saveProduct(String productName, String description, boolean isNew, boolean canBargain,
-                            double price, double oldPrice, BmobRelation labels, String category,
-                            List<String> imagePath) {
+                            double price, double oldPrice, String category,
+                            List<String> imagePath, List<String> tags) {
         dataSource.saveProduct(productName, description, isNew, canBargain, price, oldPrice,
-                labels, category, imagePath);
+                category, imagePath, tags);
     }
 
     public void queryProduct(String id, String type){
