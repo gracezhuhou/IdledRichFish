@@ -1,11 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/yellow"
-    tools:context=".ui.publish.PublishActivity">
+    tools:context=".ui.publish.CategoryActivity">
 
-</LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/book"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="书籍"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/cosmetics"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="化妆品"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/clothes"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="服饰"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/digital"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="手机数码"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/appliances"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="家用电器"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/furniture"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="家具饰品"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/shoes"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="鞋靴"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/bags"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="箱包"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/kids"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="母婴"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/pets"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="宠物用品"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/fruits"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="生鲜水果"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+            <TextView
+                android:id="@+id/commodity"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/category_height"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/publish_checkbox_padding_vtc"
+                android:paddingTop="@dimen/publish_checkbox_padding_vtc"
+                android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
+                android:text="生活百货"
+                android:textSize="20sp"
+                android:background="@drawable/category_textview" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

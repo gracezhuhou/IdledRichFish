@@ -39,5 +39,9 @@
     <dimen name="product_button_width">40dp</dimen>
     <dimen name="product_button_height">20dp</dimen>
     <dimen name="product_button_text_size">15sp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="category_height">48dp</dimen>
 
 </resources>
