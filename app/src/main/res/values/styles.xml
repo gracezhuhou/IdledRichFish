@@ -3,15 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/indigo</item>
-        <item name="colorAccent">@color/banana</item>
-        <item name="android:textColorPrimary">@color/dark</item>
-        <!--textColorPrimary字体默认颜色-->
-        <!--colorAccent控件默认颜色-->
-        <!--colorPrimaryDark顶部状态栏默认颜色-->
-        <!--colorPrimary顶部背景默认颜色-->
-        <!--navigationBarColor-->
+        <item name="colorPrimary">@color/blue</item>  <!--colorPrimary顶部背景默认颜色-->
+        <item name="colorPrimaryDark">@color/indigo</item> <!--colorPrimaryDark顶部状态栏默认颜色-->
+        <item name="colorAccent">@color/banana</item> <!--colorAccent控件默认颜色-->
+        <item name="android:textColorPrimary">@color/dark</item> <!--textColorPrimary字体默认颜色-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -29,8 +24,10 @@
 
 
     <style name="DialogStyle_Price">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:textColor">@color/dark</item>
+        <item name="colorAccent">@color/banana</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>

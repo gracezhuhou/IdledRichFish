@@ -20,9 +20,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/card_margin_hrz"
-        android:layout_marginEnd="@dimen/card_margin_hrz"
-        android:layout_marginTop="@dimen/card_margin_vtc">
+        android:layout_marginStart="@dimen/list_margin_hrz"
+        android:layout_marginEnd="@dimen/list_margin_hrz"
+        android:layout_marginTop="@dimen/list_margin_vtc">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,8 +41,8 @@
                     android:layout_height="wrap_content"
                     android:columnCount="3"
                     android:orientation="horizontal"
-                    android:paddingTop="@dimen/activity_vtc_margin"
-                    android:paddingBottom="@dimen/activity_vtc_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
                     android:rowCount="6">
 
                     <TextView

@@ -8,8 +8,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.daimajia.swipe.SwipeLayout;
 import com.sufe.idledrichfish.R;
+import com.sufe.idledrichfish.data.FavoriteDataSource;
+import com.sufe.idledrichfish.data.FavoriteRepository;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 
@@ -17,37 +21,38 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class MyFavoriteRecyclerViewAdapter extends RecyclerView.Adapter<MyFavoriteRecyclerViewAdapter.ViewHolder>{
-private List<Product> myProducts;
+    private List<Product> myProducts;
+    private FavoriteRepository favoriteRepository = FavoriteRepository.getInstance(new FavoriteDataSource());
 
-static class ViewHolder extends RecyclerView.ViewHolder{
-    private SwipeLayout swipe_layout;
-    private TextView text_product_name;
-    private TextView text_price;
-    private TextView text_seller_name;
-    private TextView text_credit;
-    private ImageView image_seller;
-    private ImageView image_product1;
-    private ImageView image_product2;
-    private ImageView image_product3;
-    private ImageView image_product4;
-    private Button button_delete;
-    private String productId;
+    static class ViewHolder extends RecyclerView.ViewHolder{
+        private SwipeLayout swipe_layout;
+        private TextView text_product_name;
+        private TextView text_price;
+        private TextView text_seller_name;
+        private TextView text_credit;
+        private ImageView image_seller;
+        private ImageView image_product1;
+        private ImageView image_product2;
+        private ImageView image_product3;
+        private ImageView image_product4;
+        private Button button_delete;
+        private String productId;
 
-    public ViewHolder(View view){
-        super(view);
-        swipe_layout = view.findViewById(R.id.swipe_layout);
-        text_product_name = view.findViewById(R.id.text_product_name);
-        text_price = view.findViewById(R.id.text_price);
-        text_seller_name = view.findViewById(R.id.text_seller_name);
-        text_credit = view.findViewById(R.id.text_credit);
-        image_seller = view.findViewById(R.id.image_seller);
-        image_product1 = view.findViewById(R.id.image_product1);
-        image_product2 = view.findViewById(R.id.image_product2);
-        image_product3 = view.findViewById(R.id.image_product3);
-        image_product4 = view.findViewById(R.id.image_product4);
-        button_delete = view.findViewById(R.id.button_delete);
+        public ViewHolder(View view){
+            super(view);
+            swipe_layout = view.findViewById(R.id.swipe_layout);
+            text_product_name = view.findViewById(R.id.text_product_name);
+            text_price = view.findViewById(R.id.text_price);
+            text_seller_name = view.findViewById(R.id.text_seller_name);
+            text_credit = view.findViewById(R.id.text_credit);
+            image_seller = view.findViewById(R.id.image_seller);
+            image_product1 = view.findViewById(R.id.image_product1);
+            image_product2 = view.findViewById(R.id.image_product2);
+            image_product3 = view.findViewById(R.id.image_product3);
+            image_product4 = view.findViewById(R.id.image_product4);
+            button_delete = view.findViewById(R.id.button_delete);
+        }
     }
-}
 
     public MyFavoriteRecyclerViewAdapter(List<Product> products){
         myProducts = products;
@@ -61,29 +66,37 @@ static class ViewHolder extends RecyclerView.ViewHolder{
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position){
-        int myPosition = holder.getAdapterPosition();
         // 设置商品信息
-        Product product = myProducts.get(myPosition);
+        Product product = myProducts.get(holder.getAdapterPosition());
         holder.text_product_name.setText(product.getName());
         DecimalFormat format1 = new java.text.DecimalFormat("¥ 0.00"); // 保留小数点两位
         holder.text_price.setText(format1.format(product.getPrice()));
         holder.productId = product.getObjectId();
-        // todo image
+        // image
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
+                .fallback(R.drawable.head) // url为空的时候,显示的图片
+                .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
+        Glide.with(holder.itemView).load(product.getImage1()).apply(options).into(holder.image_product1);
+        Glide.with(holder.itemView).load(product.getImage2()).into(holder.image_product2);
+        Glide.with(holder.itemView).load(product.getImage3()).into(holder.image_product3);
+        Glide.with(holder.itemView).load(product.getImage4()).into(holder.image_product4);
 
         Student student = product.getSeller();
-        holder.text_seller_name.setText(product.getSeller().getName());
+        holder.text_seller_name.setText(student.getName());
         DecimalFormat format2 = new java.text.DecimalFormat("0.0");
-        holder.text_credit.setText(format2.format(product.getSeller().getCredit()));
-        // todo: image
+        holder.text_credit.setText(format2.format(student.getCredit()));
+        // image
+        Glide.with(holder.itemView).load(student.getImage()).apply(options).into(holder.image_seller);
 
         // 滑动删除
         holder.swipe_layout.setShowMode(SwipeLayout.ShowMode.LayDown);
-        holder.button_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myProducts.remove(myPosition);
-                notifyDataSetChanged();//todo
-            }
+        holder.button_delete.setOnClickListener(view -> {
+            myProducts.remove(holder.getAdapterPosition());
+            notifyDataSetChanged();
+            // Bmob数据库中删除favorite
+            favoriteRepository.removeFavorite(holder.productId);
+            // todo: Handler
         });
     }
 

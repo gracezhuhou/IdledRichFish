@@ -1,65 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content">
 
-    <!--头像-->
-    <ImageView
-        android:id="@+id/pic"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_margin="15dp"
-        tools:srcCompat="@tools:sample/avatars"/>
-
-    <TextView
-        android:id="@+id/text_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="李明"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        android:layout_toRightOf="@+id/pic"
-        android:layout_alignTop="@+id/pic"
-        android:layout_marginTop="4dp"/>
-
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="第三方男的罚款缴纳"
-        android:textSize="@dimen/text_size"
-        android:textColor="@color/dark"
-        android:layout_toRightOf="@id/pic"
-        android:layout_alignBottom="@+id/pic"
-        android:layout_marginBottom="4dp"/>
-
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2019-10-29"
-        android:textSize="12dp"
-        android:textColor="@color/dark"
-        android:layout_below="@+id/content"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/pic"
-        android:layout_marginBottom="5dp"/>
-
-    <View
-        android:id="@+id/line1"
-        android:layout_below="@id/time"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/gray"
-        android:layout_toRightOf="@id/pic" />
-
-    <ImageView
+    <!-- Bottom View Start-->
+    <LinearLayout
+        android:id="@+id/bottom_wrapper"
         android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        tools:srcCompat="@tools:sample/avatars"/>
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/orange">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/button_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/action_delete"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+    <!-- Bottom View End-->
+
+    <!-- Surface View Start -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <!--头像-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/ic_no_image"
+            android:layout_marginEnd="10dp"
+            app:civ_border_width="3dp"
+            app:civ_border_color="@color/indigo"
+            app:civ_border_overlay="true"/>
+
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_toEndOf="@+id/image"
+            android:layout_alignTop="@+id/image"/>
+
+        <TextView
+            android:id="@+id/text_last_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/dark"
+            android:layout_toEndOf="@id/image"
+            android:layout_alignBottom="@+id/image"/>
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="2019-10-29"
+            android:textColor="@color/dark"
+            android:textSize="12sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/indigo"
+            android:layout_toEndOf="@id/image"
+            android:layout_below="@+id/text_last_message" />
+
+    </RelativeLayout>
+
+</com.daimajia.swipe.SwipeLayout>

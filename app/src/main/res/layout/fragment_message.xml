@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MessageFragment">
+    tools:context=".ui.message.MessageFragment">
 
     <!-- TODO: Update blank fragment dialog_price_publishment -->
     <RelativeLayout
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:background="@color/pink">
+        android:background="@color/indigo">
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
         android:text="暂无状态更新！"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/mail"
+        android:id="@+id/recycler_view"
         android:layout_below="@id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

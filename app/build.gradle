@@ -70,9 +70,10 @@ dependencies {
     implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3' // 弹出框
     implementation 'com.zhihu.android:matisse:0.5.2-beta2' // 本地图像选择器
     implementation 'com.lzy.widget:ninegridview:0.2.0' // 九宫格图像控件
+    implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar' // 流式布局
     // 工具类
     implementation("com.google.guava:guava:28.1-android")
     implementation 'com.android.support:multidex:1.0.3'
-    //环信
+    // 环信
     implementation 'com.hyphenate:hyphenate-sdk:3.6.1'
 }

@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.sufe.idledrichfish.ui.home.HomeFragment;
+import com.sufe.idledrichfish.ui.message.MessageFragment;
 
 import cn.bmob.v3.Bmob;
 

@@ -8,7 +8,6 @@ import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -43,8 +42,8 @@ public class ProductInfoActivity extends AppCompatActivity {
     private ImageView image_seller;
     private ImageView icon_gender;
     private ImageView icon_favorite;
-    private CardView card_new;
-    private CardView card_cannot_bargain;
+    private TextView text_new;
+    private TextView text_cannot_bargain;
     private ConstraintLayout layout_seller;
 
     private String productId;
@@ -82,8 +81,11 @@ public class ProductInfoActivity extends AppCompatActivity {
     private void setAppBar() {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        }
 
         final AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         // 折叠状态监听
@@ -97,12 +99,6 @@ public class ProductInfoActivity extends AppCompatActivity {
                 }else if(state == State.COLLAPSED){
                     //折叠状态
                     layout_seller.setVisibility(View.INVISIBLE);
-//                    if (sellerName != null) {
-//                        getSupportActionBar().setTitle(sellerName);
-//                    }
-                    // todo:设置标题头像
-                    getSupportActionBar().setIcon(R.drawable.ic_user); // 暂时
-
                 }else {
                     //中间状态
                     layout_seller.setVisibility(View.VISIBLE);
@@ -159,10 +155,10 @@ public class ProductInfoActivity extends AppCompatActivity {
                     text_price.setText(format1.format(b.getDouble("price")));
                     text_old_price.setText(format1.format(b.getDouble("oldPrice")));
                     if(!b.getBoolean("isNew")) {
-                        card_new.setVisibility(View.GONE);
+                        text_new.setVisibility(View.GONE);
                     }
                     if (b.getBoolean("canBargain")) {
-                        card_cannot_bargain.setVisibility(View.GONE);
+                        text_cannot_bargain.setVisibility(View.GONE);
                     }
                     String publishDate = "发布于" + b.getString("publishDate");
                     text_publish_date.setText(publishDate);
@@ -214,7 +210,7 @@ public class ProductInfoActivity extends AppCompatActivity {
                             .withIcon(getResources().getDrawable(R.drawable.ic_fail))
                             .withEffect(Effectstype.SlideBottom)
                             .show();
-                    icon_favorite.setImageResource(R.drawable.ic_favorite_gray);
+                    icon_favorite.setImageResource(R.drawable.ic_star_white);
                     icon_favorite.setTag("unfavor");
                 }
             }
@@ -232,7 +228,7 @@ public class ProductInfoActivity extends AppCompatActivity {
                             .withIcon(getResources().getDrawable(R.drawable.ic_fail))
                             .withEffect(Effectstype.SlideBottom)
                             .show();
-                    icon_favorite.setImageResource(R.drawable.ic_favorite_yellow);
+                    icon_favorite.setImageResource(R.drawable.ic_star);
                     icon_favorite.setTag("favor");
                 }
             }
@@ -243,10 +239,10 @@ public class ProductInfoActivity extends AppCompatActivity {
                 Bundle b = msg.getData();
                 if (b.getInt("errorCode") == 0) {
                     if (b.getBoolean("favorite")) {
-                        icon_favorite.setImageResource(R.drawable.ic_favorite_yellow);
+                        icon_favorite.setImageResource(R.drawable.ic_star);
                         icon_favorite.setTag("favor");
                     } else {
-                        icon_favorite.setImageResource(R.drawable.ic_favorite_gray);
+                        icon_favorite.setImageResource(R.drawable.ic_star_white);
                         icon_favorite.setTag("unfavor");
                     }
                 }
@@ -258,18 +254,18 @@ public class ProductInfoActivity extends AppCompatActivity {
         text_product_name = findViewById(R.id.text_product_name);
         text_price = findViewById(R.id.text_price);
         text_old_price = findViewById(R.id.text_old_price);
-        text_product_description = findViewById(R.id.text_product_description);
+        text_product_description = findViewById(R.id.text_description);
         text_seller_name = findViewById(R.id.text_seller_name);
         text_seller_credit = findViewById(R.id.text_seller_credit);
         text_login_date = findViewById(R.id.text_login_date);
         text_publish_date = findViewById(R.id.text_publish_date);
         image_product = findViewById(R.id.image_product);
         image_seller = findViewById(R.id.image_seller);
-        icon_favorite = findViewById(R.id.icon_favorate);
+        icon_favorite = findViewById(R.id.icon_favorite);
         icon_gender = findViewById(R.id.icon_gender);
-        card_new = findViewById(R.id.card_new);
-        card_cannot_bargain = findViewById(R.id.card_cannot_bargain);
         layout_seller = findViewById(R.id.layout_seller);
+        text_new = findViewById(R.id.text_new);
+        text_cannot_bargain = findViewById(R.id.text_cannot_bargain);
     }
 
     /**
@@ -278,12 +274,12 @@ public class ProductInfoActivity extends AppCompatActivity {
     private void clickFavorite() {
         if (icon_favorite.getTag().equals("favor")) {
             Log.i("ProductInfo", "Remove Favorite");
-            icon_favorite.setImageResource(R.drawable.ic_favorite_gray);
+            icon_favorite.setImageResource(R.drawable.ic_star_white);
             icon_favorite.setTag("unfavor");
             FavoriteRepository.getInstance(new FavoriteDataSource()).removeFavorite(productId);
         } else {
             Log.i("ProductInfo", "Add Favorite");
-            icon_favorite.setImageResource(R.drawable.ic_favorite_yellow);
+            icon_favorite.setImageResource(R.drawable.ic_star);
             icon_favorite.setTag("favor");
             FavoriteRepository.getInstance(new FavoriteDataSource()).saveFavorite(productId);
         }
