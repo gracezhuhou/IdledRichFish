@@ -24,6 +24,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMOptions;
 import com.sufe.idledrichfish.MainActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.SignUpActivity;
@@ -50,7 +52,21 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
+
         Bmob.initialize(this, "a0ed5f46dbb3be388267b3726f33ca5c");
+
+        EMOptions options = new EMOptions();
+        // 默认添加好友时，是不需要验证的，改成需要验证
+        options.setAcceptInvitationAlways(false);
+        // 是否自动将消息附件上传到环信服务器，默认为True是使用环信服务器上传下载，如果设为 false，需要开发者自己处理附件消息的上传和下载
+        options.setAutoTransferMessageAttachments(true);
+        // 是否自动下载附件类消息的缩略图等，默认为 true 这里和上边这个参数相关联
+        options.setAutoDownloadThumbnail(true);
+        // 初始化
+        EMClient.getInstance().init(this, options);
+        // 在做打包混淆时，关闭debug模式，避免消耗不必要的资源
+        EMClient.getInstance().setDebugMode(true);
+
 
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
@@ -67,9 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setLoginForm();
 
-        /*
-         * 点击登录按钮
-         */
+        // 点击登录按钮
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,9 +99,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*
-         * 点击注册按钮
-         */
+        // 点击注册按钮
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /*
+    /**
      * 获取Bmob返回的登录ErrorCode
      */
     @SuppressLint("HandlerLeak")
@@ -181,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /*
+    /**
      * 跳转Activity
      */
     private void goToActivity(Class c) {

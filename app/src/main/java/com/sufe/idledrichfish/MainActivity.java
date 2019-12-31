@@ -18,25 +18,29 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
-import com.sufe.idledrichfish.ui.message.MessageFragment;
+import com.sufe.idledrichfish.ui.chat.ChatFragment;
+
+import java.util.List;
 
 import cn.bmob.v3.Bmob;
 
 public class MainActivity extends AppCompatActivity implements
-        HomeFragment.OnFragmentInteractionListener, MessageFragment.OnFragmentInteractionListener,
+        HomeFragment.OnFragmentInteractionListener, ChatFragment.OnFragmentInteractionListener,
         MyFragment.OnFragmentInteractionListener {
 
     private FrameLayout mainFrame;
     private BottomNavigationView navView;
     private HomeFragment homeFragment;
-    private MessageFragment messageFragment;
+    private ChatFragment chatFragment;
     private MyFragment myFragment;
     private Fragment[] fragments;
     private int lastFragment = 0;
@@ -44,68 +48,86 @@ public class MainActivity extends AppCompatActivity implements
     private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private AlertDialog dialog;
 
+    private EMMessageListener msgListener;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    if (lastFragment != 0) {
-                        switchFragment(lastFragment, 0);
-                        lastFragment = 0;
-                    }
-                    return true;
-                case R.id.navigation_message:
-                    if (lastFragment != 1) {
-                        switchFragment(lastFragment, 1);
-                        lastFragment = 1;
-                    }
-                    return true;
-                case R.id.navigation_personal_info:
-                    if (lastFragment != 2) {
-                        switchFragment(lastFragment, 2);
-                        lastFragment = 2;
-                    }
-                    return true;
-            }
-            return false;
-        }
-    };
+            = item -> {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        if (lastFragment != 0) {
+                            switchFragment(lastFragment, 0);
+                            lastFragment = 0;
+                        }
+                        return true;
+                    case R.id.navigation_message:
+                        if (lastFragment != 1) {
+                            switchFragment(lastFragment, 1);
+                            lastFragment = 1;
+                        }
+                        return true;
+                    case R.id.navigation_personal_info:
+                        if (lastFragment != 2) {
+                            switchFragment(lastFragment, 2);
+                            lastFragment = 2;
+                        }
+                        return true;
+                }
+                return false;
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        hideStatusBar(); // 全屏并且隐藏状态栏
         setPermission();
-
-        // 初始化BmobSDK
-        Bmob.initialize(this, "a0ed5f46dbb3be388267b3726f33ca5c");
-        // 开启数据统计功能
-        //Bmob.initialize(this, "Your Application ID","bmob");
-
-        //设置BmobConfig,允许设置请求超时时间、文件分片上传时每片的大小、文件的过期时间(单位为秒)，
-        //BmobConfig config =new BmobConfig.Builder(this)
-        ////设置appkey
-        //.setApplicationId("Your Application ID")
-        ////请求超时时间（单位为秒）：默认15s
-        //.setConnectTimeout(30)
-        ////文件分片上传时每片的大小（单位字节），默认512*1024
-        //.setUploadBlockSize(1024*1024)
-        ////文件的过期时间(单位为秒)：默认1800s
-        //.setFileExpiration(2500)
-        //.build();
-        //Bmob.initialize(config);
+//        initBmob();
         initView();
+
+        msgListener = new EMMessageListener() {
+            @Override
+            public void onMessageReceived(List<EMMessage> messages) {
+                // 收到消息
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> messages) {
+                // 收到透传消息
+            }
+
+            @Override
+            public void onMessageRead(List<EMMessage> messages) {
+                // 收到已读回执
+            }
+
+            @Override
+            public void onMessageDelivered(List<EMMessage> message) {
+                // 收到已送达回执
+            }
+            @Override
+            public void onMessageRecalled(List<EMMessage> messages) {
+                // 消息被撤回
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage message, Object change) {
+                // 消息状态变动
+            }
+        };
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EMClient.getInstance().chatManager().removeMessageListener(msgListener);
     }
 
     void initView() {
         homeFragment = new HomeFragment();
-        messageFragment = new MessageFragment();
+        chatFragment = new ChatFragment();
         myFragment = new MyFragment();
-        fragments = new Fragment[]{homeFragment, messageFragment, myFragment};
+        fragments = new Fragment[]{homeFragment, chatFragment, myFragment};
         mainFrame = findViewById(R.id.mainFrame);
         //设置fragment到布局
         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, homeFragment).show(homeFragment).commit();
@@ -255,4 +277,25 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
     }
+
+    private void initBmob() {
+        // 初始化BmobSDK
+        Bmob.initialize(this, "a0ed5f46dbb3be388267b3726f33ca5c");
+        // 开启数据统计功能
+        //Bmob.initialize(this, "Your Application ID","bmob");
+
+        //设置BmobConfig,允许设置请求超时时间、文件分片上传时每片的大小、文件的过期时间(单位为秒)，
+        //BmobConfig config =new BmobConfig.Builder(this)
+        ////设置appkey
+        //.setApplicationId("Your Application ID")
+        ////请求超时时间（单位为秒）：默认15s
+        //.setConnectTimeout(30)
+        ////文件分片上传时每片的大小（单位字节），默认512*1024
+        //.setUploadBlockSize(1024*1024)
+        ////文件的过期时间(单位为秒)：默认1800s
+        //.setFileExpiration(2500)
+        //.build();
+        //Bmob.initialize(config);
+    }
+
 }

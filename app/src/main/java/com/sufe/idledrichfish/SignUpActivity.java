@@ -204,20 +204,10 @@ public class SignUpActivity extends AppCompatActivity {
                 .withEffect(Effectstype.SlideBottom)
                 .withButton1Text("确定")
                 .withButton2Text("取消")
-                .setButton1Click(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        LoginRepository.getInstance(new LoginDataSource())
-                                .signUp(text_stu_number.getText().toString(), text_name.getText().toString(),
-                                        text_password.getText().toString(), btn_male.isChecked(), imagePath);
-                    }
-                })
-                .setButton2Click(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogBuilder.dismiss();
-                    }
-                })
+                .setButton1Click(v -> LoginRepository.getInstance(new LoginDataSource())
+                        .signUp(text_stu_number.getText().toString(), text_name.getText().toString(),
+                                text_password.getText().toString(), btn_male.isChecked(), imagePath))
+                .setButton2Click(v -> dialogBuilder.dismiss())
                 .show();
     }
 }

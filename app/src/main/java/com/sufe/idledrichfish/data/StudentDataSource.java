@@ -24,7 +24,7 @@ public class StudentDataSource {
 //        bmobQuery.getObject(objectId, new QueryListener<Student>() {
 //            @Override
 //            public void done(Student student, BmobException e) {
-//                Message msg = new Message();
+//                MessageView msg = new MessageView();
 //                Bundle b = new Bundle();
 //                b.putInt("position", position);
 //                if (e == null) {
@@ -98,7 +98,7 @@ public class StudentDataSource {
                                     String tabId2 = historyTags.get(1).getObjectId(); // 这是点击第二多的tab的ID， 依次类推
 
                                     // 传回Activity
-//                                    Message msg = new Message();
+//                                    MessageView msg = new MessageView();
 //                                    Bundle bundles = new Bundle();
 //                                    int size = historyTabsNum.size();
 //                                    for (int i = 0; i < size; ++i) {

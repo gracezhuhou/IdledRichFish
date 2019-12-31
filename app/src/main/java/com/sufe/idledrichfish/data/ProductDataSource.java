@@ -1,13 +1,12 @@
 package com.sufe.idledrichfish.data;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
 import com.google.common.primitives.Bytes;
 import com.sufe.idledrichfish.CreditActivity;
-import com.sufe.idledrichfish.ui.chat.ChatActivity;
+import com.sufe.idledrichfish.ui.conversation.ConversationActivity;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.data.model.Product;
@@ -291,7 +290,7 @@ public class ProductDataSource {
                     Log.e("BMOB", "Query Product By Id Fail", e);
                 }
                 msg.setData(b);
-                ChatActivity.productHandler.sendMessage(msg);
+                ConversationActivity.productHandler.sendMessage(msg);
             }
         });
     }

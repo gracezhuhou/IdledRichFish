@@ -9,7 +9,7 @@ import com.sufe.idledrichfish.OrderInfoActivity;
 import com.sufe.idledrichfish.data.model.Order;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
-import com.sufe.idledrichfish.ui.chat.ChatActivity;
+import com.sufe.idledrichfish.ui.conversation.ConversationActivity;
 import com.sufe.idledrichfish.ui.myOrder.PlaceholderFragment;
 
 import java.util.List;
@@ -55,7 +55,7 @@ public class OrderDataSource {
                     Log.e("BMOB", "Save Order Fail", e);
                 }
                 msg.setData(b);
-                ChatActivity.orderHandler.sendMessage(msg);
+                ConversationActivity.orderHandler.sendMessage(msg);
             }
         });
     }

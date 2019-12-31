@@ -1,4 +1,4 @@
-package com.sufe.idledrichfish.ui.chat;
+package com.sufe.idledrichfish.ui.conversation;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -39,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //聊天界面
-public class ChatActivity extends AppCompatActivity implements EMMessageListener {
+public class ConversationActivity extends AppCompatActivity implements EMMessageListener {
 
     private String productId;
     private String sellerId;
@@ -62,14 +61,14 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
     // 当前会话对象
     private EMConversation mConversation;
     private RecyclerView mRecyclerView;
-    private List mList = new ArrayList();
+    private List<MessageView> mList = new ArrayList<>();
     private RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
-    private MsgAdapter adapter;
+    private MessageRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_conversation);
 
         mMessageListener = this;
         initData(); // 获取intent传入数据
@@ -94,43 +93,40 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         // 设置发送按钮的点击事件
-        mSendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String content = mInputEdit.getText().toString().trim();
-                if (!TextUtils.isEmpty(content)) {
-//                  环信部分的发送消息
-                    Msg msg = new Msg(content, Msg.TYPE_SEND);
-                    mList.add(msg);
-                    adapter = new MsgAdapter((List<Msg>) mList);
-                    mRecyclerView.setAdapter(adapter);
-                    //当有新消息时，刷新RecyclerView中的显示
-                    adapter.notifyItemInserted(mList.size() - 1);
-                    //使用RecyclerView加载新聊天页面
-                    mRecyclerView.scrollToPosition(mList.size() - 1);
-                    mInputEdit.setText("");
-                    EMMessage message = EMMessage.createTxtSendMessage(content, mChatId);
-                    EMClient.getInstance().chatManager().sendMessage(message);
-                    // 为消息设置回调
-                    message.setMessageStatusCallback(new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            // 消息发送成功，打印下日志，正常操作应该去刷新ui
-                            Log.i("lzan13", "send message on success");
-                        }
+        mSendBtn.setOnClickListener(v -> {
+            String content = mInputEdit.getText().toString().trim();
+            if (!TextUtils.isEmpty(content)) {
+                // 环信部分的发送消息
+                MessageView msg = new MessageView(content, MessageView.TYPE_SEND);
+                mList.add(msg);
+                adapter = new MessageRecyclerViewAdapter(mList);
+                mRecyclerView.setAdapter(adapter);
+                //当有新消息时，刷新RecyclerView中的显示
+                adapter.notifyItemInserted(mList.size() - 1);
+                //使用RecyclerView加载新聊天页面
+                mRecyclerView.scrollToPosition(mList.size() - 1);
+                mInputEdit.setText("");
+                EMMessage message = EMMessage.createTxtSendMessage(content, mChatId);
+                // 为消息设置回调, 需在sendMessage之前去设置此回调监听
+                message.setMessageStatusCallback(new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        // 消息发送成功，打印下日志，正常操作应该去刷新ui
+                        Log.i("Message", "Send Message Success To: " + mChatId);
+                    }
 
-                        @Override
-                        public void onError(int i, String s) {
-                            // 消息发送失败，打印下失败的信息，正常操作应该去刷新ui
-                            Log.i("lzan13", "send message on error " + i + " - " + s);
-                        }
+                    @Override
+                    public void onError(int i, String s) {
+                        // 消息发送失败，打印下失败的信息，正常操作应该去刷新ui
+                        Log.i("Message", "Send Message Fail " + i + ": " + s);
+                    }
 
-                        @Override
-                        public void onProgress(int i, String s) {
-                            // 消息发送进度，一般只有在发送图片和文件等消息才会有回调，txt不回调
-                        }
-                    });
-                }
+                    @Override
+                    public void onProgress(int i, String s) {
+                        // 消息发送进度，一般只有在发送图片和文件等消息才会有回调，txt不回调
+                    }
+                });
+                EMClient.getInstance().chatManager().sendMessage(message);
             }
         });
     }
@@ -176,7 +172,7 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
         EMClient.getInstance().chatManager().removeMessageListener(mMessageListener);
     }
 
-    // --------------------------------- Message Listener -------------------------------------
+    // --------------------------------- MessageView Listener -------------------------------------
     // 环信消息监听主要方法
 
     /**
@@ -189,12 +185,12 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
         String result = messages.get(0).getBody().toString();
         String msgReceived = result.substring(5, result.length() - 1);
 //        bt_name.setText(messages.get(0).);
-        final Msg msg = new Msg(msgReceived, Msg.TYPE_RECEIVED);
+        final MessageView msg = new MessageView(msgReceived, MessageView.TYPE_RECEIVED);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mList.add(msg);
-                adapter = new MsgAdapter((List<Msg>) mList);
+                adapter = new MessageRecyclerViewAdapter((List<MessageView>) mList);
                 mRecyclerView.setAdapter(adapter);
                 mRecyclerView.scrollToPosition(mList.size() - 1);
             }
@@ -273,7 +269,7 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
         final TextView text_price = findViewById(R.id.text_price);
         final ImageView image_product = findViewById(R.id.image_product);
         productHandler = new Handler() {
-            public void handleMessage(Message msg) {
+            public void handleMessage(android.os.Message msg) {
                 Bundle b = msg.getData();
                 if (b.getInt("errorCode") == 0) {
                     // 初始化界面
@@ -288,7 +284,7 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
         };
 
         orderHandler = new Handler() {
-            public void handleMessage(Message msg) {
+            public void handleMessage(android.os.Message msg) {
                 Bundle b = msg.getData();
                 if (b.getInt("errorCode") == 0) {
                     orderId = b.getString("orderId");
@@ -327,7 +323,7 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
      * 跳转至订单界面
      */
     private void buy() {
-        AlertDialog alertDialog = new AlertDialog.Builder(ChatActivity.this)
+        AlertDialog alertDialog = new AlertDialog.Builder(ConversationActivity.this)
                 .setTitle("确定创建订单？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override

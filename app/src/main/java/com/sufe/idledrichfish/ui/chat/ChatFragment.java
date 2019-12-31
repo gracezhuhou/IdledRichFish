@@ -1,4 +1,4 @@
-package com.sufe.idledrichfish.ui.message;
+package com.sufe.idledrichfish.ui.chat;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,20 +11,26 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
 import com.sufe.idledrichfish.R;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MessageFragment.OnFragmentInteractionListener} interface
+ * {@link ChatFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MessageFragment#newInstance} factory method to
+ * Use the {@link ChatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MessageFragment extends Fragment {
+public class ChatFragment extends Fragment {
     // Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
     // Rename and change types of parameters
@@ -33,10 +39,11 @@ public class MessageFragment extends Fragment {
 
     private RecyclerView recycler_view;
 
-    private List<MessageView> messages;
-    private MessageRecyclerViewAdapter messageRecyclerViewAdapter;
+    private List<ChatView> chatList = new ArrayList<>();
+    private ChatRecyclerViewAdapter chatRecyclerViewAdapter;
+    private EMMessageListener msgListener;
 
-    public MessageFragment() {
+    public ChatFragment() {
         // Required empty public constructor
     }
 
@@ -44,11 +51,11 @@ public class MessageFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      * @param param1 Parameter 1.
-     * @return A new instance of fragment MessageFragment.
+     * @return A new instance of fragment ChatFragment.
      */
     // Rename and change types and number of parameters
-    public static MessageFragment newInstance(String param1, String param2) {
-        MessageFragment fragment = new MessageFragment();
+    public static ChatFragment newInstance(String param1, String param2) {
+        ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
@@ -71,8 +78,46 @@ public class MessageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
 
         recycler_view = view.findViewById(R.id.recycler_view);
-
         setRecycler();
+        initConversation();
+
+        msgListener = new EMMessageListener() {
+            @Override
+            public void onMessageReceived(List<EMMessage> messages) {
+                // 收到消息
+                for (EMMessage message: messages) {
+                    String id = message.getUserName();
+                    chatList.add(new ChatView(id, message.getBody().toString(),
+                            new Date(message.getMsgTime()).toString(), true));
+                }
+                chatRecyclerViewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> messages) {
+                // 收到透传消息
+            }
+
+            @Override
+            public void onMessageRead(List<EMMessage> messages) {
+                // 收到已读回执
+            }
+
+            @Override
+            public void onMessageDelivered(List<EMMessage> message) {
+                // 收到已送达回执
+            }
+            @Override
+            public void onMessageRecalled(List<EMMessage> messages) {
+                // 消息被撤回
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage message, Object change) {
+                // 消息状态变动
+            }
+        };
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
 
         return view;
     }
@@ -108,16 +153,34 @@ public class MessageFragment extends Fragment {
      * activity..
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+        // Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
     private void setRecycler() {
-        messages = new ArrayList<>();
+        chatList = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycler_view.setLayoutManager(layoutManager);
-        messageRecyclerViewAdapter = new MessageRecyclerViewAdapter(messages);
-        recycler_view.setAdapter(messageRecyclerViewAdapter);
+        chatRecyclerViewAdapter = new ChatRecyclerViewAdapter(chatList);
+        recycler_view.setAdapter(chatRecyclerViewAdapter);
         recycler_view.setHasFixedSize(true);
+    }
+
+    /**
+     * 初始化会话对象，并且根据需要加载更多消息
+     */
+    private void initConversation() {
+        // 获取所有会话
+        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
+        // 遍历
+        for (Map.Entry<String, EMConversation> entry : conversations.entrySet()) {
+            EMMessage message = entry.getValue().getLastMessage();
+            if (message != null) {
+                Date date = new Date(message.getMsgTime());
+                ChatView chat = new ChatView(entry.getKey(), message.getBody().toString(), date.toString(), !message.isUnread());
+                chatList.add(chat);
+            }
+        }
+        chatRecyclerViewAdapter.notifyDataSetChanged(); // 更新列表
     }
 }
