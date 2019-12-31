@@ -3,8 +3,6 @@ package com.sufe.idledrichfish.ui.publish;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,9 +10,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,6 +24,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.lzy.ninegrid.ImageInfo;
 import com.lzy.ninegrid.NineGridView;
@@ -213,36 +212,33 @@ public class PublishActivity extends AppCompatActivity {
         publishViewModel = ViewModelProviders.of(this, new PublishViewModelFactory())
                 .get(PublishViewModel.class);
 
-        publishViewModel.getPublishFormState().observe(this, new Observer<PublishFormState>() {
-            @Override
-            public void onChanged(@Nullable PublishFormState publishFormState) {
-                if (publishFormState == null) {
-                    return;
-                }
-                button_publish.setEnabled(publishFormState.isDataValid());
-                if (publishFormState.getProductNameError() != null) {
-                    text_name.setError(getString(publishFormState.getProductNameError()));
-                }
-                if (publishFormState.getDescriptionError() != null) {
-                    text_description.setError(getString(publishFormState.getDescriptionError()));
-                }
-                if (publishFormState.getPriceError() != null) {
-                    text_price.setError(getString(publishFormState.getPriceError()));
-                } else {
-                    text_price.setError(null);
-                }
-                if (publishFormState.getTagsError() != null) {
-                    text_tag.setError(getString(publishFormState.getTagsError()));
-                } else {
-                    text_tag.setError(null);
-                }
-                if (publishFormState.getCategoryError() != null) {
-                    text_category.setError(getString(publishFormState.getCategoryError()));
-                } else {
-                    text_category.setError(null);
-                }
-                Log.i("PublishForm", "On Change:" + publishFormState.getTagsError());
+        publishViewModel.getPublishFormState().observe(this, publishFormState -> {
+            if (publishFormState == null) {
+                return;
             }
+            button_publish.setEnabled(publishFormState.isDataValid());
+            if (publishFormState.getProductNameError() != null) {
+                text_name.setError(getString(publishFormState.getProductNameError()));
+            }
+            if (publishFormState.getDescriptionError() != null) {
+                text_description.setError(getString(publishFormState.getDescriptionError()));
+            }
+            if (publishFormState.getPriceError() != null) {
+                text_price.setError(getString(publishFormState.getPriceError()));
+            } else {
+                text_price.setError(null);
+            }
+            if (publishFormState.getTagsError() != null) {
+                text_tag.setError(getString(publishFormState.getTagsError()));
+            } else {
+                text_tag.setError(null);
+            }
+            if (publishFormState.getCategoryError() != null) {
+                text_category.setError(getString(publishFormState.getCategoryError()));
+            } else {
+                text_category.setError(null);
+            }
+            Log.i("PublishForm", "On Change:" + publishFormState.getTagsError());
         });
 
         // 监听输入文字的变化

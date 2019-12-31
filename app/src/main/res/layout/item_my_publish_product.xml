@@ -32,7 +32,7 @@
     <!-- Bottom View End-->
 
     <!-- Surface View Start -->
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_my_publish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
 
         </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <!-- Surface View End -->
 
 </com.daimajia.swipe.SwipeLayout>

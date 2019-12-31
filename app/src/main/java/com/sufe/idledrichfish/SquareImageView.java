@@ -3,7 +3,8 @@ package com.sufe.idledrichfish;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.support.v7.widget.AppCompatImageView;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 public class SquareImageView extends AppCompatImageView {
 

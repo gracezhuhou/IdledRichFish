@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.myPublish.MyPublishActivity">
+    tools:context=".CreditActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -13,20 +13,11 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:title="我发布的"
-        app:titleTextColor="@color/white"/>
+        android:theme="?attr/actionBarTheme" />
 
-    <androidx.core.widget.NestedScrollView
+    <RatingBar
+        android:id="@+id/ratingBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
