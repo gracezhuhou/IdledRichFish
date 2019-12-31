@@ -1,6 +1,8 @@
-package com.sufe.idledrichfish.ui.message;
+package com.sufe.idledrichfish.ui.chat;
 
-public class MessageView {
+public class ChatView {
+
+    String userId;
 
     String name;
 
@@ -10,17 +12,33 @@ public class MessageView {
 
     String date;
 
-    int status; // 已读 -1 or 未读 - 0
+    boolean unread;
 
 
-    public MessageView(String name, byte[] image, String lastMessage, String date, int status) {
+    public ChatView(String userId, String name, byte[] image, String lastMessage, String date, boolean unread) {
+        this.userId = userId;
         this.name = name;
         this.image = image;
         this.lastMessage = lastMessage;
         this.date = date;
-        this.status = status;
+        this.unread = unread;
     }
 
+    public ChatView(String userId, String lastMessage, String date, boolean unread) {
+        this.userId = userId;
+        this.lastMessage = lastMessage;
+        this.date = date;
+        this.unread = unread;
+    }
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getName() {
         return name;
@@ -54,11 +72,11 @@ public class MessageView {
         this.date = date;
     }
 
-    public int getStatus() {
-        return status;
+    public boolean isUnread() {
+        return unread;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setUnread(boolean unread) {
+        this.unread = unread;
     }
 }

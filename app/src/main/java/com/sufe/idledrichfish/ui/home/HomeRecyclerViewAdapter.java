@@ -2,11 +2,7 @@ package com.sufe.idledrichfish.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,19 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.github.ybq.android.spinkit.SpinKitView;
 import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.data.StudentDataSource;
-import com.sufe.idledrichfish.data.StudentRepository;
-import com.sufe.idledrichfish.data.model.Product;
-import com.sufe.idledrichfish.data.model.Student;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.sufe.idledrichfish.ui.publish;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Data validation state of the publishment form.

@@ -41,6 +41,10 @@ public class ProductRepository {
         }
     }
 
+    public void queryProduct(String id, String queryKeys, String activity){
+        dataSource.queryProduct(id, queryKeys, activity);
+    }
+
     public void queryProductsForHome(Boolean policy) {
         dataSource.queryProductsForHome(policy);
     }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
+import com.hyphenate.chat.EMClient;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.SignUpActivity;
 import com.sufe.idledrichfish.data.model.Product;
@@ -57,6 +58,8 @@ public class LoginDataSource {
                     msg.setData(b);
                     SignUpActivity.signUpHandler.sendMessage(msg);
                     Log.i("BMOB", "Sign Up Success");
+                    // 注册通信账户
+                    IMHelper.getInstance().createClient(student.getObjectId(), password);
                 }
                 else {
                     b.putInt("errorCode", e.getErrorCode());
@@ -80,7 +83,7 @@ public class LoginDataSource {
         user.setPassword(password);
         user.login(new SaveListener<Student>() {
             @Override
-            public void done(Student bmobUser, BmobException e) {
+            public void done(Student student, BmobException e) {
                 // 传e给LoginActivity
                 Message msg = new Message();
                 Bundle b = new Bundle();
@@ -89,6 +92,8 @@ public class LoginDataSource {
                     msg.setData(b);
                     LoginActivity.loginHandler.sendMessage(msg);
                     Log.i("BMOB", "Login Success");
+                    // 登录通信账户
+                    IMHelper.getInstance().login(student.getObjectId(), password);
                 } else {
                     b.putInt("errorCode", e.getErrorCode());
                     msg.setData(b);
@@ -111,6 +116,8 @@ public class LoginDataSource {
      */
     void logOut() {
         Student.logOut();
+        // 登出通信账户
+        IMHelper.getInstance().logOut();
     }
 
 

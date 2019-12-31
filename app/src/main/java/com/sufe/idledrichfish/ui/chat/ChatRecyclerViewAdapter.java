@@ -1,12 +1,13 @@
-package com.sufe.idledrichfish.ui.message;
+package com.sufe.idledrichfish.ui.chat;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -15,8 +16,8 @@ import com.sufe.idledrichfish.R;
 
 import java.util.List;
 
-public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecyclerViewAdapter.ViewHolder>{
-    private List<MessageView> messages;
+public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.ViewHolder>{
+    private List<ChatView> messages;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         private SwipeLayout swipe_layout;
@@ -37,7 +38,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
         }
     }
 
-    public MessageRecyclerViewAdapter(List<MessageView> messages){
+    public ChatRecyclerViewAdapter(List<ChatView> messages){
         this.messages = messages;
     }
 
@@ -50,7 +51,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position){
         // 聊天对象信息
-        MessageView message = messages.get(holder.getAdapterPosition());
+        ChatView message = messages.get(holder.getAdapterPosition());
         holder.text_name.setText(message.getName());
         holder.text_last_message.setText(message.getLastMessage());
         holder.text_date.setText(message.getDate());

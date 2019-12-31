@@ -1,14 +1,14 @@
 package com.sufe.idledrichfish.ui.tag;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.data.model.Tag;
 
 import java.util.List;
 

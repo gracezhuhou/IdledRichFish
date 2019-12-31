@@ -8,6 +8,7 @@
 
     <dimen name="text_margin">15dp</dimen>
     <dimen name="text_size">16sp</dimen>
+    <dimen name="text_size_big">25sp</dimen>
     <dimen name="card_radius">0dp</dimen>
     <dimen name="toolbar_height">65dp</dimen>
     <dimen name="list_margin_hrz">15dp</dimen>
@@ -39,5 +40,9 @@
     <dimen name="product_button_width">40dp</dimen>
     <dimen name="product_button_height">20dp</dimen>
     <dimen name="product_button_text_size">15sp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="category_height">48dp</dimen>
 
 </resources>
