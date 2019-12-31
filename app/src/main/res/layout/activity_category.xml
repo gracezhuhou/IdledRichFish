@@ -26,7 +26,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="书籍"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/cosmetics"
@@ -37,7 +37,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="化妆品"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/clothes"
@@ -48,7 +48,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="服饰"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/digital"
@@ -59,7 +59,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="手机数码"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/appliances"
@@ -70,7 +70,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="家用电器"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/furniture"
@@ -81,7 +81,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="家具饰品"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/shoes"
@@ -92,7 +92,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="鞋靴"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/bags"
@@ -103,7 +103,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="箱包"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/kids"
@@ -114,7 +114,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="母婴"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/pets"
@@ -125,7 +125,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="宠物用品"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/fruits"
@@ -136,7 +136,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="生鲜水果"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
             <TextView
                 android:id="@+id/commodity"
@@ -147,7 +147,7 @@
                 android:paddingTop="@dimen/publish_checkbox_padding_vtc"
                 android:paddingBottom="@dimen/publish_checkbox_padding_vtc"
                 android:text="生活百货"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/category_textview" />
         </LinearLayout>
     </ScrollView>
