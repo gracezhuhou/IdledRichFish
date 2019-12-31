@@ -39,12 +39,7 @@ public class OrderInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_info);
 
-        text_status = findViewById(R.id.text_status);
-        button_finish = findViewById(R.id.button_finish);
-        button_cancel = findViewById(R.id.button_cancel);
-        button_credit = findViewById(R.id.button_credit);
-        button_admin = findViewById(R.id.button_admin);
-
+        initView();
         initData();
         setHandler();
         setToolbar();
@@ -57,10 +52,18 @@ public class OrderInfoActivity extends AppCompatActivity {
         button_cancel.setOnClickListener(view -> {
             orderRepository.updateOrderStatus(orderId, 2);
         });
+        // 评价
+        button_credit.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), CreditActivity.class);
+            intent.putExtra("product_id_extra", productId);
+            intent.putExtra("order_id_extra", orderId);
+            intent.putExtra("seller_id_extra", sellerId);
+            startActivity(intent);
+        });
     }
 
     /**
-     * 获取intent传入的da数据
+     * 获取intent传入的数据
      */
     private void initData() {
         Intent intent = getIntent();
@@ -70,7 +73,7 @@ public class OrderInfoActivity extends AppCompatActivity {
         orderId = intent.getStringExtra("order_id_extra");
         final TextView text_seller_name = findViewById(R.id.text_seller_name);
         text_seller_name.setText(sellerName);
-        OrderRepository.getInstance(new OrderDataSource()).queryOrder(orderId);
+        orderRepository.queryOrder(orderId);
     }
 
     /**
@@ -145,9 +148,18 @@ public class OrderInfoActivity extends AppCompatActivity {
         }
         // 返回键监听
         toolbar.setNavigationOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), OrderInfoActivity.class);
-            intent.putExtra("order_extra", true);
+//            Intent intent = new Intent(getApplicationContext(), OrderInfoActivity.class);
+//            intent.putExtra("order_extra", true);
+            //todo: 返回时消息界面购买框消失
             finish();
         });
+    }
+
+    private void initView() {
+        text_status = findViewById(R.id.text_status);
+        button_finish = findViewById(R.id.button_finish);
+        button_cancel = findViewById(R.id.button_cancel);
+        button_credit = findViewById(R.id.button_credit);
+        button_admin = findViewById(R.id.button_admin);
     }
 }

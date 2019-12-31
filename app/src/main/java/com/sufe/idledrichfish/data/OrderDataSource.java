@@ -47,17 +47,15 @@ public class OrderDataSource {
                 if(e == null) {
                     b.putInt("errorCode", 0);
                     b.putString("orderId", objectId);
-                    msg.setData(b);
-                    ChatActivity.orderHandler.sendMessage(msg);
                     Log.i("BMOB", "Save Order Success");
                 }
                 else {
                     b.putInt("errorCode", e.getErrorCode());
                     b.putString("e", e.toString());
-                    msg.setData(b);
-                    ChatActivity.orderHandler.sendMessage(msg);
                     Log.e("BMOB", "Save Order Fail", e);
                 }
+                msg.setData(b);
+                ChatActivity.orderHandler.sendMessage(msg);
             }
         });
     }

@@ -8,6 +8,7 @@
 
     <dimen name="text_margin">15dp</dimen>
     <dimen name="text_size">16sp</dimen>
+    <dimen name="text_size_big">25sp</dimen>
     <dimen name="card_radius">0dp</dimen>
     <dimen name="toolbar_height">65dp</dimen>
     <dimen name="list_margin_hrz">15dp</dimen>

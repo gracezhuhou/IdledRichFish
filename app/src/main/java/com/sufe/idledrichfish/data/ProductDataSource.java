@@ -1,10 +1,12 @@
 package com.sufe.idledrichfish.data;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
 import com.google.common.primitives.Bytes;
+import com.sufe.idledrichfish.CreditActivity;
 import com.sufe.idledrichfish.ui.chat.ChatActivity;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 import com.sufe.idledrichfish.ProductInfoActivity;
@@ -269,7 +271,7 @@ public class ProductDataSource {
      */
     void queryProductForChat(String objectId) {
         BmobQuery<Product> bmobQuery = new BmobQuery<>();
-        bmobQuery.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY); // 先从缓存获取数据
+        bmobQuery.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);
         bmobQuery.getObject(objectId, new QueryListener<Product>() {
             @Override
             public void done(Product product, BmobException e) {
@@ -290,6 +292,41 @@ public class ProductDataSource {
                 }
                 msg.setData(b);
                 ChatActivity.productHandler.sendMessage(msg);
+            }
+        });
+    }
+
+    /**
+     * 根据Id查商品
+     * 非全部列
+     */
+    void queryProduct(String objectId, String queryKeys, String activity) {
+        BmobQuery<Product> bmobQuery = new BmobQuery<>();
+        bmobQuery.addQueryKeys(queryKeys);
+        bmobQuery.getObject(objectId, new QueryListener<Product>() {
+            @Override
+            public void done(Product product, BmobException e) {
+                Message msg = new Message();
+                Bundle b = new Bundle();
+                if (e == null) {
+                    b.putInt("errorCode", 0);
+                    if (product.getName() != null){
+                        b.putString("name", product.getName());
+                    }
+                    b.putDouble("price", product.getPrice());
+                    if (product.getImage1() != null) {
+                        b.putByteArray("image1", Bytes.toArray(product.getImage1()));
+                    }
+                    Log.i("BMOB", "Query Product By Id Success");
+                } else {
+                    b.putInt("errorCode", e.getErrorCode());
+                    b.putString("e", e.toString());
+                    Log.e("BMOB", "Query Product By Id Fail", e);
+                }
+                msg.setData(b);
+                if (activity.equals("credit")) {
+                    CreditActivity.productHandler.sendMessage(msg);
+                }
             }
         });
     }
