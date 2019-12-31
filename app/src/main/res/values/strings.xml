@@ -75,4 +75,7 @@
     <string name="tab_order_ongoing">进行中</string>
     <string name="tab_order_no_credit">待评价</string>
     <string name="tab_order_all">全部</string>
+    <string name="title_activity_information">Information</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

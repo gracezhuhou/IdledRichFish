@@ -33,11 +33,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
         <activity
             android:name=".ui.myOrder.MyOrderActivity"
             android:label="@string/title_activity_my_order"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -71,7 +70,7 @@
                 android:resource="@xml/photo_path" />
         </provider>
 
-        <activity android:name=".ui.tag.TagActivity"></activity>
+        <activity android:name=".ui.tag.TagActivity" />
         <activity android:name=".OrderInfoActivity" />
         <activity android:name=".ui.publish.PublishActivity" />
         <activity android:name=".SignUpActivity" />
@@ -83,7 +82,7 @@
         <activity
             android:name=".ui.chat.ChatActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_home"
@@ -93,6 +92,7 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
