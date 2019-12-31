@@ -34,16 +34,25 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <uses-library android:name="org.apache.http.legacy"
+            android:required="false"/>
+
+        <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="1107191119107199#idledrichfish" /> <!-- 声明sdk所需的service SDK核心功能 -->
+            android:value="1107191119107199#idledrichfish" />
+        <!-- 声明SDK所需的service SDK核心功能-->
         <service
             android:name="com.hyphenate.chat.EMChatService"
-            android:exported="true" /> <!-- 声明SDK所需的receiver -->
+            android:exported="true" />
+        <service android:name="com.hyphenate.chat.EMJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"
+            />
+        <!-- 声明SDK所需的receiver -->
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
                 <data android:scheme="package" />
             </intent-filter>
             <!-- 可选filter -->

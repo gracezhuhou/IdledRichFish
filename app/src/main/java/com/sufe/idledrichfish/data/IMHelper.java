@@ -1,10 +1,13 @@
 package com.sufe.idledrichfish.data;
 
+import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+import com.sufe.idledrichfish.ui.login.LoginActivity;
 
 public class IMHelper {
 
@@ -46,13 +49,18 @@ public class IMHelper {
 
     // 登录通信账户
     void login(String username, String password) {
-        EMClient.getInstance().login(username,password,new EMCallBack() { // 回调
+        EMClient.getInstance().login(username, password, new EMCallBack() { // 回调
             @Override
             public void onSuccess() {
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Log.i("IMHelper", "Login Success");
-            }
+                Message msg = new Message();
+                Bundle b = new Bundle();
+                b.putInt("errorCode", 0);
+                msg.setData(b);
+                LoginActivity.loginHandler.sendMessage(msg);
+        }
 
             @Override
             public void onProgress(int progress, String status) {
@@ -61,6 +69,12 @@ public class IMHelper {
             @Override
             public void onError(int code, String message) {
                 Log.i("IMHelper", "Login Fail, " + message);
+                Message msg = new Message();
+                Bundle b = new Bundle();
+                b.putInt("errorCode", code);
+                b.putString("e", message);
+                msg.setData(b);
+                LoginActivity.loginHandler.sendMessage(msg);
             }
         });
     }
@@ -70,7 +84,7 @@ public class IMHelper {
         EMClient.getInstance().logout(true, new EMCallBack() {
             @Override
             public void onSuccess() {
-                Log.d("IMHelper", "Log Out Success");
+                Log.i("IMHelper", "Log Out Success");
             }
 
             @Override
@@ -79,7 +93,7 @@ public class IMHelper {
 
             @Override
             public void onError(int code, String message) {
-                Log.i("IMHelper", "Log Out Fail, " + message);
+                Log.e("IMHelper", "Log Out Fail, " + message);
             }
         });
     }

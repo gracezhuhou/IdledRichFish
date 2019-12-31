@@ -49,12 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
-
-
-        Bmob.initialize(this, "a0ed5f46dbb3be388267b3726f33ca5c");
-
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
@@ -67,6 +61,10 @@ public class LoginActivity extends AppCompatActivity {
         // 在做打包混淆时，关闭debug模式，避免消耗不必要的资源
         EMClient.getInstance().setDebugMode(true);
 
+        Bmob.initialize(this, "a0ed5f46dbb3be388267b3726f33ca5c");
+
+        loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
+                .get(LoginViewModel.class);
 
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
@@ -124,22 +122,24 @@ public class LoginActivity extends AppCompatActivity {
                     goToActivity(MainActivity.class);
                 }
                 else
-                    showLoginFailed(errorCode);
+                    showLoginFailed(errorCode, msg.getData().getString("e"));
             }
         };
     }
 
     private void updateUiWithUser() {
         loadingProgressBar.setVisibility(View.GONE);
-        String welcome = getString(R.string.welcome) + Student.getCurrentUser(Student.class).getName();
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        if (Student.isLogin()) {
+            String welcome = getString(R.string.welcome) + Student.getCurrentUser(Student.class).getName();
+            Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        }
     }
 
-    private void showLoginFailed(int errorCode) {
+    private void showLoginFailed(int errorCode, String message) {
         loadingProgressBar.setVisibility(View.GONE);
         usernameEditText.setText("");
         passwordEditText.setText("");
-        Toast.makeText(getApplicationContext(), errorCode + "", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), errorCode + ", " + message, Toast.LENGTH_SHORT).show();
     }
 
     private void setLoginForm() {

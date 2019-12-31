@@ -26,6 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMOptions;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
 import com.sufe.idledrichfish.ui.chat.ChatFragment;
 
