@@ -24,6 +24,7 @@ import com.sufe.idledrichfish.data.FavoriteRepository;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
 import com.sufe.idledrichfish.ui.chat.ChatActivity;
+import com.sufe.idledrichfish.ui.user.UserActivity;
 
 import java.text.DecimalFormat;
 import java.util.Objects;
@@ -49,6 +50,7 @@ public class ProductInfoActivity extends AppCompatActivity {
     private String productId;
     private String sellerId;
     private String sellerName;
+    private ImageView sellerImage;
     static public Handler productInfoHandler;
     static public Handler addFavoriteHandler;
     static public Handler cancelFavoriteHandler;
@@ -63,6 +65,7 @@ public class ProductInfoActivity extends AppCompatActivity {
         setAppBar();
         initData();
         setHandler();
+        setUser();
 
         // 点击“收藏”
         final LinearLayout layout_favorite = findViewById(R.id.layout_favorite);
@@ -124,6 +127,19 @@ public class ProductInfoActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    /**
+     * 点击头像
+     */
+    private void setUser() {
+        Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+        //intent.putExtra("product_id_extra", productId);
+        intent.putExtra("seller_id_extra", sellerId);
+        intent.putExtra("seller_name_extra", sellerName);
+        startActivity(intent);
+    }
+
 
     /**
      * 初始化界面: Product, Favorite
