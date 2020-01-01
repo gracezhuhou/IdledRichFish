@@ -10,10 +10,11 @@
     <corners android:radius="3dp" />
     <!-- 边距 -->
     <padding
-        android:bottom="5dp"
+        android:bottom="8dp"
         android:left="5dp"
-        android:right="5dp"
-        android:top="5dp" />
+        android:right="5dp"/>
+<!--        android:top="5dp" -->
+
 <!--    &lt;!&ndash; 渐变 &ndash;&gt;-->
 <!--    <gradient-->
 <!--        android:angle="270"-->

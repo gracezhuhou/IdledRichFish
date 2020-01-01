@@ -60,6 +60,7 @@ public class PublishActivity extends AppCompatActivity {
     private Button button_publish;
     private LinearLayout layout_price;
     private LinearLayout layout_tag;
+    private LinearLayout layout_category;
     private PriceDialog dialog_price;
     private CheckBox checkbox_is_new;
     private CheckBox checkbox_cannot_bargain;
@@ -70,6 +71,7 @@ public class PublishActivity extends AppCompatActivity {
     private List<String> tags = new ArrayList<>();
     private ArrayList<ImageInfo> imagesInfo;
     private List<String> pathList;
+    private String category = "其他";
 
     private PublishViewModel publishViewModel;
     private NineGridViewClickAdapter nineGridViewClickAdapter;
@@ -86,7 +88,7 @@ public class PublishActivity extends AppCompatActivity {
         initView();
 
         // todo: category 暂用例子
-        text_category.setText("其他");
+        text_category.setText(category);
 
         NineGridView.setImageLoader(new GlideImageLoader());
         imagesInfo = new ArrayList<>();
@@ -134,7 +136,22 @@ public class PublishActivity extends AppCompatActivity {
                 }
             }
         }
+        else if (requestCode == REQUEST_CODE_GET_CATEGORY) {
+            //获取Category
+            Bundle bundle = data.getExtras();
+            category = bundle.getString("category_extra");
+            text_category.setText(category);
+        }
     }
+//    @Override
+//    /*设置种类 */
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(requestCode == REQUEST_CODE && resultCode == SecondaryActivity.RESULT_CODE) {
+//            Bundle bundle = data.getExtras();
+//            String str = bundle.getString("back");
+//            Toast.makeText(this, "从SecondaryActivity的返回值为：" + str, Toast.LENGTH_LONG).show();
+//        }
+//    }
 
     /**
      * 选择照片（多项）
@@ -327,6 +344,13 @@ public class PublishActivity extends AppCompatActivity {
             // 跳转至tag页面
             Intent intent = new Intent(this, TagActivity.class);
             startActivityForResult(intent, REQUEST_CODE_GET_TAGS);
+        });
+        //点击category跳转
+        layout_category = findViewById(R.id.layout_category);
+        layout_category.setOnClickListener(v -> {
+            // 跳转至category页面
+            Intent intent = new Intent(this, CategoryActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_GET_CATEGORY);
         });
 
         // 点击发布Button
