@@ -18,7 +18,7 @@ import java.util.List;
 public class MyPublishRecyclerViewAdapter extends RecyclerView.Adapter<MyPublishRecyclerViewAdapter.ViewHolder>{
     private List<Product> myProducts;
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         private SwipeLayout swipe_layout;
         private TextView text_product_name;
         private TextView text_price;

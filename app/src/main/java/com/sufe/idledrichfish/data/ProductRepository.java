@@ -45,4 +45,6 @@ public class ProductRepository {
         dataSource.queryMyPublishProducts();
     }
 
+    public void queryListProducts(String list) {dataSource.queryListProducts(list); }
+
 }

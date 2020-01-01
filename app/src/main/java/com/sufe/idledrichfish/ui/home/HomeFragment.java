@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,10 +19,9 @@ import android.view.ViewGroup;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.SearchActivity;
+import com.sufe.idledrichfish.ui.search.SearchActivity;
 import com.sufe.idledrichfish.data.ProductDataSource;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +32,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -84,6 +82,7 @@ public class HomeFragment extends Fragment {
     private Context mContext;
     private SearchBox sbSearch;
     private TextView tvBottom;
+    private EditText search_text;
     //数据列表
     private List<Product> listSearch;
     //结果列表
@@ -130,14 +129,15 @@ public class HomeFragment extends Fragment {
         // Inflate the view for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        search_box = view.findViewById(R.id.search_box);
-        mSearchResult = view.findViewById(R.id.content_lis_search);
+        //search_box = view.findViewById(R.id.search_box);
+        //mSearchResult = view.findViewById(R.id.content_list_search);
         layout_refresh = view.findViewById(R.id.layout_refresh);
         mRecyclerView = view.findViewById(R.id.recycler_home);
         mRollViewPager = view.findViewById(R.id.roll_view_pager);
         icon_search = view.findViewById(R.id.icon_search);
         icon_publish = view.findViewById(R.id.icon_publish);
         imageButton_catogory_book = view.findViewById(R.id.imageButton_catogory_book);
+        search_text = view.findViewById(R.id.search_text);
 
         setRecycler(); // 商品浏览
         setRefresh(); // 下拉刷新& 上拉加载
@@ -154,11 +154,27 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //点击搜索按钮
+        icon_search.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                search_text = view.findViewById(R.id.search_text);
+
+                String searchtext= search_text.getText().toString();
+                Intent intent = new Intent(getContext(), PublishActivity.class);
+                intent.putExtra("search_text",searchtext);
+                startActivity(intent);
+            }
+        });
+
+        //点击书籍图片按钮
         imageButton_catogory_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 跳转至搜索页面
+                String list = "book";
                 Intent intent = new Intent(getContext(), SearchActivity.class);
+                intent.putExtra("list",list);
                 startActivity(intent);
             }
         });
@@ -380,7 +396,6 @@ public class HomeFragment extends Fragment {
         });
     }
     private void search(String newText){
-
         //若搜索内容为空
         if(newText.isEmpty()){
             listResult.clear();

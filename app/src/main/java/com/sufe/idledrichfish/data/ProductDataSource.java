@@ -1,5 +1,6 @@
 package com.sufe.idledrichfish.data;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
@@ -366,5 +367,59 @@ public class ProductDataSource {
             }
         });
 
+    }
+
+    // 获取某一标签下全部商品
+    public void queryListProducts(String list) {
+        BmobQuery<Product> query = new BmobQuery<Product>();
+        query.addWhereEqualTo("name", list);
+        query.findObjects(new FindListener<Product>() {
+            @Override
+            public void done(List<Product> objects, BmobException e) {
+                Message msg = new Message();
+                Bundle bundles = new Bundle();
+                if (e == null) {
+                    bundles.putInt("errorCode", 0);
+                    int i = 0;
+                    for (Product product : objects) {
+                        Bundle b = new Bundle();
+                        b.putString("objectId", product.getObjectId());
+                        b.putString("name", product.getName());
+                        b.putDouble("price", product.getPrice());
+                        if (product.getImage1() != null) {
+                            b.putString("image1", product.getImage1().getFileUrl());
+                        } else {
+                            b.putString("image1", "");
+                        }
+                        if (product.getImage2() != null) {
+                            b.putString("image2", product.getImage2().getFileUrl());
+                        } else {
+                            b.putString("image2", "");
+                        }
+                        if (product.getImage3() != null) {
+                            b.putString("image3", product.getImage3().getFileUrl());
+                        } else {
+                            b.putString("image3", "");
+                        }
+                        if (product.getImage4() != null) {
+                            b.putString("image4", product.getImage4().getFileUrl());
+                        } else {
+                            b.putString("image4", "");
+                        }
+                        bundles.putBundle(String.valueOf(i), b);
+                        ++i;
+                    }
+                    msg.setData(bundles);
+                    MyPublishActivity.myPublishHandler.sendMessage(msg);
+                    Log.i("BMOB", "Query Products Success");
+                } else {
+                    bundles.putInt("errorCode", e.getErrorCode());
+                    bundles.putString("e", e.toString());
+                    msg.setData(bundles);
+                    MyPublishActivity.myPublishHandler.sendMessage(msg);
+                    Log.e("BMOB", "Query Products Fail", e);
+                }
+            }
+        });
     }
 }

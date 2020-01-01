@@ -1,18 +1,19 @@
-package com.sufe.idledrichfish.ui.home;
+package com.sufe.idledrichfish.ui.search;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.daimajia.swipe.SwipeLayout;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.R;
@@ -20,16 +21,15 @@ import com.sufe.idledrichfish.data.StudentDataSource;
 import com.sufe.idledrichfish.data.StudentRepository;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
+import com.sufe.idledrichfish.ui.home.HomeRecyclerViewAdapter;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
+public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<com.sufe.idledrichfish.ui.search.SearchRecyclerViewAdapter.ViewHolder>{
     private List<Product> myProducts;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView text_product_name;
         private TextView text_product_price;
         private TextView text_seller_name;
@@ -55,18 +55,18 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         }
     }
 
-    public HomeRecyclerViewAdapter(List<Product> products){
+    public SearchRecyclerViewAdapter(List<Product> products){
         myProducts = products;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public com.sufe.idledrichfish.ui.search.SearchRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_product, parent, false);
-        return new ViewHolder(view);
+        return new com.sufe.idledrichfish.ui.search.SearchRecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position){
+    public void onBindViewHolder(final com.sufe.idledrichfish.ui.search.SearchRecyclerViewAdapter.ViewHolder holder, final int position){
         // 设置item宽度 —— 1/2屏幕
         DisplayMetrics dm = holder.context.getResources().getDisplayMetrics();
         int width = dm.widthPixels;
@@ -103,7 +103,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position, List<Object> payloads) {
+    public void onBindViewHolder(final com.sufe.idledrichfish.ui.search.SearchRecyclerViewAdapter.ViewHolder holder, final int position, List<Object> payloads) {
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position);
         } else {

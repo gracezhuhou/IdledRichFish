@@ -41,7 +41,7 @@
 
         <activity android:name=".ui.myPublish.MyPublishActivity" />
         <activity android:name=".ui.myFavorite.MyFavoriteActivity" />
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".ui.search.SearchActivity" />
 
         <activity
             android:name=".ProductInfoActivity"
