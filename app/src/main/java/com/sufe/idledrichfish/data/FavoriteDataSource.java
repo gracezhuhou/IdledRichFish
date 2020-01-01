@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
-import com.sufe.idledrichfish.ProductInfoActivity;
+import com.sufe.idledrichfish.ui.productinfo.ProductInfoActivity;
 import com.sufe.idledrichfish.data.model.Favorite;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;

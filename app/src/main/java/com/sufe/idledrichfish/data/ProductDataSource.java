@@ -9,7 +9,7 @@ import com.google.common.primitives.Bytes;
 import com.sufe.idledrichfish.CreditActivity;
 import com.sufe.idledrichfish.ui.conversation.ConversationActivity;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
-import com.sufe.idledrichfish.ProductInfoActivity;
+import com.sufe.idledrichfish.ui.productinfo.ProductInfoActivity;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.home.HomeFragment;

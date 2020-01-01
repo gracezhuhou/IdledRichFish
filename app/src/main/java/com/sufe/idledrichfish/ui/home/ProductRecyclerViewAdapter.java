@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.sufe.idledrichfish.ProductInfoActivity;
+import com.sufe.idledrichfish.ui.productinfo.ProductInfoActivity;
 import com.sufe.idledrichfish.R;
 
 import java.text.DecimalFormat;

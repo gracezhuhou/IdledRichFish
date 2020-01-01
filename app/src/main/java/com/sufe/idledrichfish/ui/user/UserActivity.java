@@ -25,7 +25,7 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        initData();//获取intent传入的数据
+        initData(); // 获取intent传入的数据
 
         PageAdapter pageAdapter = new PageAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
