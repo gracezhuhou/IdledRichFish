@@ -20,6 +20,11 @@ public class StudentRepository {
         return instance;
     }
 
+
+    public void queryStudent(String id){
+        dataSource.queryStudentForUser(id);
+    }
+
     // 查询某用户信息
 //    public void queryStudentForHome(String ObjectId, int position) {
 //        dataSource.queryStudentForHome(ObjectId, position);
