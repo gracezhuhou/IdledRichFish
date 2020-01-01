@@ -42,10 +42,12 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_seller"
                     android:layout_width="match_parent"
-                    android:layout_height="95dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginBottom="15dp"
+                    android:layout_marginTop="?attr/actionBarSize"
                     android:scaleType="fitXY"
+                    android:background="@color/transparent"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.9">
 

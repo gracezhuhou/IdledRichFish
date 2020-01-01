@@ -18,13 +18,13 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:title="@string/my_order"
-            app:titleTextColor="@color/white"/>
+            app:titleTextColor="@color/white" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue" />
+            android:background="@color/blue"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

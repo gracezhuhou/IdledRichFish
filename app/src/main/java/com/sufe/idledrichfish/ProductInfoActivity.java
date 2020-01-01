@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.android.material.appbar.AppBarLayout;
@@ -24,6 +25,7 @@ import com.sufe.idledrichfish.data.FavoriteDataSource;
 import com.sufe.idledrichfish.data.FavoriteRepository;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
+import com.sufe.idledrichfish.ui.user.UserActivity;
 import com.sufe.idledrichfish.ui.conversation.ConversationActivity;
 
 import java.text.DecimalFormat;
@@ -50,6 +52,7 @@ public class ProductInfoActivity extends AppCompatActivity {
     private String productId;
     private String sellerId;
     private String sellerName;
+    private ImageView sellerImage;
     static public Handler productInfoHandler;
     static public Handler addFavoriteHandler;
     static public Handler cancelFavoriteHandler;
@@ -64,6 +67,7 @@ public class ProductInfoActivity extends AppCompatActivity {
         setAppBar();
         initData();
         setHandler();
+        clickSeller();
 
         // 点击“收藏”
         final LinearLayout layout_favorite = findViewById(R.id.layout_favorite);
@@ -126,6 +130,20 @@ public class ProductInfoActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * 点击用户跳转至用户界面
+     */
+    private void clickSeller() {
+        final ConstraintLayout layout_seller = findViewById(R.id.layout_seller);
+        layout_seller.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+            intent.putExtra("seller_id_extra", sellerId);
+            intent.putExtra("seller_name_extra", sellerName);
+            startActivity(intent);
+        });
+    }
+
     /**
      * 初始化界面: Product, Favorite
      * 根据传入的product_id
@@ -163,8 +181,12 @@ public class ProductInfoActivity extends AppCompatActivity {
                     }
                     String publishDate = "发布于" + b.getString("publishDate");
                     text_publish_date.setText(publishDate);
+                    RequestOptions options = new RequestOptions()
+                            .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
+                            .fallback(R.drawable.ic_no_image) // url为空的时候,显示的图片
+                            .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
                     final ImageView image1_product = findViewById(R.id.image1_product);
-                    Glide.with(getApplicationContext()).load(b.getByteArray("image1")).into(image1_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image1")).apply(options).into(image1_product);
                     final ImageView image2_product = findViewById(R.id.image2_product);
                     Glide.with(getApplicationContext()).load(b.getByteArray("image2")).into(image2_product);
                     final ImageView image3_product = findViewById(R.id.image3_product);
@@ -193,7 +215,11 @@ public class ProductInfoActivity extends AppCompatActivity {
                     }
                     String lastLoginDate = "最晚" + b.getString("lastLoginDate") + "来过";
                     text_login_date.setText(lastLoginDate);
-                    Glide.with(getApplicationContext()).load(b.getByteArray("studentImage")).into(image_seller);
+                    RequestOptions options2 = new RequestOptions()
+                            .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
+                            .fallback(R.drawable.ic_home) // url为空的时候,显示的图片
+                            .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
+                    Glide.with(getApplicationContext()).load(b.getByteArray("studentImage")).apply(options2).into(image_seller);
                 }
                 Log.i("Handler", "Query Products Info");
             }
