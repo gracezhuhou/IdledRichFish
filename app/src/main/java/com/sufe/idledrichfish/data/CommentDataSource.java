@@ -55,6 +55,9 @@ public class CommentDataSource {
                     }
                     b.putInt("errorCode", 0);
                     b.putString("commentId", objectId);
+                    if (commentFatherId != null) {
+                        b.putString("commentFatherId", commentFatherId);
+                    }
                     b.putString("date", date.toString());
                     Log.i("BMOB", "Save Comment Success");
                 }
@@ -119,6 +122,7 @@ public class CommentDataSource {
         Comment reply = new Comment();
         reply.setObjectId(sonId);
         Comment father = new Comment();
+        father.setObjectId(fatherId);
         BmobRelation relation = new BmobRelation();
         // 将回复添加到多对多关联中
         relation.add(reply);
