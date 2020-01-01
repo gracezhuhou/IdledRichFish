@@ -18,8 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.daimajia.swipe.SwipeLayout;
-import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
-import com.sufe.idledrichfish.ProductInfoActivity;
+import com.sufe.idledrichfish.ui.productinfo.ProductInfoActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.SquareImageView;
 import com.sufe.idledrichfish.data.ProductDataSource;

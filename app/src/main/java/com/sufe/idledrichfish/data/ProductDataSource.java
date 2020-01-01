@@ -7,7 +7,7 @@ import android.util.Log;
 import com.google.common.primitives.Bytes;
 import com.sufe.idledrichfish.ui.chat.ChatActivity;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
-import com.sufe.idledrichfish.ProductInfoActivity;
+import com.sufe.idledrichfish.ui.productinfo.ProductInfoActivity;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.home.HomeFragment;

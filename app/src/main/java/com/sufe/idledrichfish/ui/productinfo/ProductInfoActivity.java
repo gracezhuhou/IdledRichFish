@@ -1,35 +1,51 @@
-package com.sufe.idledrichfish;
+package com.sufe.idledrichfish.ui.productinfo;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
+import com.sufe.idledrichfish.AppBarStateChangeListener;
+import com.sufe.idledrichfish.MainActivity;
+import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.FavoriteDataSource;
 import com.sufe.idledrichfish.data.FavoriteRepository;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
+import com.sufe.idledrichfish.data.model.Comment;
 import com.sufe.idledrichfish.ui.chat.ChatActivity;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Objects;
 
-public class ProductInfoActivity extends AppCompatActivity {
+public class ProductInfoActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TextView text_product_name;
     private TextView text_price;
@@ -55,6 +71,13 @@ public class ProductInfoActivity extends AppCompatActivity {
     static public Handler cancelFavoriteHandler;
     static public Handler isFavoriteHandler;
 
+    private CommentExpandableListView commentExpandableListView;
+    private ExpandableAdapter expandableAdapter;
+    private List<Comment> commentList;
+
+    private InputMethodManager inputMethodManager;
+    private BottomSheetDialog bottomSheetDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +94,9 @@ public class ProductInfoActivity extends AppCompatActivity {
         // 点击“联系卖家”
         final Button button_message = findViewById(R.id.button_message);
         button_message.setOnClickListener(view -> chat());
+        // 点击“评论”
+        final LinearLayout layout_comment = findViewById(R.id.layout_comment);
+        layout_comment.setOnClickListener(view -> comment());
 
     }
 
@@ -270,6 +296,8 @@ public class ProductInfoActivity extends AppCompatActivity {
         card_new = findViewById(R.id.card_new);
         card_cannot_bargain = findViewById(R.id.card_cannot_bargain);
         layout_seller = findViewById(R.id.layout_seller);
+
+
     }
 
     /**
@@ -298,6 +326,105 @@ public class ProductInfoActivity extends AppCompatActivity {
         intent.putExtra("seller_id_extra", sellerId);
         intent.putExtra("seller_name_extra", sellerName);
         startActivity(intent);
+    }
+
+
+    /**
+     * 评论
+     */
+
+    //弹出评论框
+    private void comment() {
+        bottomSheetDialog = new BottomSheetDialog(this,R.style.BottomSheetEdit);
+        View commentView = LayoutInflater.from(this).inflate(R.layout.item_comment_dialog,null);
+        final EditText commentText = (EditText) commentView.findViewById(R.id.comment_edittext);
+        final Button bt_comment = (Button) commentView.findViewById(R.id.comment_launch);
+        bottomSheetDialog.setContentView(commentView);
+
+        bt_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String commentContent = commentText.getText().toString().trim();
+                if(!TextUtils.isEmpty(commentContent)){
+
+                    //commentOnWork(commentContent);
+                    bottomSheetDialog.dismiss();
+
+                    Comment comment = new Comment();
+
+                    expandableAdapter.addTheCommentData(comment);
+                    Toast.makeText(ProductInfoActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(ProductInfoActivity.this,"评论内容不能为空",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        bottomSheetDialog.show();
+    }
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    /**
+     * func:弹出回复框
+     */
+    private void showReplyDialog(final int position){
+        bottomSheetDialog = new BottomSheetDialog(this,R.style.BottomSheetEdit);
+        View commentView = LayoutInflater.from(this).inflate(R.layout.item_comment_dialog,null);
+        final EditText commentText = (EditText) commentView.findViewById(R.id.comment_edittext);
+        final Button bt_comment = (Button) commentView.findViewById(R.id.comment_launch);
+
+        /////////////////////////////////////
+        commentText.setHint("回复 " + commentList.get(position).getCommenter().getName() + " 的评论:");
+        bottomSheetDialog.setContentView(commentView);
+        bt_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String replyContent = commentText.getText().toString().trim();
+                if(!TextUtils.isEmpty(replyContent)){
+                    bottomSheetDialog.dismiss();
+                    //Comment detailBean = new Comment("小红",replyContent);
+                    //expandableAdapter.addTheReplyData(detailBean, position);
+                    Comment reply = new Comment();
+
+                    commentExpandableListView.expandGroup(position);
+                    Toast.makeText(ProductInfoActivity.this,"回复成功",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(ProductInfoActivity.this,"回复内容不能为空",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        bottomSheetDialog.show();
+    }
+
+    /**
+     * 初始化评论和回复列表
+     */
+    private void initExpandableListView(final List<Comment> commentList){
+        commentExpandableListView.setGroupIndicator(null);
+        //默认展开所有回复
+        expandableAdapter = new ExpandableAdapter(this, commentList);
+        commentExpandableListView.setAdapter(expandableAdapter);
+        for(int i = 0; i<commentList.size(); i++){
+            commentExpandableListView.expandGroup(i);
+        }
+        commentExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
+                boolean isExpanded = expandableListView.isGroupExpanded(groupPosition);
+                showReplyDialog(groupPosition);
+                return true;
+            }
+        });
+
+        commentExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+                Toast.makeText(ProductInfoActivity.this,"点击了回复",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 }
 
