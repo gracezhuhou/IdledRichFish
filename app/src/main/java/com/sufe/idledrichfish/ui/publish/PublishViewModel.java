@@ -1,15 +1,13 @@
 package com.sufe.idledrichfish.ui.publish;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.ProductRepository;
 
 import java.util.List;
-
-import cn.bmob.v3.datatype.BmobRelation;
 
 public class PublishViewModel extends ViewModel {
     private MutableLiveData<PublishFormState> publishFormState = new MutableLiveData<>();
@@ -24,15 +22,15 @@ public class PublishViewModel extends ViewModel {
     }
 
     void saveProduct(String productName, String description, boolean isNew, boolean canBargain,
-                            double price, double oldPrice, BmobRelation labels, String category,
-                            List<String> imagePath) {
+                            double price, double oldPrice, String category,
+                            List<String> imagePath, List<String> tags) {
         // can be launched in a separate asynchronous job
         productRepository.saveProduct(productName, description, isNew, canBargain, price,
-                oldPrice, labels, category, imagePath);
+                oldPrice, category, imagePath, tags);
     }
 
     void publishDataChanged(String productName, String description, double price,
-                                   BmobRelation labels, String category) {
+                                   List<String> tags, String category) {
         if (!(isProductNameValid(productName))) {
             publishFormState.setValue(new PublishFormState(R.string.invalid_product_name, null,
                     null, null, null));
@@ -42,7 +40,7 @@ public class PublishViewModel extends ViewModel {
         } else if (!isPriceValid(price)) {
                 publishFormState.setValue(new PublishFormState(null, null,
                         R.string.invalid_price, null, null));
-        } else if (!isLabelsValid(labels)) {
+        } else if (!isTagsValid(tags)) {
             publishFormState.setValue(new PublishFormState(null, null,
                     null, R.string.invalid_label, null));
         } else if (!isCategoryValid(category)) {
@@ -66,8 +64,8 @@ public class PublishViewModel extends ViewModel {
         return price != 0.0;
     }
 
-    private boolean isLabelsValid(BmobRelation labels) {
-        return labels != null;
+    private boolean isTagsValid(List<String> tags) {
+        return tags != null && !tags.isEmpty();
     }
 
     private boolean isCategoryValid(String category) {

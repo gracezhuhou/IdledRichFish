@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
+import com.google.common.primitives.Bytes;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
-import com.sufe.idledrichfish.data.model.Tab;
+import com.sufe.idledrichfish.data.model.Tag;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
+import com.sufe.idledrichfish.ui.user.UserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,39 +25,39 @@ public class StudentDataSource {
     /**
      * 查询用户
      */
-//    public void queryStudentForHome(String objectId, int position) {
-//        BmobQuery<Student> bmobQuery = new BmobQuery<>();
-//        bmobQuery.getObject(objectId, new QueryListener<Student>() {
-//            @Override
-//            public void done(Student student, BmobException e) {
-//                Message msg = new Message();
-//                Bundle b = new Bundle();
-//                b.putInt("position", position);
-//                if (e == null) {
-//                    b.putString("id", student.getObjectId());
-//                    b.putString("name", student.getName());
-//                    b.putFloat("credit", student.getCredit());
-//                    if (student.getImage() != null) {
-//                        b.putString("image", student.getImage().getUrl());
-//                    } else {
-//                        b.putString("image", "");
-//                    }
-//                    msg.setData(b);
-//                    HomeFragment.homeStudentHandler.sendMessage(msg);
-//                    Log.i("BMOB", "Query Student Success");
-//                } else {
-//                    Log.e("BMOB", "Query Student Fail", e);
-//                }
-//            }
-//        });
-//    }
+    //TODO
+   public void queryStudentForUser(String objectId) {
+       BmobQuery<Student> bmobQuery = new BmobQuery<>();
+        bmobQuery.getObject(objectId, new QueryListener<Student>() {
+            @Override
+            public void done(Student student, BmobException e) {
+                Message msg = new Message();
+                Bundle b = new Bundle();
+                if (e == null) {
+                    b.putString("id", student.getObjectId());
+                    b.putString("name", student.getName());
+                    b.putFloat("credit", student.getCredit());
+                    if (student.getImage() != null) {
+                        b.putByteArray("image", Bytes.toArray(student.getImage()));
+                    } else {
+                        b.putString("image", "");
+                    }
+                    msg.setData(b);
+                    UserActivity.StudentHandler.sendMessage(msg);
+                    Log.i("BMOB", "Query Student Success");
+                } else {
+                    Log.e("BMOB", "Query Student Fail", e);
+                }
+            }
+        });
+    }
 
 
     /**
      * 根据本学生的History来智能推荐
      */
     public void queryStudentHistory() {
-        List<Tab> historyTabs = new ArrayList<>();
+        List<Tag> historyTags = new ArrayList<>();
         List<Integer> historyTabsNum = new ArrayList<>();
 
         // 查询学生浏览过的商品，因此查询的是Product表
@@ -70,45 +72,45 @@ public class StudentDataSource {
                     for (Product product: object) {
                         Log.i("BMOB","Query Student History Products Success: " + object.size());
 
-                        BmobQuery<Tab> query = new BmobQuery<Tab>();
+                        BmobQuery<Tag> query = new BmobQuery<Tag>();
                         query.addWhereRelatedTo("tabs", new BmobPointer(product));
-                        query.findObjects(new FindListener<Tab>() {
+                        query.findObjects(new FindListener<Tag>() {
                             @Override
-                            public void done(List<Tab> object,BmobException e) {
+                            public void done(List<Tag> object, BmobException e) {
                                 if(e==null){
                                     Log.i("BMOB","Query Product Tabs Success: " + object.size());
 
-                                    for (Tab tab: object) {
+                                    for (Tag tag : object) {
                                         boolean flag = true;
                                         int i = 0;
-                                        int size = historyTabs.size();
+                                        int size = historyTags.size();
                                         for (i = 0; i < size; ++i) {
-                                            if (tab.getObjectId().equals(historyTabs.get(i).getObjectId())) {
+                                            if (tag.getObjectId().equals(historyTags.get(i).getObjectId())) {
                                                 historyTabsNum.set(i, historyTabsNum.get(i) + 1);
                                                 flag = false;
                                             }
                                         }
                                         if (flag) {
-                                            historyTabs.set(i, tab);
+                                            historyTags.set(i, tag);
                                             historyTabsNum.set(i, 1);
                                         }
                                     }
 
                                     // 排序
-                                    quickSort(historyTabs, historyTabsNum, 0, historyTabsNum.size() - 1);
+                                    quickSort(historyTags, historyTabsNum, 0, historyTabsNum.size() - 1);
 
                                     // todo : 利用historyTabs来智能推荐
-                                    String tabId = historyTabs.get(0).getObjectId(); // 这是点击最多的tab的ID
-                                    String tabId2 = historyTabs.get(1).getObjectId(); // 这是点击第二多的tab的ID， 依次类推
+                                    String tabId = historyTags.get(0).getObjectId(); // 这是点击最多的tab的ID
+                                    String tabId2 = historyTags.get(1).getObjectId(); // 这是点击第二多的tab的ID， 依次类推
 
                                     // 传回Activity
-//                                    Message msg = new Message();
+//                                    MessageView msg = new MessageView();
 //                                    Bundle bundles = new Bundle();
 //                                    int size = historyTabsNum.size();
 //                                    for (int i = 0; i < size; ++i) {
 //                                        Bundle b = new Bundle();
-//                                        b.putString("tabId", historyTabs.get(i).getObjectId());
-//                                        b.putString("tabName", historyTabs.get(i).getName());
+//                                        b.putString("tabId", historyTags.get(i).getObjectId());
+//                                        b.putString("tabName", historyTags.get(i).getName());
 //                                        b.putInt("tabNum", historyTabsNum.get(i));
 //                                        bundles.putBundle(String.valueOf(i), b);
 //                                    }
@@ -131,9 +133,9 @@ public class StudentDataSource {
 
 
     // 获取本学生tabs计数的排序
-    private static void quickSort(List<Tab> arr, List<Integer> arrNum,int low,int high){
+    private static void quickSort(List<Tag> arr, List<Integer> arrNum, int low, int high){
         int i, j, tempNum, tNum;
-        Tab temp, t;
+        Tag temp, t;
         if(low > high){
             return;
         }

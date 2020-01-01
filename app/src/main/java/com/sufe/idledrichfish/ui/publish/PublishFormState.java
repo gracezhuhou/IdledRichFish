@@ -1,6 +1,6 @@
 package com.sufe.idledrichfish.ui.publish;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Data validation state of the publishment form.
@@ -13,18 +13,18 @@ public class PublishFormState {
     @Nullable
     private Integer priceError;
     @Nullable
-    private Integer labelError;
+    private Integer tagsError;
     @Nullable
     private Integer categoryError;
     private boolean isDataValid;
 
     PublishFormState(@Nullable Integer productNameError, @Nullable Integer descriptionError,
-                     @Nullable Integer priceError, @Nullable Integer labelError,
+                     @Nullable Integer priceError, @Nullable Integer tagsError,
                      @Nullable Integer categoryError) {
         this.productNameError = productNameError;
         this.descriptionError = descriptionError;
         this.priceError = priceError;
-        this.labelError = labelError;
+        this.tagsError = tagsError;
         this.categoryError = categoryError;
         this.isDataValid = false;
     }
@@ -33,7 +33,7 @@ public class PublishFormState {
         this.productNameError = null;
         this.descriptionError = null;
         this.priceError = null;
-        this.labelError = null;
+        this.tagsError = null;
         this.categoryError = null;
         this.isDataValid = isDataValid;
     }
@@ -54,8 +54,8 @@ public class PublishFormState {
     }
 
     @Nullable
-    public Integer getLabelError() {
-        return labelError;
+    public Integer getTagsError() {
+        return tagsError;
     }
 
     @Nullable

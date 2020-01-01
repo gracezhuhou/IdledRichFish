@@ -8,7 +8,7 @@
     android:background="@color/yellow"
     tools:context=".SignUpActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
@@ -20,145 +20,138 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/card_margin_hrz"
-        android:layout_marginEnd="@dimen/card_margin_hrz"
-        android:layout_marginTop="@dimen/card_margin_vtc">
+        android:layout_marginStart="@dimen/list_margin_hrz"
+        android:layout_marginEnd="@dimen/list_margin_hrz"
+        android:layout_marginTop="@dimen/list_margin_vtc">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <GridLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/card_radius"
-                app:cardElevation="0dp">
+                android:background="@color/white"
+                android:columnCount="3"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:rowCount="6">
 
-                <GridLayout
-                    android:id="@+id/container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="3"
-                    android:orientation="horizontal"
-                    android:paddingTop="@dimen/activity_vtc_margin"
-                    android:paddingBottom="@dimen/activity_vtc_margin"
-                    android:rowCount="6">
+                <TextView
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
+                    android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
+                    android:text="@string/student_id"
+                    android:textSize="@dimen/sign_up_text_size" />
 
-                    <TextView
-                        android:layout_gravity="fill"
-                        android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
-                        android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
-                        android:text="@string/student_id"
-                        android:textSize="@dimen/sign_up_text_size" />
+                <EditText
+                    android:id="@+id/text_stuNumber"
+                    android:layout_height="@dimen/sign_up_text_height"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
+                    android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
+                    android:inputType="number"
+                    android:selectAllOnFocus="true"
+                    android:textSize="@dimen/sign_up_text_size" />
 
-                    <EditText
-                        android:id="@+id/text_stuNumber"
+                <TextView
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
+                    android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
+                    android:text="@string/student_name"
+                    android:textSize="@dimen/sign_up_text_size" />
+
+                <EditText
+                    android:id="@+id/text_name"
+                    android:layout_height="@dimen/sign_up_text_height"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
+                    android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
+                    android:inputType="text"
+                    android:selectAllOnFocus="true"
+                    android:textSize="@dimen/sign_up_text_size" />
+
+                <TextView
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
+                    android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
+                    android:text="@string/password"
+                    android:textSize="@dimen/sign_up_text_size" />
+
+                <EditText
+                    android:id="@+id/text_password"
+                    android:layout_height="@dimen/sign_up_text_height"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
+                    android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
+                    android:imeActionLabel="@string/action_sign_in"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:selectAllOnFocus="true"
+                    android:textSize="@dimen/sign_up_text_size" />
+
+                <TextView
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
+                    android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
+                    android:text="@string/gender"
+                    android:textSize="@dimen/sign_up_text_size" />
+
+                <RadioGroup
+                    android:layout_height="@dimen/sign_up_text_height"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
+                    android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioBtn_male"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/sign_up_text_height"
-                        android:layout_columnSpan="2"
-                        android:layout_gravity="fill"
-                        android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
                         android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
-                        android:inputType="number"
-                        android:selectAllOnFocus="true"
-                        android:textSize="@dimen/sign_up_text_size" />
+                        android:textSize="@dimen/sign_up_text_size"
+                        android:text="@string/gender_male"
+                        android:checked="true"/>
 
-                    <TextView
-                        android:layout_gravity="fill"
-                        android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
-                        android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
-                        android:text="@string/student_name"
-                        android:textSize="@dimen/sign_up_text_size" />
-
-                    <EditText
-                        android:id="@+id/text_name"
+                    <RadioButton
+                        android:id="@+id/radioBtn_female"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/sign_up_text_height"
-                        android:layout_columnSpan="2"
-                        android:layout_gravity="fill"
-                        android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
-                        android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
-                        android:inputType="text"
-                        android:selectAllOnFocus="true"
-                        android:textSize="@dimen/sign_up_text_size" />
-
-                    <TextView
-                        android:layout_gravity="fill"
                         android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
-                        android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
-                        android:text="@string/password"
+                        android:text="@string/gender_female"
                         android:textSize="@dimen/sign_up_text_size" />
 
-                    <EditText
-                        android:id="@+id/text_password"
-                        android:layout_height="@dimen/sign_up_text_height"
-                        android:layout_columnSpan="2"
-                        android:layout_gravity="fill"
-                        android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
-                        android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
-                        android:imeActionLabel="@string/action_sign_in"
-                        android:imeOptions="actionDone"
-                        android:inputType="textPassword"
-                        android:selectAllOnFocus="true"
-                        android:textSize="@dimen/sign_up_text_size" />
+                </RadioGroup>
 
-                    <TextView
-                        android:layout_gravity="fill"
-                        android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
-                        android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
-                        android:text="@string/gender"
-                        android:textSize="@dimen/sign_up_text_size" />
+                <TextView
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
+                    android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
+                    android:text="@string/student_image"
+                    android:textSize="@dimen/sign_up_text_size" />
 
-                    <RadioGroup
-                        android:layout_height="@dimen/sign_up_text_height"
-                        android:layout_columnSpan="2"
-                        android:layout_gravity="fill"
-                        android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
-                        android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
-                        android:orientation="horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_student"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
+                    android:layout_marginBottom="@dimen/sign_up_text_margin_vtc"
+                    android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
+                    android:src="@drawable/head"
+                    app:civ_border_color="@color/banana"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="5dp"/>
 
-                        <RadioButton
-                            android:id="@+id/radioBtn_male"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/sign_up_text_height"
-                            android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
-                            android:textSize="@dimen/sign_up_text_size"
-                            android:text="@string/gender_male"
-                            android:checked="true"/>
-
-                        <RadioButton
-                            android:id="@+id/radioBtn_female"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/sign_up_text_height"
-                            android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
-                            android:text="@string/gender_female"
-                            android:textSize="@dimen/sign_up_text_size" />
-
-                    </RadioGroup>
-
-                    <TextView
-                        android:layout_gravity="fill"
-                        android:layout_marginStart="@dimen/sign_up_text_margin_hrz"
-                        android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
-                        android:text="@string/student_image"
-                        android:textSize="@dimen/sign_up_text_size" />
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/image_student"
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
-                        android:layout_columnSpan="2"
-                        android:layout_gravity="start"
-                        android:layout_marginTop="@dimen/sign_up_text_margin_vtc"
-                        android:layout_marginBottom="@dimen/sign_up_text_margin_vtc"
-                        android:layout_marginEnd="@dimen/sign_up_text_margin_hrz"
-                        android:src="@drawable/head"
-                        app:civ_border_color="@color/banana"
-                        app:civ_border_overlay="true"
-                        app:civ_border_width="5dp"/>
-
-                </GridLayout>
-
-            </android.support.v7.widget.CardView>
+            </GridLayout>
 
             <Button
                 android:id="@+id/button_sign_up"

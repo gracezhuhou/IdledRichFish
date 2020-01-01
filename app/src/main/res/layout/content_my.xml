@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,7 +22,19 @@
             android:orientation="vertical"
             android:background="@color/white">
 
-            <!-- 我发布的 -->
+            <Button
+                android:id="@+id/button_my_history"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/my_height"
+                android:background="@color/transparent"
+                android:drawableStart="@drawable/ic_my_history"
+                android:drawablePadding="@dimen/my_drawable_padding"
+                android:paddingStart="@dimen/my_padding_start"
+                android:paddingEnd="0dp"
+                android:text="@string/my_publish"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/my_text_size" />
+
             <Button
                 android:id="@+id/button_my_publish"
                 android:layout_width="match_parent"
@@ -36,7 +48,6 @@
                 android:textAlignment="textStart"
                 android:textSize="@dimen/my_text_size" />
 
-            <!-- 我卖出的 -->
             <Button
                 android:id="@+id/button_my_favorite"
                 android:layout_width="match_parent"
@@ -94,4 +105,4 @@
 
     </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

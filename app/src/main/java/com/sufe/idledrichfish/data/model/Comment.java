@@ -15,7 +15,8 @@ public class Comment extends BmobObject {
 
     private BmobDate date;
 
-    private Student commentFather;
+    private Comment commentFather;
+
 
     public Student getCommenter() {
         return commenter;
@@ -49,11 +50,11 @@ public class Comment extends BmobObject {
         this.date = date;
     }
 
-    public Student getCommentFather() {
+    public Comment getCommentFather() {
         return commentFather;
     }
 
-    public void setCommentFather(Student commentFather) {
+    public void setCommentFather(Comment commentFather) {
         this.commentFather = commentFather;
     }
 }

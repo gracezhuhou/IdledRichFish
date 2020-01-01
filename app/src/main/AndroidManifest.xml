@@ -8,11 +8,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取wifi网络状态的信息 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 获取sd卡写的权限，用于文件上传和下载 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-feature android:name="android.hardware.camera" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -23,6 +21,10 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
+
 
     <application
         android:name="android.app.Application"
@@ -33,25 +35,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        >
-        <!--android:appComponentFactory=""
-        tools:replace="android:appComponentFactory"-->
-        <activity
-            android:name=".ui.myOrder.MyOrderActivity"
-            android:label="@string/title_activity_my_order"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        android:usesCleartextTraffic="true">
 
+        <uses-library android:name="org.apache.http.legacy"
+            android:required="false"/>
+
+        <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="1107191119107199#idledrichfish" /> <!-- 声明sdk所需的service SDK核心功能 -->
+            android:value="1107191119107199#idledrichfish" />
+        <!-- 声明SDK所需的service SDK核心功能-->
         <service
             android:name="com.hyphenate.chat.EMChatService"
-            android:exported="true" /> <!-- 声明SDK所需的receiver -->
+            android:exported="true" />
+        <service android:name="com.hyphenate.chat.EMJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"
+            />
+        <!-- 声明SDK所需的receiver -->
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
                 <data android:scheme="package" />
             </intent-filter>
             <!-- 可选filter -->
@@ -64,8 +68,9 @@
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="com.sufe.idledrichfish.BmobContentProvider" />
+
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="PhotoPicker"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -74,18 +79,30 @@
                 android:resource="@xml/photo_path" />
         </provider>
 
+        <activity android:name=".ui.tag.TagActivity" />
+        <activity android:name=".ui.publish.CategoryActivity"></activity>
         <activity android:name=".OrderInfoActivity" />
         <activity android:name=".ui.publish.PublishActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ui.myPublish.MyPublishActivity" />
         <activity android:name=".ui.myFavorite.MyFavoriteActivity" />
+        <activity android:name=".CreditActivity"></activity>
+        <activity android:name=".ui.search.SearchActivity" />
+
         <activity
             android:name=".ui.productinfo.ProductInfoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.chat.ChatActivity"
+            android:name=".ui.myOrder.MyOrderActivity"
+            android:label="@string/title_activity_my_order"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.user.UserActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.conversation.ConversationActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_home"

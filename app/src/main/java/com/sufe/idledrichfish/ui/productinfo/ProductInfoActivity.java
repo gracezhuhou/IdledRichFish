@@ -6,13 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,24 +21,36 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.common.primitives.Bytes;
 import com.sufe.idledrichfish.AppBarStateChangeListener;
 import com.sufe.idledrichfish.MainActivity;
 import com.sufe.idledrichfish.R;
+import com.google.android.material.appbar.AppBarLayout;
+import com.sufe.idledrichfish.data.CommentDataSource;
+import com.sufe.idledrichfish.data.CommentRepository;
 import com.sufe.idledrichfish.data.FavoriteDataSource;
 import com.sufe.idledrichfish.data.FavoriteRepository;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
+import com.sufe.idledrichfish.data.model.Student;
+import com.sufe.idledrichfish.ui.user.UserActivity;
+import com.sufe.idledrichfish.ui.conversation.ConversationActivity;
 import com.sufe.idledrichfish.data.model.Comment;
-import com.sufe.idledrichfish.ui.chat.ChatActivity;
 
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 
-public class ProductInfoActivity extends AppCompatActivity implements View.OnClickListener{
+public class ProductInfoActivity extends AppCompatActivity {
 
     private TextView text_product_name;
     private TextView text_price;
@@ -59,21 +64,26 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
     private ImageView image_seller;
     private ImageView icon_gender;
     private ImageView icon_favorite;
-    private CardView card_new;
-    private CardView card_cannot_bargain;
+    private TextView text_new;
+    private TextView text_cannot_bargain;
     private ConstraintLayout layout_seller;
 
     private String productId;
+    private String commentFatherId;
     private String sellerId;
     private String sellerName;
+    private ImageView sellerImage;
+    private String commentContent;
     static public Handler productInfoHandler;
     static public Handler addFavoriteHandler;
     static public Handler cancelFavoriteHandler;
     static public Handler isFavoriteHandler;
+    static public Handler commentHandler;
+    static public Handler productCommentHandler;
 
     private CommentExpandableListView commentExpandableListView;
     private ExpandableAdapter expandableAdapter;
-    private List<Comment> commentList;
+    private List<CommentView> commentList;
 
     private InputMethodManager inputMethodManager;
     private BottomSheetDialog bottomSheetDialog;
@@ -87,6 +97,9 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         setAppBar();
         initData();
         setHandler();
+        clickSeller();
+
+        initExpandableListView(commentList);
 
         // 点击“收藏”
         final LinearLayout layout_favorite = findViewById(R.id.layout_favorite);
@@ -108,8 +121,11 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
     private void setAppBar() {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        }
 
         final AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         // 折叠状态监听
@@ -123,12 +139,6 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
                 }else if(state == State.COLLAPSED){
                     //折叠状态
                     layout_seller.setVisibility(View.INVISIBLE);
-//                    if (sellerName != null) {
-//                        getSupportActionBar().setTitle(sellerName);
-//                    }
-                    // todo:设置标题头像
-                    getSupportActionBar().setIcon(R.drawable.ic_user); // 暂时
-
                 }else {
                     //中间状态
                     layout_seller.setVisibility(View.VISIBLE);
@@ -155,6 +165,20 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
+
+    /**
+     * 点击用户跳转至用户界面
+     */
+    private void clickSeller() {
+        final ConstraintLayout layout_seller = findViewById(R.id.layout_seller);
+        layout_seller.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+            intent.putExtra("seller_id_extra", sellerId);
+            intent.putExtra("seller_name_extra", sellerName);
+            startActivity(intent);
+        });
+    }
+
     /**
      * 初始化界面: Product, Favorite
      * 根据传入的product_id
@@ -164,6 +188,7 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         productId = intent.getStringExtra("product_id_extra");
         ProductRepository.getInstance(new ProductDataSource()).queryProduct(productId, "productInfo");
         FavoriteRepository.getInstance(new FavoriteDataSource()).isFavorite(productId);
+        CommentRepository.getInstance(new CommentDataSource()).queryCommentsByProduct(productId);
     }
 
     /**
@@ -185,15 +210,19 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
                     text_price.setText(format1.format(b.getDouble("price")));
                     text_old_price.setText(format1.format(b.getDouble("oldPrice")));
                     if(!b.getBoolean("isNew")) {
-                        card_new.setVisibility(View.GONE);
+                        text_new.setVisibility(View.GONE);
                     }
                     if (b.getBoolean("canBargain")) {
-                        card_cannot_bargain.setVisibility(View.GONE);
+                        text_cannot_bargain.setVisibility(View.GONE);
                     }
                     String publishDate = "发布于" + b.getString("publishDate");
                     text_publish_date.setText(publishDate);
+                    RequestOptions options = new RequestOptions()
+                            .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
+                            .fallback(R.drawable.ic_no_image) // url为空的时候,显示的图片
+                            .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
                     final ImageView image1_product = findViewById(R.id.image1_product);
-                    Glide.with(getApplicationContext()).load(b.getByteArray("image1")).into(image1_product);
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image1")).apply(options).into(image1_product);
                     final ImageView image2_product = findViewById(R.id.image2_product);
                     Glide.with(getApplicationContext()).load(b.getByteArray("image2")).into(image2_product);
                     final ImageView image3_product = findViewById(R.id.image3_product);
@@ -222,7 +251,11 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
                     }
                     String lastLoginDate = "最晚" + b.getString("lastLoginDate") + "来过";
                     text_login_date.setText(lastLoginDate);
-                    Glide.with(getApplicationContext()).load(b.getByteArray("studentImage")).into(image_seller);
+                    RequestOptions options2 = new RequestOptions()
+                            .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
+                            .fallback(R.drawable.ic_home) // url为空的时候,显示的图片
+                            .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
+                    Glide.with(getApplicationContext()).load(b.getByteArray("studentImage")).apply(options2).into(image_seller);
                 }
                 Log.i("Handler", "Query Products Info");
             }
@@ -240,7 +273,7 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
                             .withIcon(getResources().getDrawable(R.drawable.ic_fail))
                             .withEffect(Effectstype.SlideBottom)
                             .show();
-                    icon_favorite.setImageResource(R.drawable.ic_favorite_gray);
+                    icon_favorite.setImageResource(R.drawable.ic_star_white);
                     icon_favorite.setTag("unfavor");
                 }
             }
@@ -258,7 +291,7 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
                             .withIcon(getResources().getDrawable(R.drawable.ic_fail))
                             .withEffect(Effectstype.SlideBottom)
                             .show();
-                    icon_favorite.setImageResource(R.drawable.ic_favorite_yellow);
+                    icon_favorite.setImageResource(R.drawable.ic_star);
                     icon_favorite.setTag("favor");
                 }
             }
@@ -269,12 +302,57 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
                 Bundle b = msg.getData();
                 if (b.getInt("errorCode") == 0) {
                     if (b.getBoolean("favorite")) {
-                        icon_favorite.setImageResource(R.drawable.ic_favorite_yellow);
+                        icon_favorite.setImageResource(R.drawable.ic_star);
                         icon_favorite.setTag("favor");
                     } else {
-                        icon_favorite.setImageResource(R.drawable.ic_favorite_gray);
+                        icon_favorite.setImageResource(R.drawable.ic_star_white);
                         icon_favorite.setTag("unfavor");
                     }
+                }
+            }
+        };
+        // 是否留言成功 & 刷新界面
+        commentHandler = new Handler() {
+            public void handleMessage (Message msg){
+                Bundle b = msg.getData();
+                if (b.getInt("errorCode") == 0) {
+                    Student student = Student.getCurrentUser(Student.class);
+                    commentList.add(new CommentView(b.getString("commentId"),
+                            student.getObjectId(),
+                            student.getName(),
+                            Bytes.toArray(student.getImage()),
+                            commentContent,
+                            b.getString("date")
+                            ));
+                    expandableAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getApplicationContext(), b.getString("e"), Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        // 获取所有留言
+        productCommentHandler = new Handler() {
+            public void handleMessage (Message msg){
+                Bundle bs = msg.getData();
+                if (bs.getInt("errorCode") == 0) {
+                    bs.remove("errorCode");
+                    for (int i = 0; !bs.isEmpty(); ++i) {
+                        Bundle b = bs.getBundle(String.valueOf(i));
+                        assert b != null;
+                        CommentView comment = new CommentView(
+                                b.getString("commentId"),
+                                b.getString("commenterId"),
+                                b.getString("commenterName"),
+                                b.getByteArray("image"),
+                                b.getString("content"),
+                                b.getString("date"));
+                        commentList.add(comment);
+                        bs.remove(String.valueOf(i));
+                    }
+                    Log.i("Handler", "Query All Comments By Product");
+                    expandableAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getApplicationContext(), bs.getString("e"), Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -284,7 +362,7 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         text_product_name = findViewById(R.id.text_product_name);
         text_price = findViewById(R.id.text_price);
         text_old_price = findViewById(R.id.text_old_price);
-        text_product_description = findViewById(R.id.text_product_description);
+        text_product_description = findViewById(R.id.text_description);
         text_seller_name = findViewById(R.id.text_seller_name);
         text_seller_credit = findViewById(R.id.text_seller_credit);
         text_login_date = findViewById(R.id.text_login_date);
@@ -293,11 +371,9 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         image_seller = findViewById(R.id.image_seller);
         icon_favorite = findViewById(R.id.icon_favorite);
         icon_gender = findViewById(R.id.icon_gender);
-        card_new = findViewById(R.id.card_new);
-        card_cannot_bargain = findViewById(R.id.card_cannot_bargain);
         layout_seller = findViewById(R.id.layout_seller);
-
-
+        text_new = findViewById(R.id.text_new);
+        text_cannot_bargain = findViewById(R.id.text_cannot_bargain);
     }
 
     /**
@@ -306,12 +382,12 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
     private void clickFavorite() {
         if (icon_favorite.getTag().equals("favor")) {
             Log.i("ProductInfo", "Remove Favorite");
-            icon_favorite.setImageResource(R.drawable.ic_favorite_gray);
+            icon_favorite.setImageResource(R.drawable.ic_star_white);
             icon_favorite.setTag("unfavor");
             FavoriteRepository.getInstance(new FavoriteDataSource()).removeFavorite(productId);
         } else {
             Log.i("ProductInfo", "Add Favorite");
-            icon_favorite.setImageResource(R.drawable.ic_favorite_yellow);
+            icon_favorite.setImageResource(R.drawable.ic_star);
             icon_favorite.setTag("favor");
             FavoriteRepository.getInstance(new FavoriteDataSource()).saveFavorite(productId);
         }
@@ -321,8 +397,9 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
      * 点击联系卖家
      */
     private void chat() {
-        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
         intent.putExtra("product_id_extra", productId);
+        intent.putExtra("chat_id_extra", sellerId);
         intent.putExtra("seller_id_extra", sellerId);
         intent.putExtra("seller_name_extra", sellerName);
         startActivity(intent);
@@ -344,15 +421,13 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         bt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String commentContent = commentText.getText().toString().trim();
+                commentContent = commentText.getText().toString().trim();
                 if(!TextUtils.isEmpty(commentContent)){
 
                     //commentOnWork(commentContent);
                     bottomSheetDialog.dismiss();
+                    CommentRepository.getInstance(new CommentDataSource()).saveComment(productId, commentContent, null);
 
-                    Comment comment = new Comment();
-
-                    expandableAdapter.addTheCommentData(comment);
                     Toast.makeText(ProductInfoActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(ProductInfoActivity.this,"评论内容不能为空",Toast.LENGTH_SHORT).show();
@@ -360,10 +435,6 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
             }
         });
         bottomSheetDialog.show();
-    }
-    @Override
-    public void onClick(View v) {
-
     }
 
     /**
@@ -375,18 +446,15 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         final EditText commentText = (EditText) commentView.findViewById(R.id.comment_edittext);
         final Button bt_comment = (Button) commentView.findViewById(R.id.comment_launch);
 
-        /////////////////////////////////////
-        commentText.setHint("回复 " + commentList.get(position).getCommenter().getName() + " 的评论:");
+        commentText.setHint("回复 " + commentList.get(position).getCommenterName() + " 的评论:");
         bottomSheetDialog.setContentView(commentView);
         bt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String replyContent = commentText.getText().toString().trim();
-                if(!TextUtils.isEmpty(replyContent)){
+                if(!TextUtils.isEmpty(commentContent)){
                     bottomSheetDialog.dismiss();
-                    //Comment detailBean = new Comment("小红",replyContent);
-                    //expandableAdapter.addTheReplyData(detailBean, position);
-                    Comment reply = new Comment();
+
+                    CommentRepository.getInstance(new CommentDataSource()).saveComment(productId, commentContent, commentList.get(position).getCommenterFatherId());
 
                     commentExpandableListView.expandGroup(position);
                     Toast.makeText(ProductInfoActivity.this,"回复成功",Toast.LENGTH_SHORT).show();
@@ -401,7 +469,7 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
     /**
      * 初始化评论和回复列表
      */
-    private void initExpandableListView(final List<Comment> commentList){
+    private void initExpandableListView(final List<CommentView> commentList){
         commentExpandableListView.setGroupIndicator(null);
         //默认展开所有回复
         expandableAdapter = new ExpandableAdapter(this, commentList);

@@ -3,19 +3,13 @@ package com.sufe.idledrichfish.ui.publish;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,13 +25,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.lzy.ninegrid.ImageInfo;
 import com.lzy.ninegrid.NineGridView;
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter;
 import com.sufe.idledrichfish.GlideImageEngine;
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.data.model.Tab;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
+import com.sufe.idledrichfish.ui.tag.TagActivity;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
@@ -52,17 +50,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import cn.bmob.v3.datatype.BmobRelation;
-
 public class PublishActivity extends AppCompatActivity {
 
     private EditText text_description;
     private TextView text_price;
     private TextView text_category;
-    private TextView text_tab;
+    private TextView text_tag;
     private EditText text_name;
     private Button button_publish;
     private LinearLayout layout_price;
+    private LinearLayout layout_tag;
+    private LinearLayout layout_category;
     private PriceDialog dialog_price;
     private CheckBox checkbox_is_new;
     private CheckBox checkbox_cannot_bargain;
@@ -70,12 +68,16 @@ public class PublishActivity extends AppCompatActivity {
 
     private double price = 0;
     private double oldPrice;
-    private BmobRelation tabs;
+    private List<String> tags = new ArrayList<>();
     private ArrayList<ImageInfo> imagesInfo;
     private List<String> pathList;
+    private String category = "其他";
 
     private PublishViewModel publishViewModel;
+    private NineGridViewClickAdapter nineGridViewClickAdapter;
     private final int REQUEST_CODE_CHOOSE_PHOTO_ALBUM = 1;
+    private final int REQUEST_CODE_GET_TAGS = 11;
+    private final int REQUEST_CODE_GET_CATEGORY = 12;
     static public Handler publishHandler;
 
     @Override
@@ -85,17 +87,8 @@ public class PublishActivity extends AppCompatActivity {
 
         initView();
 
-        // todo: labels和category 暂用例子
-        text_category.setText("其他");
-        Tab tab = new Tab();
-        tab.setObjectId("QOjbEEEF");
-        tab.setName("高数");
-        Tab tab2 = new Tab();
-        tab2.setObjectId("u3ckAAAE");
-        tab.setName("数学");
-        tabs = new BmobRelation();
-        tabs.add(tab);
-        tabs.add(tab2);
+        // todo: category 暂用例子
+        text_category.setText(category);
 
         NineGridView.setImageLoader(new GlideImageLoader());
         imagesInfo = new ArrayList<>();
@@ -104,17 +97,18 @@ public class PublishActivity extends AppCompatActivity {
 
         setHandler();
         setPublishForm(); // 格式监听
-        setFormListener(); // 按键监听
+        setClickListener(); // 按键监听
 
     }
 
     /**
-     * 获取选择的照片
+     * 获取选择的照片 & 获取Tags & 获取类别
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE_PHOTO_ALBUM && resultCode == RESULT_OK) {
+            // 获取选择的照片
             // 图片路径 根据requestCode
             pathList = Matisse.obtainPathResult(data);
             for (String path : pathList) {
@@ -126,10 +120,38 @@ public class PublishActivity extends AppCompatActivity {
                 Log.i("ImageByte", path);
                 //System.out.println(_Uri.getPath());
             }
-            nine_grid_view.setAdapter(new NineGridViewClickAdapter(this, imagesInfo));
+            nineGridViewClickAdapter = new NineGridViewClickAdapter(this, imagesInfo);
+            nine_grid_view.setAdapter(nineGridViewClickAdapter);
         }
-        Log.i("ImageByte", "Result Fail");
+        else if (requestCode == REQUEST_CODE_GET_TAGS) {
+            // 获取Tags
+            if (data != null) {
+                tags = data.getStringArrayListExtra("tags_extra");
+                changeData();
+                if (tags.size() > 1) {
+                    String tagText = tags.get(0) + "...";
+                    text_tag.setText(tagText);
+                } else if (tags.size() == 1) {
+                    text_tag.setText(tags.get(0));
+                }
+            }
+        }
+        else if (requestCode == REQUEST_CODE_GET_CATEGORY) {
+            //获取Category
+            Bundle bundle = data.getExtras();
+            category = bundle.getString("category_extra");
+            text_category.setText(category);
+        }
     }
+//    @Override
+//    /*设置种类 */
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(requestCode == REQUEST_CODE && resultCode == SecondaryActivity.RESULT_CODE) {
+//            Bundle bundle = data.getExtras();
+//            String str = bundle.getString("back");
+//            Toast.makeText(this, "从SecondaryActivity的返回值为：" + str, Toast.LENGTH_LONG).show();
+//        }
+//    }
 
     /**
      * 选择照片（多项）
@@ -167,41 +189,33 @@ public class PublishActivity extends AppCompatActivity {
      */
     @SuppressLint("HandlerLeak")
     private void setHandler() {
-        // 获取Bmob返回的注册ErrorCode
+        // 商品添加成功与否
         publishHandler = new Handler() {
             public void handleMessage(Message msg) {
                 int errorCode = msg.getData().getInt("errorCode");
                 Log.i("Handler", "Error Code " + errorCode);
 
                 if (errorCode == 0) {
-
+                    clearData();
                     AlertDialog alertDialog = new AlertDialog.Builder(PublishActivity.this)
                             .setTitle("商品发布成功")
                             .setMessage("可至我的发布中查看")
                             .setIcon(R.drawable.ic_audit)
-                            .setPositiveButton("前往我的发布", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    // 跳转至我的发布页面
-                                    Intent intent = new Intent(getApplicationContext(), MyPublishActivity.class);
-                                    startActivity(intent);
-                                }
+                            .setPositiveButton("前往我的发布", (dialogInterface, i) -> {
+                                // 跳转至我的发布页面
+                                Intent intent = new Intent(getApplicationContext(), MyPublishActivity.class);
+                                startActivity(intent);
                             })
                             .create();
                     alertDialog.show();
                 }
                 else {
                     String fail = "失败原因:" + errorCode + msg.getData().getString("e");
-
                     AlertDialog alertDialog = new AlertDialog.Builder(PublishActivity.this)
                             .setTitle("商品发布失败")
                             .setMessage(fail)
                             .setIcon(R.drawable.ic_fail)
                             .create();
-//                    if (e.getErrorCode() == 202)
-//                        alertDialog.setMessage("");
-//                    else if (e.getErrorCode() == 301)
-//                        alertDialog.setMessage("");
                     alertDialog.show();
                 }
             }
@@ -215,41 +229,36 @@ public class PublishActivity extends AppCompatActivity {
         publishViewModel = ViewModelProviders.of(this, new PublishViewModelFactory())
                 .get(PublishViewModel.class);
 
-        publishViewModel.getPublishFormState().observe(this, new Observer<PublishFormState>() {
-            @Override
-            public void onChanged(@Nullable PublishFormState publishFormState) {
-                if (publishFormState == null) {
-                    return;
-                }
-                button_publish.setEnabled(publishFormState.isDataValid());
-                if (publishFormState.getProductNameError() != null) {
-                    text_name.setError(getString(publishFormState.getProductNameError()));
-                }
-                if (publishFormState.getDescriptionError() != null) {
-                    text_description.setError(getString(publishFormState.getDescriptionError()));
-                }
-                if (publishFormState.getPriceError() != null) {
-                    text_price.setError(getString(publishFormState.getPriceError()));
-                } else {
-                    text_price.setError(null);
-                }
-                if (publishFormState.getCategoryError() != null) {
-                    text_category.setError(getString(publishFormState.getCategoryError()));
-                } else {
-                    text_price.setError(null);
-                }
-                if (publishFormState.getLabelError() != null) {
-                    text_tab.setError(getString(publishFormState.getLabelError()));
-                } else {
-                    text_price.setError(null);
-                }
-                Log.i("PublishForm", "On Change:" + publishFormState.getPriceError());
+        publishViewModel.getPublishFormState().observe(this, publishFormState -> {
+            if (publishFormState == null) {
+                return;
             }
+            button_publish.setEnabled(publishFormState.isDataValid());
+            if (publishFormState.getProductNameError() != null) {
+                text_name.setError(getString(publishFormState.getProductNameError()));
+            }
+            if (publishFormState.getDescriptionError() != null) {
+                text_description.setError(getString(publishFormState.getDescriptionError()));
+            }
+            if (publishFormState.getPriceError() != null) {
+                text_price.setError(getString(publishFormState.getPriceError()));
+            } else {
+                text_price.setError(null);
+            }
+            if (publishFormState.getTagsError() != null) {
+                text_tag.setError(getString(publishFormState.getTagsError()));
+            } else {
+                text_tag.setError(null);
+            }
+            if (publishFormState.getCategoryError() != null) {
+                text_category.setError(getString(publishFormState.getCategoryError()));
+            } else {
+                text_category.setError(null);
+            }
+            Log.i("PublishForm", "On Change:" + publishFormState.getTagsError());
         });
 
-        /*
-         * 监听输入文字的变化
-         */
+        // 监听输入文字的变化
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -273,7 +282,7 @@ public class PublishActivity extends AppCompatActivity {
     /**
      * 表单按键监听
      */
-    private void setFormListener() {
+    private void setClickListener() {
         // 选中or取消选中“全新”&“不讲价”
         checkbox_is_new.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -330,6 +339,20 @@ public class PublishActivity extends AppCompatActivity {
             }
         });
 
+        // 点击tag跳转
+        layout_tag.setOnClickListener(v -> {
+            // 跳转至tag页面
+            Intent intent = new Intent(this, TagActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_GET_TAGS);
+        });
+        //点击category跳转
+        layout_category = findViewById(R.id.layout_category);
+        layout_category.setOnClickListener(v -> {
+            // 跳转至category页面
+            Intent intent = new Intent(this, CategoryActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_GET_CATEGORY);
+        });
+
         // 点击发布Button
         button_publish.setOnClickListener(view -> {
             publishViewModel.saveProduct(text_name.getText().toString(),
@@ -338,9 +361,9 @@ public class PublishActivity extends AppCompatActivity {
                     !checkbox_cannot_bargain.isChecked(),
                     price,
                     oldPrice,
-                    tabs,
                     text_category.getText().toString(),
-                    pathList);
+                    pathList,
+                    tags);
             button_publish.setBackgroundResource(R.drawable.card_banana);
         });
 
@@ -354,11 +377,12 @@ public class PublishActivity extends AppCompatActivity {
      */
     private void changeData() {
         publishViewModel.publishDataChanged(text_name.getText().toString(),
-                text_description.getText().toString(), price, tabs, text_category.getText().toString());
+                text_description.getText().toString(), price, tags, text_category.getText().toString());
     }
 
     private void initView() {
         layout_price = findViewById(R.id.layout_price);
+        layout_tag = findViewById(R.id.layout_tag);
         text_description = findViewById(R.id.editText_description);
         text_description.clearFocus();
         button_publish = findViewById(R.id.button_publish);
@@ -367,8 +391,26 @@ public class PublishActivity extends AppCompatActivity {
         checkbox_is_new = findViewById(R.id.if_new);
         text_price = findViewById(R.id.text_price_number);
         text_category = findViewById(R.id.text_category);
-        text_tab = findViewById(R.id.text_tab);
+        text_tag = findViewById(R.id.text_tab);
         nine_grid_view = findViewById(R.id.nine_grid_view);
+    }
+
+    /**
+     * 清除表单数据
+     */
+    private void clearData() {
+        text_description.setText("");
+        button_publish.setEnabled(false);
+        text_name.setText("");
+        checkbox_cannot_bargain.setChecked(false);
+        checkbox_is_new.setChecked(false);
+        text_price.setText("");
+        text_category.setText("");
+        text_tag.setText("");
+        imagesInfo.clear();
+        if (nineGridViewClickAdapter != null) {
+            nineGridViewClickAdapter.notify();
+        }
     }
 }
 

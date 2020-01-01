@@ -2,10 +2,11 @@ package com.sufe.idledrichfish.ui.productinfo;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.view.NestedScrollingChild;
-import android.support.v4.view.NestedScrollingChildHelper;
 import android.util.AttributeSet;
 import android.widget.ExpandableListView;
+
+import androidx.core.view.NestedScrollingChild;
+import androidx.core.view.NestedScrollingChildHelper;
 
 /**
  * 自定义ExpandableListView,解决与CoordinatorLayout滑动冲突问题

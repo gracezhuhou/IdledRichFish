@@ -4,19 +4,17 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.support.annotation.Nullable;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.OrderDataSource;
@@ -33,7 +31,6 @@ public class PlaceholderFragment extends Fragment {
     private RecyclerView recycler_view;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private PageViewModel pageViewModel;
     private List<MyOrderView> orders = new ArrayList<>();
     private OrderRepository orderRepository = OrderRepository.getInstance(new OrderDataSource());
     private MyOrdersRecyclerAdapter myOrdersRecyclerAdapter;
@@ -48,7 +45,7 @@ public class PlaceholderFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
-//        Log.i("PlaceholderFragment", "NewInstance Page " + index);
+
         return fragment;
     }
 
@@ -56,13 +53,10 @@ public class PlaceholderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("MyOrder","onCreate");
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
-        pageViewModel.setIndex(index);
-
         setHandler(index);
     }
 
@@ -73,24 +67,9 @@ public class PlaceholderFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_my_order, container, false);
         isViewCreated = true;
 
-        Log.i("MyOrder","onCreateView");
-
-        final TextView textView = root.findViewById(R.id.section_label);
         recycler_view = root.findViewById(R.id.recycler_view);
         setRecycler();
 
-        pageViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-//        pageViewModel.getOrders().observe(this, new Observer<List<MyOrderView>>() {
-//            @Override
-//            public void onChanged(@Nullable List<MyOrderView> os) {
-//
-//            }
-//        });
         return root;
     }
 
@@ -108,7 +87,6 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.i("MyOrder","onActivityCreated");
         if (getUserVisibleHint()) {
             isLoadDataCompleted = true;
             loadData();
@@ -121,12 +99,10 @@ public class PlaceholderFragment extends Fragment {
         myOrdersRecyclerAdapter = new MyOrdersRecyclerAdapter(orders);
         recycler_view.setAdapter(myOrdersRecyclerAdapter);
         recycler_view.setHasFixedSize(true);
-        Log.i("MyOrder", "setRecycler " + myOrdersRecyclerAdapter);
     }
 
     @SuppressLint("HandlerLeak")
     private void setHandler(int index) {
-        Log.i("MyOrder", "setHandler");
         switch (index){
             case 1:
                 // 获取用户发布的所有商品
@@ -153,7 +129,6 @@ public class PlaceholderFragment extends Fragment {
                                 bs.remove(String.valueOf(i));
                             }
                             Log.i("Handler", "Query All Orders ");
-//                    pageViewModel.setOrders(orders);
                             myOrdersRecyclerAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(getContext(), bs.getString("e"), Toast.LENGTH_LONG).show();
@@ -187,7 +162,6 @@ public class PlaceholderFragment extends Fragment {
                                 bs.remove(String.valueOf(i));
                             }
                             Log.i("Handler", "Query All Orders ");
-//                    pageViewModel.setOrders(orders);
                             myOrdersRecyclerAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(getContext(), bs.getString("e"), Toast.LENGTH_LONG).show();
@@ -221,7 +195,6 @@ public class PlaceholderFragment extends Fragment {
                                 bs.remove(String.valueOf(i));
                             }
                             Log.i("Handler", "Query All Orders ");
-//                    pageViewModel.setOrders(orders);
                             myOrdersRecyclerAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(getContext(), bs.getString("e"), Toast.LENGTH_LONG).show();

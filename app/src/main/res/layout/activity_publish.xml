@@ -43,12 +43,12 @@
 
     </RelativeLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_margin_hrz"
-        android:layout_marginEnd="@dimen/card_margin_hrz"
-        android:layout_marginTop="@dimen/card_margin_vtc"
+        android:layout_marginStart="@dimen/list_margin_hrz"
+        android:layout_marginEnd="@dimen/list_margin_hrz"
+        android:layout_marginTop="@dimen/list_margin_vtc"
         android:fillViewport="true">
 
         <LinearLayout
@@ -56,63 +56,47 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <EditText
+                android:id="@+id/editText_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/card_radius"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/white">
+                android:hint="@string/product_name"
+                android:textColorHint="@color/gray"
+                android:gravity="top"
+                android:paddingTop="20dp"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:paddingBottom="10dp"
+                android:background="@color/white">
+            </EditText>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <EditText
+                android:id="@+id/editText_description"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:hint="@string/describe_hint"
+                android:textColorHint="@color/gray"
+                android:gravity="top"
+                android:paddingTop="20dp"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:paddingBottom="10dp"
+                android:background="@color/white">
+            </EditText>
 
-                    <EditText
-                        android:id="@+id/editText_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="商品名称"
-                        android:textColorHint="@color/gray"
-                        android:gravity="top"
-                        android:paddingTop="20dp"
-                        android:paddingEnd="30dp"
-                        android:paddingStart="30dp"
-                        android:paddingBottom="10dp"
-                        android:background="@color/transparent">
-                    </EditText>
-
-                    <EditText
-                        android:id="@+id/editText_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:hint="描述一下你的商品..."
-                        android:textColorHint="@color/gray"
-                        android:gravity="top"
-                        android:paddingTop="20dp"
-                        android:paddingEnd="30dp"
-                        android:paddingStart="30dp"
-                        android:paddingBottom="10dp"
-                        android:background="@color/transparent">
-                    </EditText>
-
-                    <com.lzy.ninegrid.NineGridView
-                        android:id="@+id/nine_grid_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        app:ngv_maxSize="9"
-                        app:ngv_mode="fill" />
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
+            <com.lzy.ninegrid.NineGridView
+                android:id="@+id/nine_grid_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                app:ngv_maxSize="9"
+                app:ngv_mode="fill" />
 
             <LinearLayout
                 android:id="@+id/layout_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/card_margin_vtc"
+                android:layout_marginTop="@dimen/list_margin_vtc"
                 android:orientation="horizontal">
 
                 <CheckBox
@@ -155,10 +139,10 @@
                 android:id="@+id/layout_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/card_margin_hrz"
-                android:paddingEnd="@dimen/card_margin_hrz"
-                android:paddingTop="@dimen/card_margin_vtc"
-                android:paddingBottom="@dimen/card_margin_vtc"
+                android:paddingStart="@dimen/list_margin_hrz"
+                android:paddingEnd="@dimen/list_margin_hrz"
+                android:paddingTop="@dimen/list_margin_vtc"
+                android:paddingBottom="@dimen/list_margin_vtc"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -191,13 +175,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_tab"
+                android:id="@+id/layout_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/card_margin_hrz"
-                android:paddingEnd="@dimen/card_margin_hrz"
-                android:paddingTop="@dimen/card_margin_vtc"
-                android:paddingBottom="@dimen/card_margin_vtc"
+                android:paddingStart="@dimen/list_margin_hrz"
+                android:paddingEnd="@dimen/list_margin_hrz"
+                android:paddingTop="@dimen/list_margin_vtc"
+                android:paddingBottom="@dimen/list_margin_vtc"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -231,10 +215,10 @@
                 android:id="@+id/layout_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/card_margin_hrz"
-                android:paddingEnd="@dimen/card_margin_hrz"
-                android:paddingTop="@dimen/card_margin_vtc"
-                android:paddingBottom="@dimen/card_margin_vtc"
+                android:paddingStart="@dimen/list_margin_hrz"
+                android:paddingEnd="@dimen/list_margin_hrz"
+                android:paddingTop="@dimen/list_margin_vtc"
+                android:paddingBottom="@dimen/list_margin_vtc"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -266,6 +250,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
