@@ -2,10 +2,6 @@ package com.sufe.idledrichfish.ui.productinfo;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +15,6 @@ import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.CommentDataSource;
 import com.sufe.idledrichfish.data.CommentRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -28,7 +23,6 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
     private List<CommentView> commentList;
     private Context context;
-    private CommentRepository commentRepository = CommentRepository.getInstance(new CommentDataSource());
 
     public ExpandableAdapter(Context context, List<CommentView> commentViewList) {
         this.context = context;
@@ -106,7 +100,6 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         final GroupHolder groupHolder;
         CommentView comment = commentList.get(groupPosition);
-        commentRepository.queryReplies(comment.getCommentId(), groupPosition);
 
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.item_group, parent, false);
