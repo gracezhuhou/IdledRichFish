@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
-import com.sufe.idledrichfish.ProductInfoActivity;
+import com.google.common.primitives.Bytes;
+import com.sufe.idledrichfish.ui.productinfo.ProductInfoActivity;
 import com.sufe.idledrichfish.data.model.Favorite;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
@@ -161,7 +162,21 @@ public class FavoriteDataSource {
                         b.putString("sellerId", seller.getObjectId());
                         b.putString("sellerName", seller.getName());
                         b.putFloat("credit", seller.getCredit());
-                        // todo P image 1-4 & S image
+                        if (product.getImage1() != null) {
+                            b.putByteArray("image1", Bytes.toArray(product.getImage1()));
+                        }
+                        if (product.getImage2() != null) {
+                            b.putByteArray("image2", Bytes.toArray(product.getImage2()));
+                        }
+                        if (product.getImage3() != null) {
+                            b.putByteArray("image3", Bytes.toArray(product.getImage3()));
+                        }
+                        if (product.getImage4() != null) {
+                            b.putByteArray("image4", Bytes.toArray(product.getImage4()));
+                        }
+                        if (seller.getImage() != null) {
+                            b.putByteArray("sellerImage", Bytes.toArray(seller.getImage()));
+                        }
                         bundles.putBundle(String.valueOf(i), b);
                         ++i;
                     }

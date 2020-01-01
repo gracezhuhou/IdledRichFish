@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.daimajia.swipe.SwipeLayout;
 import com.google.android.material.snackbar.Snackbar;
-import com.sufe.idledrichfish.ProductInfoActivity;
+import com.sufe.idledrichfish.ui.productinfo.ProductInfoActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.SquareImageView;
 import com.sufe.idledrichfish.data.ProductDataSource;

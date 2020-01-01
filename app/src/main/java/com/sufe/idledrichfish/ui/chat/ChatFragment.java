@@ -153,6 +153,7 @@ public class ChatFragment extends Fragment implements EMMessageListener{
     public void onMessageReceived(List<EMMessage> messages) {
         // 收到消息
         initConversation();
+        Log.i("ChatFragment", "Message Received");
     }
 
     /**

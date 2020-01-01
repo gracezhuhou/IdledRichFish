@@ -6,6 +6,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="gray">#E8E8E8</color>
+    <color name="si_gray">#F0F0F0</color>
     <color name="dark">#909090</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>

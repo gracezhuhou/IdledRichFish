@@ -31,7 +31,7 @@
                 android:drawablePadding="@dimen/my_drawable_padding"
                 android:paddingStart="@dimen/my_padding_start"
                 android:paddingEnd="0dp"
-                android:text="@string/my_publish"
+                android:text="@string/my_history"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/my_text_size" />
 

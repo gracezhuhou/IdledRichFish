@@ -9,6 +9,7 @@ import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.data.model.Tag;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
+import com.sufe.idledrichfish.ui.myHistory.MyHistoryActivity;
 import com.sufe.idledrichfish.ui.user.UserActivity;
 
 import java.util.ArrayList;
@@ -16,14 +17,15 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class StudentDataSource {
 
     /**
-     *
      * 查询用户
      */
     //TODO
@@ -53,6 +55,84 @@ public class StudentDataSource {
         });
     }
 
+    /**
+     * 获取用户足迹
+     */
+    void queryHistoryProducts() {
+        BmobQuery<Product> query = new BmobQuery<Product>();
+        Student student = Student.getCurrentUser(Student.class);
+        query.addWhereRelatedTo("history", new BmobPointer(student));
+        query.findObjects(new FindListener<Product>() {
+            @Override
+            public void done(List<Product> object,BmobException e) {
+                Message msg = new Message();
+                Bundle bundles = new Bundle();
+                if(e == null){
+                    Log.i("BMOB", "Query My History Success");
+                    bundles.putInt("errorCode", 0);
+                    int i = 0;
+                    for (Product product: object) {
+                        Bundle b = new Bundle();
+                        Student seller = product.getSeller();
+                        b.putString("productId", product.getObjectId());
+                        b.putString("name", product.getName());
+                        b.putDouble("price", product.getPrice());
+                        b.putString("sellerId", seller.getObjectId());
+                        b.putString("sellerName", seller.getName());
+                        b.putFloat("credit", seller.getCredit());
+                        if (product.getImage1() != null) {
+                            b.putByteArray("image1", Bytes.toArray(product.getImage1()));
+                        }
+                        if (product.getImage2() != null) {
+                            b.putByteArray("image2", Bytes.toArray(product.getImage2()));
+                        }
+                        if (product.getImage3() != null) {
+                            b.putByteArray("image3", Bytes.toArray(product.getImage3()));
+                        }
+                        if (product.getImage4() != null) {
+                            b.putByteArray("image4", Bytes.toArray(product.getImage4()));
+                        }
+                        if (seller.getImage() != null) {
+                            b.putByteArray("sellerImage", Bytes.toArray(seller.getImage()));
+                        }
+                        bundles.putBundle(String.valueOf(i), b);
+                        ++i;
+                    }
+                }else{
+                    Log.e("BMOB", "Query My History Fail", e);
+                    bundles.putInt("errorCode", e.getErrorCode());
+                    bundles.putString("e", e.toString());
+                }
+                msg.setData(bundles);
+                MyHistoryActivity.historyHandler.sendMessage(msg);
+            }
+        });
+    }
+
+
+    /**
+     * 添加足迹
+     */
+    void addHistory(String productId) {
+        Product history = new Product();
+        history.setObjectId(productId);
+        Student student = Student.getCurrentUser(Student.class);
+        BmobRelation relation = new BmobRelation();
+        // 将当前product添加到多对多关联中
+        relation.add(history);
+        // 多对多关联指向`student`的`history`字段
+        student.setHistory(relation);
+        student.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e == null){
+                    Log.i("bmob","Add History Success");
+                }else{
+                    Log.i("bmob","Add History Fail: " + e.getMessage());
+                }
+            }
+        });
+    }
 
     /**
      * 根据本学生的History来智能推荐

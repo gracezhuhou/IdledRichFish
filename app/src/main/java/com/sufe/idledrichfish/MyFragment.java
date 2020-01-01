@@ -24,6 +24,7 @@ import com.sufe.idledrichfish.data.LoginRepository;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.login.LoginActivity;
 import com.sufe.idledrichfish.ui.myFavorite.MyFavoriteActivity;
+import com.sufe.idledrichfish.ui.myHistory.MyHistoryActivity;
 import com.sufe.idledrichfish.ui.myOrder.MyOrderActivity;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishActivity;
 
@@ -121,6 +122,13 @@ public class MyFragment extends Fragment {
         button_my_order.setOnClickListener(view1 -> {
             // 跳转至MyOrderActivity
             Intent intent = new Intent(getContext(), MyOrderActivity.class);
+            startActivity(intent);
+        });
+        // 点击“我的足迹”
+        final Button button_my_history = view.findViewById(R.id.button_my_history);
+        button_my_history.setOnClickListener(view1 -> {
+            // 跳转至MyHistoryActivity
+            Intent intent = new Intent(getContext(), MyHistoryActivity.class);
             startActivity(intent);
         });
 

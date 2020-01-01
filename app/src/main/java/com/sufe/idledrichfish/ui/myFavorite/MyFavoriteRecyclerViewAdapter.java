@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class MyFavoriteRecyclerViewAdapter extends RecyclerView.Adapter<MyFavoriteRecyclerViewAdapter.ViewHolder>{
-    private List<Product> myProducts;
+    private List<FavoriteProductView> myProducts;
     private FavoriteRepository favoriteRepository = FavoriteRepository.getInstance(new FavoriteDataSource());
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -55,7 +55,7 @@ public class MyFavoriteRecyclerViewAdapter extends RecyclerView.Adapter<MyFavori
         }
     }
 
-    public MyFavoriteRecyclerViewAdapter(List<Product> products){
+    public MyFavoriteRecyclerViewAdapter(List<FavoriteProductView> products){
         myProducts = products;
     }
 
@@ -68,27 +68,30 @@ public class MyFavoriteRecyclerViewAdapter extends RecyclerView.Adapter<MyFavori
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position){
         // 设置商品信息
-        Product product = myProducts.get(holder.getAdapterPosition());
+        FavoriteProductView product = myProducts.get(holder.getAdapterPosition());
         holder.text_product_name.setText(product.getName());
         DecimalFormat format1 = new java.text.DecimalFormat("¥ 0.00"); // 保留小数点两位
         holder.text_price.setText(format1.format(product.getPrice()));
-        holder.productId = product.getObjectId();
+        holder.productId = product.getProductId();
         // image
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
-                .fallback(R.drawable.head) // url为空的时候,显示的图片
+                .fallback(R.drawable.ic_no_image) // url为空的时候,显示的图片
                 .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
         Glide.with(holder.itemView).load(product.getImage1()).apply(options).into(holder.image_product1);
         Glide.with(holder.itemView).load(product.getImage2()).into(holder.image_product2);
         Glide.with(holder.itemView).load(product.getImage3()).into(holder.image_product3);
         Glide.with(holder.itemView).load(product.getImage4()).into(holder.image_product4);
 
-        Student student = product.getSeller();
-        holder.text_seller_name.setText(student.getName());
+        holder.text_seller_name.setText(product.getSellerName());
         DecimalFormat format2 = new java.text.DecimalFormat("0.0");
-        holder.text_credit.setText(format2.format(student.getCredit()));
+        holder.text_credit.setText(format2.format(product.getCredit()));
         // image
-        Glide.with(holder.itemView).load(student.getImage()).apply(options).into(holder.image_seller);
+        RequestOptions options2 = new RequestOptions()
+                .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
+                .fallback(R.drawable.head) // url为空的时候,显示的图片
+                .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
+        Glide.with(holder.itemView).load(product.getSellerImage()).apply(options2).into(holder.image_seller);
 
         // 滑动删除
         holder.swipe_layout.setShowMode(SwipeLayout.ShowMode.LayDown);
