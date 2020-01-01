@@ -13,10 +13,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.sufe.idledrichfish.R;
+import com.sufe.idledrichfish.data.CommentDataSource;
+import com.sufe.idledrichfish.data.CommentRepository;
 import com.sufe.idledrichfish.data.model.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -25,6 +28,8 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     private List<Comment> commentList;
     private Context context;
     private int pageIndex = 1;
+    private CommentRepository commentRepository = CommentRepository.getInstance(new CommentDataSource());
+    static public Handler groupCommentHandler;
 
     public ExpandableAdapter(Context context, List<Comment> commentBeanList) {
         this.context = context;
@@ -76,6 +81,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         private CircleImageView g_imageView;
         private TextView g_name, g_content, g_time;
         private ImageView iv_like;
+
         public GroupHolder(View view) {
             g_imageView = (CircleImageView) view.findViewById(R.id.image);
             g_name = (TextView) view.findViewById(R.id.name);
@@ -83,6 +89,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
             g_time = (TextView) view.findViewById(R.id.date);
             iv_like = (ImageView) view.findViewById(R.id.comment_item_like);
         }
+
     }
 
     private class ChildHolder{
@@ -100,6 +107,8 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         final GroupHolder groupHolder;
+
+        commentRepository.queryReplies();
 
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.item_group, parent, false);

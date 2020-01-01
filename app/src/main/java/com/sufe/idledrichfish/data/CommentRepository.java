@@ -21,4 +21,8 @@ public class CommentRepository {
     public void saveComment(String productId, String content, String commentFatherId) {
         dataSource.saveComment(productId, content, commentFatherId);
     }
+
+    public void queryReplies(String commentFatherId) {
+        dataSource.queryReplies(commentFatherId);
+    }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -66,7 +67,7 @@ public class CommentDataSource {
         query.include("commenter");
         Product product = new Product();
         product.setObjectId(productId);
-        query.addWhereEqualTo("product", product);
+        query.addWhereEqualTo("product", new BmobPointer(product));
         query.findObjects(new FindListener<Comment>() {
             @Override
             public void done(List<Comment> object, BmobException e) {
@@ -104,10 +105,9 @@ public class CommentDataSource {
      */
     void queryReplies(String commentFatherId) {
         BmobQuery<Comment> query = new BmobQuery<Comment>();
-        query.include("commenter");
-        BmobQuery<Comment> innerQuery = new BmobQuery<Comment>();
-        innerQuery.addWhereEqualTo("objectId", commentFatherId);
-        query.addWhereMatchesQuery("commentFather", "Comment", innerQuery);
+        Comment commentFather = new Comment();
+        commentFather.setObjectId(commentFatherId);
+        query.addWhereEqualTo("commentFather", new BmobPointer(commentFather));
         query.findObjects(new FindListener<Comment>() {
             @Override
             public void done(List<Comment> object, BmobException e) {

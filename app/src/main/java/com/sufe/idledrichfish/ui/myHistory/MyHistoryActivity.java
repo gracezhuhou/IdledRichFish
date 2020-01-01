@@ -1,35 +1,40 @@
-package com.sufe.idledrichfish.ui.myFavorite;
-
-import android.annotation.SuppressLint;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Bundle;
-import android.util.Log;
+package com.sufe.idledrichfish.ui.myHistory;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.FavoriteDataSource;
 import com.sufe.idledrichfish.data.FavoriteRepository;
+import com.sufe.idledrichfish.data.LoginRepository;
+import com.sufe.idledrichfish.data.StudentDataSource;
+import com.sufe.idledrichfish.data.StudentRepository;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
+import com.sufe.idledrichfish.ui.myFavorite.FavoriteProductView;
+import com.sufe.idledrichfish.ui.myFavorite.MyFavoriteRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyFavoriteActivity extends AppCompatActivity {
+public class MyHistoryActivity extends AppCompatActivity {
 
     private MyFavoriteRecyclerViewAdapter productsRecyclerAdapter;
     private List<FavoriteProductView> products;
-    static public Handler myFavoriteHandler;
+    static public Handler historyHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_favorite);
+        setContentView(R.layout.activity_my_history);
 
         setRecycler();
         setHandler();
@@ -39,7 +44,7 @@ public class MyFavoriteActivity extends AppCompatActivity {
     private void setRecycler() {
         final RecyclerView recycler_view = findViewById(R.id.recycler_view);
         products = new ArrayList<>();
-        FavoriteRepository.getInstance(new FavoriteDataSource()).queryMyFavorite();
+        StudentRepository.getInstance(new StudentDataSource()).queryHistoryProducts();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recycler_view.setLayoutManager(layoutManager);
         productsRecyclerAdapter = new MyFavoriteRecyclerViewAdapter(products);
@@ -63,13 +68,17 @@ public class MyFavoriteActivity extends AppCompatActivity {
 
     @SuppressLint("HandlerLeak")
     private void setHandler() {
-        // 获取用户发布的所以商品
-        myFavoriteHandler = new Handler() {
+        // 获取用户足迹
+        historyHandler = new Handler() {
             public void handleMessage(Message msg) {
                 products.clear();
                 Bundle bundles = msg.getData();
                 if (bundles.getInt("errorCode") == 0) {
                     bundles.remove("errorCode");
+                    if (bundles.isEmpty()) {
+                        productsRecyclerAdapter.notifyDataSetChanged();
+                        return;
+                    }
                     for (int i = 0; !bundles.isEmpty(); ++i) {
                         Bundle b = bundles.getBundle(String.valueOf(i));
                         assert b != null;

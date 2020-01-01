@@ -38,6 +38,8 @@ import com.sufe.idledrichfish.data.FavoriteDataSource;
 import com.sufe.idledrichfish.data.FavoriteRepository;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
+import com.sufe.idledrichfish.data.StudentDataSource;
+import com.sufe.idledrichfish.data.StudentRepository;
 import com.sufe.idledrichfish.ui.user.UserActivity;
 import com.sufe.idledrichfish.ui.conversation.ConversationActivity;
 import com.sufe.idledrichfish.data.model.Comment;
@@ -91,6 +93,8 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         initData();
         setHandler();
         clickSeller();
+
+        StudentRepository.getInstance(new StudentDataSource()).addHistory(productId);
 
         // 点击“收藏”
         final LinearLayout layout_favorite = findViewById(R.id.layout_favorite);
@@ -369,12 +373,12 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
                 String commentContent = commentText.getText().toString().trim();
                 if(!TextUtils.isEmpty(commentContent)){
 
-                    //commentOnWork(commentContent);
+                    commentOnWork(commentContent);
                     bottomSheetDialog.dismiss();
 
                     Comment comment = new Comment();
 
-                    expandableAdapter.addTheCommentData(comment);
+//                    expandableAdapter.addTheCommentData(comment);
                     Toast.makeText(ProductInfoActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(ProductInfoActivity.this,"评论内容不能为空",Toast.LENGTH_SHORT).show();
@@ -426,8 +430,8 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
     private void initExpandableListView(final List<Comment> commentList){
         commentExpandableListView.setGroupIndicator(null);
         //默认展开所有回复
-        expandableAdapter = new ExpandableAdapter(this, commentList);
-        commentExpandableListView.setAdapter(expandableAdapter);
+//        expandableAdapter = new ExpandableAdapter(this, commentList);
+//        commentExpandableListView.setAdapter(expandableAdapter);
         for(int i = 0; i<commentList.size(); i++){
             commentExpandableListView.expandGroup(i);
         }

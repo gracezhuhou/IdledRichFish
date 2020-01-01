@@ -29,4 +29,12 @@ public class StudentRepository {
 //    public void queryStudentForHome(String ObjectId, int position) {
 //        dataSource.queryStudentForHome(ObjectId, position);
 //    }
+
+    public void queryHistoryProducts() {
+        dataSource.queryHistoryProducts();
+    }
+
+    public void addHistory(String productId) {
+        dataSource.addHistory(productId);
+    }
 }
