@@ -88,14 +88,12 @@ public class LoginDataSource {
                 Message msg = new Message();
                 Bundle b = new Bundle();
                 if (e == null) {
-                    b.putInt("errorCode", 0);
-                    msg.setData(b);
-                    LoginActivity.loginHandler.sendMessage(msg);
                     Log.i("BMOB", "Login Success");
                     // 登录通信账户
                     IMHelper.getInstance().login(student.getObjectId(), password);
                 } else {
                     b.putInt("errorCode", e.getErrorCode());
+                    b.putString("e", e.getMessage());
                     msg.setData(b);
                     LoginActivity.loginHandler.sendMessage(msg);
                     Log.e("BMOB", "Login Fail");
@@ -115,9 +113,9 @@ public class LoginDataSource {
      * 用户登出
      */
     void logOut() {
-        Student.logOut();
         // 登出通信账户
         IMHelper.getInstance().logOut();
+        Student.logOut();
     }
 
 

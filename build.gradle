@@ -26,6 +26,8 @@ allprojects {
         }
         // NiftyDialog
         maven { url "https://jitpack.io" }
+
+        maven { url 'http://developer.huawei.com/repo'} // 如果需要使用华为推送HMS，则需要加上此句
     }
 }
 

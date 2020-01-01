@@ -77,4 +77,6 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     // 环信
     implementation 'com.hyphenate:hyphenate-sdk-lite:3.6.1'
+    implementation 'com.google.android.gms:play-services-base:17.1.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 }

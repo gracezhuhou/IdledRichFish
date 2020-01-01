@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/navigation_home"
@@ -7,14 +8,10 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_message"
-        android:icon="@drawable/ic_message"
-        android:title="@string/title_chat" />
-
-<!--    <item-->
-<!--        android:id="@+id/navigation_publishment"-->
-<!--        android:icon="@drawable/ic_publishment"-->
-<!--        android:title="@string/title_publish" />-->
+        android:id="@+id/navigation_chat"
+        android:icon="@drawable/ic_chat"
+        android:title="@string/title_chat"
+        app:actionLayout="@layout/layout_remind_point"/>
 
     <item
         android:id="@+id/navigation_personal_info"

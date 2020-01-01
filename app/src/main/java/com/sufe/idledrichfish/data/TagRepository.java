@@ -24,5 +24,9 @@ public class TagRepository {
         dataSource.saveTags(tags, productId);
     }
 
+    // 根据标签查商品
+    public  void queryProductsByTag(String tag) {
+        dataSource.queryProductsByTag(tag);
+    }
 }
 

@@ -32,7 +32,7 @@ public class MyPublishRecyclerViewAdapter extends RecyclerView.Adapter<MyPublish
     private List<MyPublishProductView> myProducts;
     static public Handler deleteHandler;
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         private SwipeLayout swipe_layout;
         private TextView text_product_name;
         private TextView text_price;

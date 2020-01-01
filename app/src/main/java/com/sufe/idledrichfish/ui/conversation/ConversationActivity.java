@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,30 +41,24 @@ import java.util.List;
 //聊天界面
 public class ConversationActivity extends AppCompatActivity implements EMMessageListener {
 
+    private LinearLayout layout_product;
+    private EditText mInputEdit; // 聊天信息输入框
+    private Button mSendBtn; // 发送按钮
+    private TextView mContentText; // 显示内容的 TextView
+
+    private EMMessageListener mMessageListener; // 消息监听器
+    private String mChatId; // 当前聊天的 ID
+    private EMConversation mConversation; // 当前会话对象
+    private RecyclerView mRecyclerView;
+    private List<MessageView> mList = new ArrayList<>();
+    private RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
+    private MessageRecyclerViewAdapter adapter;
     private String productId;
     private String sellerId;
     private String sellerName;
     private String orderId;
     static public Handler productHandler;
     static public Handler orderHandler;
-
-    // 聊天信息输入框
-    private EditText mInputEdit;
-    // 发送按钮
-    private Button mSendBtn;
-    // 显示内容的 TextView
-    private TextView mContentText;
-
-    // 消息监听器
-    private EMMessageListener mMessageListener;
-    // 当前聊天的 ID
-    private String mChatId;
-    // 当前会话对象
-    private EMConversation mConversation;
-    private RecyclerView mRecyclerView;
-    private List<MessageView> mList = new ArrayList<>();
-    private RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
-    private MessageRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,8 +167,7 @@ public class ConversationActivity extends AppCompatActivity implements EMMessage
         EMClient.getInstance().chatManager().removeMessageListener(mMessageListener);
     }
 
-    // --------------------------------- MessageView Listener -------------------------------------
-    // 环信消息监听主要方法
+    // MessageView Listener 环信消息监听主要方法
 
     /**
      * 收到新消息
@@ -254,10 +248,16 @@ public class ConversationActivity extends AppCompatActivity implements EMMessage
     private void initData() {
         Intent intent = getIntent();
         productId = intent.getStringExtra("product_id_extra");
-        mChatId = sellerId = intent.getStringExtra("seller_id_extra");
+        mChatId = intent.getStringExtra("chat_id_extra");
+        sellerId = intent.getStringExtra("seller_id_extra");
         sellerName = intent.getStringExtra("seller_Name_extra");
         Log.i("Intent", mChatId);
-        ProductRepository.getInstance(new ProductDataSource()).queryProduct(productId, "chat");
+        if (productId != null) {
+            ProductRepository.getInstance(new ProductDataSource()).queryProduct(productId, "chat");
+        } else {
+            layout_product = findViewById(R.id.layout_product);
+            layout_product.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -308,11 +308,12 @@ public class ConversationActivity extends AppCompatActivity implements EMMessage
      */
     private void setToolbar() {
         final Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(sellerName);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+            getSupportActionBar().setTitle(mChatId);
         }
         // 返回键监听
         toolbar.setNavigationOnClickListener(view -> finish());

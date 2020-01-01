@@ -292,6 +292,7 @@ public class ProductInfoActivity extends AppCompatActivity {
     private void chat() {
         Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
         intent.putExtra("product_id_extra", productId);
+        intent.putExtra("chat_id_extra", sellerId);
         intent.putExtra("seller_id_extra", sellerId);
         intent.putExtra("seller_name_extra", sellerName);
         startActivity(intent);
