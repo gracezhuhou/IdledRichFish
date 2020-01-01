@@ -350,15 +350,17 @@ public class ProductInfoActivity extends AppCompatActivity {
                     for (int i = 0; !bs.isEmpty(); ++i) {
                         Bundle b = bs.getBundle(String.valueOf(i));
                         assert b != null;
-                        CommentView comment = new CommentView(
-                                b.getString("commentId"),
-                                b.getString("commenterId"),
-                                b.getString("commenterName"),
-                                b.getByteArray("image"),
-                                b.getString("content"),
-                                b.getString("date"), null);
-                        commentList.add(comment);
-                        CommentRepository.getInstance(new CommentDataSource()).queryReplies(comment.getCommentId(), commentList.size() - 1);
+                        if (b.getString("commenterFatherId") == null) {
+                            CommentView comment = new CommentView(
+                                    b.getString("commentId"),
+                                    b.getString("commenterId"),
+                                    b.getString("commenterName"),
+                                    b.getByteArray("image"),
+                                    b.getString("content"),
+                                    b.getString("date"), null);
+                            commentList.add(comment);
+                            CommentRepository.getInstance(new CommentDataSource()).queryReplies(comment.getCommentId(), commentList.size() - 1);
+                        }
                         bs.remove(String.valueOf(i));
                     }
                     Log.i("Handler", "Query All Comments By Product");
