@@ -16,9 +16,11 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class CommentDataSource {
 
@@ -48,6 +50,9 @@ public class CommentDataSource {
             public void done(String objectId, BmobException e) {
                 // 反馈给ChatActivity
                 if(e == null) {
+                    if (commentFatherId != null) {
+                        addReply(commentFatherId, objectId);
+                    }
                     b.putInt("errorCode", 0);
                     b.putString("commentId", objectId);
                     b.putString("date", date.toString());
@@ -72,7 +77,7 @@ public class CommentDataSource {
         Product product = new Product();
         product.setObjectId(productId);
         query.addWhereEqualTo("product", new BmobPointer(product));
-        query.include("commenter, product[objectId]");
+        query.include("commenter, commentFather, product[objectId]");
         query.findObjects(new FindListener<Comment>() {
             @Override
             public void done(List<Comment> object, BmobException e) {
@@ -87,6 +92,9 @@ public class CommentDataSource {
                         Student student = comment.getCommenter();
                         b.putString("commenterId", student.getObjectId());
                         b.putString("commenterName", student.getName());
+                        if(comment.getCommentFather() != null) {
+                            b.putString("commenterFatherId", comment.getCommentFather().getObjectId());
+                        }
                         if (student.getImage() != null) {
                             b.putByteArray("image", Bytes.toArray(student.getImage()));
                         }
@@ -103,6 +111,26 @@ public class CommentDataSource {
                 }
                 msg.setData(bs);
                 ProductInfoActivity.productCommentHandler.sendMessage(msg);
+            }
+        });
+    }
+
+    void addReply(String fatherId, String sonId) {
+        Comment reply = new Comment();
+        reply.setObjectId(sonId);
+        Comment father = new Comment();
+        BmobRelation relation = new BmobRelation();
+        // 将回复添加到多对多关联中
+        relation.add(reply);
+        father.setAllReply(relation);
+        father.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e == null){
+                    Log.i("bmob","Add Reply Success");
+                }else{
+                    Log.i("bmob","Add Reply Fail: " + e.getMessage());
+                }
             }
         });
     }
