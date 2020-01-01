@@ -72,10 +72,8 @@ public class ProductInfoActivity extends AppCompatActivity {
     private ConstraintLayout layout_seller;
 
     private String productId;
-    private String commentFatherId;
     private String sellerId;
     private String sellerName;
-    private ImageView sellerImage;
     private String commentContent;
     static public Handler productInfoHandler;
     static public Handler addFavoriteHandler;
@@ -102,8 +100,7 @@ public class ProductInfoActivity extends AppCompatActivity {
         initData();
         setHandler();
         clickSeller();
-
-        initExpandableListView(commentList);
+        initExpandableListView();
 
         StudentRepository.getInstance(new StudentDataSource()).addHistory(productId);
 
@@ -323,22 +320,23 @@ public class ProductInfoActivity extends AppCompatActivity {
                 Bundle b = msg.getData();
                 if (b.getInt("errorCode") == 0) {
                     Student student = Student.getCurrentUser(Student.class);
-                    if (student.getImage() != null) {
-                        commentList.add(new CommentView(b.getString("commentId"),
-                                student.getObjectId(),
-                                student.getName(),
-                                Bytes.toArray(student.getImage()),
-                                commentContent,
-                                b.getString("date"), null));
-                    } else {
-                        commentList.add(new CommentView(b.getString("commentId"),
-                                student.getObjectId(),
-                                student.getName(), null,
-                                commentContent,
-                                b.getString("date"), null));
+                    if (b.getString("commentFatherId") == null) {
+                        if (student.getImage() != null) {
+                            commentList.add(new CommentView(b.getString("commentId"),
+                                    student.getObjectId(),
+                                    student.getName(),
+                                    Bytes.toArray(student.getImage()),
+                                    commentContent,
+                                    b.getString("date"), null));
+                        } else {
+                            commentList.add(new CommentView(b.getString("commentId"),
+                                    student.getObjectId(),
+                                    student.getName(), null,
+                                    commentContent,
+                                    b.getString("date"), null));
+                        }
+                        expandableAdapter.notifyDataSetChanged();
                     }
-
-                    expandableAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), b.getString("e"), Toast.LENGTH_LONG).show();
                 }
@@ -353,14 +351,17 @@ public class ProductInfoActivity extends AppCompatActivity {
                     for (int i = 0; !bs.isEmpty(); ++i) {
                         Bundle b = bs.getBundle(String.valueOf(i));
                         assert b != null;
-                        CommentView comment = new CommentView(
-                                b.getString("commentId"),
-                                b.getString("commenterId"),
-                                b.getString("commenterName"),
-                                b.getByteArray("image"),
-                                b.getString("content"),
-                                b.getString("date"), null);
-                        commentList.add(comment);
+                        if (b.getString("commenterFatherId") == null) {
+                            CommentView comment = new CommentView(
+                                    b.getString("commentId"),
+                                    b.getString("commenterId"),
+                                    b.getString("commenterName"),
+                                    b.getByteArray("image"),
+                                    b.getString("content"),
+                                    b.getString("date"), null);
+                            commentList.add(comment);
+                            CommentRepository.getInstance(new CommentDataSource()).queryReplies(comment.getCommentId(), commentList.size() - 1);
+                        }
                         bs.remove(String.valueOf(i));
                     }
                     Log.i("Handler", "Query All Comments By Product");
@@ -392,11 +393,12 @@ public class ProductInfoActivity extends AppCompatActivity {
                         replyList.add(comment);
                         bs.remove(String.valueOf(i));
                     }
-                    Log.i("Handler", "Query All Comments By Product");
+                    Log.i("Handler", "Query All Reply By Comment");
                     CommentView comment = commentList.get(position);
                     comment.setReplyList(replyList);
                     commentList.set(position, comment);
                     expandableAdapter.notifyDataSetChanged();
+                    commentExpandableListView.expandGroup(position);
                 } else {
                     Toast.makeText(getApplicationContext(), bs.getString("e"), Toast.LENGTH_LONG).show();
                 }
@@ -457,28 +459,24 @@ public class ProductInfoActivity extends AppCompatActivity {
      * 评论
      */
 
-    //弹出评论框
+    // 弹出评论框
     private void comment() {
         bottomSheetDialog = new BottomSheetDialog(this,R.style.BottomSheetEdit);
         View commentView = LayoutInflater.from(this).inflate(R.layout.item_comment_dialog,null);
-        final EditText commentText = (EditText) commentView.findViewById(R.id.comment_edittext);
-        final Button bt_comment = (Button) commentView.findViewById(R.id.comment_launch);
+        final EditText commentText = commentView.findViewById(R.id.comment_edittext);
+        final Button bt_comment = commentView.findViewById(R.id.comment_launch);
         bottomSheetDialog.setContentView(commentView);
 
-        bt_comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                commentContent = commentText.getText().toString().trim();
-                if(!TextUtils.isEmpty(commentContent)){
+        bt_comment.setOnClickListener(view -> {
+            commentContent = commentText.getText().toString().trim();
+            if(!TextUtils.isEmpty(commentContent)){
+                //commentOnWork(commentContent);
+                bottomSheetDialog.dismiss();
+                CommentRepository.getInstance(new CommentDataSource()).saveComment(productId, commentContent, null);
 
-                    //commentOnWork(commentContent);
-                    bottomSheetDialog.dismiss();
-                    CommentRepository.getInstance(new CommentDataSource()).saveComment(productId, commentContent, null);
-
-                    Toast.makeText(ProductInfoActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(ProductInfoActivity.this,"评论内容不能为空",Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(ProductInfoActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(ProductInfoActivity.this,"评论内容不能为空",Toast.LENGTH_SHORT).show();
             }
         });
         bottomSheetDialog.show();
@@ -490,24 +488,21 @@ public class ProductInfoActivity extends AppCompatActivity {
     private void showReplyDialog(final int position){
         bottomSheetDialog = new BottomSheetDialog(this,R.style.BottomSheetEdit);
         View commentView = LayoutInflater.from(this).inflate(R.layout.item_comment_dialog,null);
-        final EditText commentText = (EditText) commentView.findViewById(R.id.comment_edittext);
-        final Button bt_comment = (Button) commentView.findViewById(R.id.comment_launch);
+        final EditText commentText = commentView.findViewById(R.id.comment_edittext);
+        final Button bt_comment = commentView.findViewById(R.id.comment_launch);
 
         commentText.setHint("回复 " + commentList.get(position).getCommenterName() + " 的评论:");
         bottomSheetDialog.setContentView(commentView);
-        bt_comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!TextUtils.isEmpty(commentContent)){
-                    bottomSheetDialog.dismiss();
+        bt_comment.setOnClickListener(view -> {
+            commentContent = commentText.getText().toString().trim();
+            if(!TextUtils.isEmpty(commentContent)){
+                bottomSheetDialog.dismiss();
 
-                    CommentRepository.getInstance(new CommentDataSource()).saveComment(productId, commentContent, commentList.get(position).getCommenterFatherId());
-
-                    commentExpandableListView.expandGroup(position);
-                    Toast.makeText(ProductInfoActivity.this,"回复成功",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(ProductInfoActivity.this,"回复内容不能为空",Toast.LENGTH_SHORT).show();
-                }
+                CommentRepository.getInstance(new CommentDataSource()).saveComment(productId, commentContent, commentList.get(position).getCommentId());
+                commentExpandableListView.expandGroup(position);
+                Toast.makeText(ProductInfoActivity.this,"回复成功",Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(ProductInfoActivity.this,"回复内容不能为空",Toast.LENGTH_SHORT).show();
             }
         });
         bottomSheetDialog.show();
@@ -516,29 +511,23 @@ public class ProductInfoActivity extends AppCompatActivity {
     /**
      * 初始化评论和回复列表
      */
-    private void initExpandableListView(final List<CommentView> commentList){
+    private void initExpandableListView(){
         commentExpandableListView.setGroupIndicator(null);
         //默认展开所有回复
         expandableAdapter = new ExpandableAdapter(this, commentList);
         commentExpandableListView.setAdapter(expandableAdapter);
-        for(int i = 0; i<commentList.size(); i++){
+        for(int i = 0; i < commentList.size(); i++){
             commentExpandableListView.expandGroup(i);
         }
-        commentExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
-                boolean isExpanded = expandableListView.isGroupExpanded(groupPosition);
-                showReplyDialog(groupPosition);
-                return true;
-            }
+        commentExpandableListView.setOnGroupClickListener((expandableListView, view, groupPosition, l) -> {
+            boolean isExpanded = expandableListView.isGroupExpanded(groupPosition);
+            showReplyDialog(groupPosition);
+            return true;
         });
 
-        commentExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
-                Toast.makeText(ProductInfoActivity.this,"点击了回复",Toast.LENGTH_SHORT).show();
-                return false;
-            }
+        commentExpandableListView.setOnChildClickListener((expandableListView, view, groupPosition, childPosition, l) -> {
+            Toast.makeText(ProductInfoActivity.this,"点击了回复",Toast.LENGTH_SHORT).show();
+            return false;
         });
     }
 }
