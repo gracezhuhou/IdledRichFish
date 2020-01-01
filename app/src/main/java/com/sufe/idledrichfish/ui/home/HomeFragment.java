@@ -8,9 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +16,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 import com.sufe.idledrichfish.R;
+import com.sufe.idledrichfish.ui.search.SearchActivity;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
 import com.sufe.idledrichfish.ui.publish.PublishActivity;
@@ -34,6 +37,9 @@ import java.util.Objects;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
+
+import android.widget.Button;
+import android.widget.ListView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,12 +64,24 @@ public class HomeFragment extends Fragment {
     private PtrFrameLayout layout_refresh;
     private RollPagerView mRollViewPager;
     private ImageView icon_search;
+    private ImageView icon_publish;
+    private Button imageButton_catogory_book;
 
     private GridLayoutManager layoutManager;
-    private HomeRecyclerViewAdapter productsRecyclerAdapter;
-    private List<HomeProductView> products;
+    private ProductRecyclerViewAdapter productsRecyclerAdapter;
+    private List<ProductView> products;
     static public Handler homeProductsHandler;
 
+//    private EditText search_text;
+    // 数据列表
+//    private List<String> listSearch = new ArrayList<>();
+    // 结果列表
+//    private List<String> listResult;
+//    private ListView mSearchResult ;
+//    private SearchBox.SearchAdapter mResultAdapter ;
+
+    private ListView mHistory ;
+    //private SearchBox.HistoryAdapter mHistoryAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -101,10 +119,11 @@ public class HomeFragment extends Fragment {
 
         search_box = view.findViewById(R.id.search_box);
         layout_refresh = view.findViewById(R.id.layout_refresh);
-        mRecyclerView = view.findViewById(R.id.recycler_home);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
         mRollViewPager = view.findViewById(R.id.roll_view_pager);
         icon_search = view.findViewById(R.id.icon_search);
-
+        icon_publish = view.findViewById(R.id.icon_publish);
+        imageButton_catogory_book = view.findViewById(R.id.imageButton_catogory_book);
 
         setRecycler(); // 商品浏览
         setRefresh(); // 下拉刷新& 上拉加载
@@ -113,13 +132,24 @@ public class HomeFragment extends Fragment {
         setHandler();
 
         // 点击“发布”按钮，跳转至发布页面
-        final ImageView icon_publish = view.findViewById(R.id.icon_publish);
-        icon_publish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), PublishActivity.class);
-                startActivity(intent);
-            }
+        icon_publish.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getContext(), PublishActivity.class);
+            startActivity(intent);
+        });
+
+        //点击搜索按钮
+        icon_search.setOnClickListener(view1 -> {
+            search_box.revealFromMenuItem(R.id.icon_search, getActivity());
+//            search_text = view.findViewById(R.id.search_text);
+        });
+
+        //点击书籍图片按钮
+        imageButton_catogory_book.setOnClickListener(view1 -> {
+            // 跳转至搜索页面
+            String category = "书籍";
+            Intent intent = new Intent(getContext(), SearchActivity.class);
+            intent.putExtra("category", category);
+            startActivity(intent);
         });
 
         return view;
@@ -172,6 +202,18 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (isAdded() && requestCode == SearchBox.VOICE_RECOGNITION_CODE && resultCode == getActivity().RESULT_OK) {
+            ArrayList<String> matches = data
+                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            for(String match: matches) {
+                search_box.populateEditText(match);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     /**
      * 商品展示
      */
@@ -180,7 +222,7 @@ public class HomeFragment extends Fragment {
         ProductRepository.getInstance(new ProductDataSource()).queryProductsForHome(false);
         layoutManager = new GridLayoutManager(this.getContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        productsRecyclerAdapter = new HomeRecyclerViewAdapter(products);
+        productsRecyclerAdapter = new ProductRecyclerViewAdapter(products);
         mRecyclerView.setAdapter(productsRecyclerAdapter);
         mRecyclerView.setHasFixedSize(true);
     }
@@ -260,63 +302,47 @@ public class HomeFragment extends Fragment {
      */
     private void setSearch() {
         search_box.enableVoiceRecognition(this);
-        search_box.post(new Runnable() {
-            @Override
-            public void run() {
-                search_box.hideCircularly( Objects.requireNonNull(getActivity()));
-            }
-        });
+//        search_box.setMenuVisibility(View.GONE);
+//        search_box.post(() -> search_box.hideCircularly(Objects.requireNonNull(getActivity())));
 
-        for(int x = 0; x < 10; x++){
-            SearchResult option = new SearchResult("Result " + Integer.toString(x), getResources().getDrawable(R.drawable.ic_my_history));
+        for(int x = 0; x <3; x++){
+            SearchResult option = new SearchResult("Result " + x, getResources().getDrawable(R.drawable.ic_my_history));
             search_box.addSearchable(option);
         }
 
-        icon_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                search_box.revealFromMenuItem(R.id.icon_search, Objects.requireNonNull(getActivity()));
-            }
-        });
-
-        search_box.setMenuListener(new SearchBox.MenuListener(){
-
-            @Override
-            public void onMenuClick() {
-                //Hamburger has been clicked
-                Toast.makeText(getContext(), "Menu click", Toast.LENGTH_LONG).show();
-            }
-
-        });
+        icon_search.setOnClickListener(view ->
+                search_box.revealFromMenuItem(R.id.icon_search, Objects.requireNonNull(getActivity())));
 
         search_box.setSearchListener(new SearchBox.SearchListener(){
-
             @Override
             public void onSearchOpened() {
                 //Use this to tint the screen
-                Toast.makeText(getContext(), " Search Open", Toast.LENGTH_LONG).show();
-
+                Log.i("Searchbox", " Search Open");
+                Log.i("Searchbox", search_box.getResults().toString());
             }
 
             @Override
             public void onSearchClosed() {
                 //Use this to un-tint the screen
-                Toast.makeText(getContext(),  "Search Close", Toast.LENGTH_LONG).show();
+                Log.i("Searchbox", " Search Close");
                 search_box.hideCircularlyToMenuItem(R.id.icon_search, Objects.requireNonNull(getActivity()));
             }
 
             @Override
             public void onSearchTermChanged(String searchTerm) {
-                //React to the search term changing
-
-
+                //React to the activity_search term changing
                 //Called after it has updated results
+//                addSearchResult(searchTerm);
             }
 
             @Override
             public void onSearch(String searchTerm) {
-                Toast.makeText(getContext(), searchTerm +" Searched", Toast.LENGTH_LONG).show();
-
+                Log.i("Searchbox", " Search" + searchTerm);
+                addSearchResult(searchTerm);
+                // 跳转至搜索页面
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                intent.putExtra("search_text", searchTerm);
+                startActivity(intent);
             }
 
             @Override
@@ -325,14 +351,17 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "SearchResult Click", Toast.LENGTH_LONG).show();
             }
 
-
             @Override
             public void onSearchCleared() {
-                Toast.makeText(getContext(), "Search Clear", Toast.LENGTH_LONG).show();
+                Log.i("Searchbox", " Search Clear");
             }
-
         });
     }
+    private void addSearchResult(String newText){
+        SearchResult option = new SearchResult(newText, getResources().getDrawable(R.drawable.ic_my_history));
+        search_box.addSearchable(option);
+    }
+
 
     /**
      * 获取RecyclerView所需商品数据
@@ -350,7 +379,7 @@ public class HomeFragment extends Fragment {
                         Bundle bundle = bundles.getBundle(String.valueOf(i));
                         assert bundle != null;
 
-                        HomeProductView product = new HomeProductView(
+                        ProductView product = new ProductView(
                                 bundle.getString("objectId"),
                                 bundle.getString("name"),
                                 bundle.getDouble("price"),

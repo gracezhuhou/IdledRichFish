@@ -2,11 +2,7 @@ package com.sufe.idledrichfish.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,26 +10,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.github.ybq.android.spinkit.SpinKitView;
 import com.sufe.idledrichfish.ProductInfoActivity;
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.data.StudentDataSource;
-import com.sufe.idledrichfish.data.StudentRepository;
-import com.sufe.idledrichfish.data.model.Product;
-import com.sufe.idledrichfish.data.model.Student;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
-    private List<HomeProductView> myProducts;
+public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder>{
+    private List<ProductView> myProducts;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         private ConstraintLayout layout_product;
@@ -59,7 +50,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         }
     }
 
-    public HomeRecyclerViewAdapter(List<HomeProductView> products){
+    public ProductRecyclerViewAdapter(List<ProductView> products){
         myProducts = products;
     }
 
@@ -78,7 +69,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         holder.image_product.setMaxWidth((width - 21) / 2);
 
         // 显示商品信息
-        HomeProductView product = myProducts.get(holder.getAdapterPosition());
+        ProductView product = myProducts.get(holder.getAdapterPosition());
         holder.text_product_name.setText(product.getName());
         DecimalFormat format = new java.text.DecimalFormat("¥ 0.00"); // 保留小数点两位
         holder.text_product_price.setText(format.format(product.getPrice()));

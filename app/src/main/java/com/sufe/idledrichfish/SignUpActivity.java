@@ -6,14 +6,15 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
@@ -203,20 +204,10 @@ public class SignUpActivity extends AppCompatActivity {
                 .withEffect(Effectstype.SlideBottom)
                 .withButton1Text("确定")
                 .withButton2Text("取消")
-                .setButton1Click(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        LoginRepository.getInstance(new LoginDataSource())
-                                .signUp(text_stu_number.getText().toString(), text_name.getText().toString(),
-                                        text_password.getText().toString(), btn_male.isChecked(), imagePath);
-                    }
-                })
-                .setButton2Click(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogBuilder.dismiss();
-                    }
-                })
+                .setButton1Click(v -> LoginRepository.getInstance(new LoginDataSource())
+                        .signUp(text_stu_number.getText().toString(), text_name.getText().toString(),
+                                text_password.getText().toString(), btn_male.isChecked(), imagePath))
+                .setButton2Click(v -> dialogBuilder.dismiss())
                 .show();
     }
 }

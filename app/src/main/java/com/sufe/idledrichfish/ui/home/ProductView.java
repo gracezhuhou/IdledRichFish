@@ -1,6 +1,6 @@
 package com.sufe.idledrichfish.ui.home;
 
-class HomeProductView {
+public class ProductView {
 
     private String objectId;
 
@@ -24,9 +24,9 @@ class HomeProductView {
     private byte[] sellerImage;
 
 
-    HomeProductView(String objectId, String name, double price, boolean isNew,
-                           boolean canBargain, byte[] image1, String sellerId,
-                           String sellerName, float credit, byte[] sellerImage) {
+    public ProductView(String objectId, String name, double price, boolean isNew,
+                boolean canBargain, byte[] image1, String sellerId,
+                String sellerName, float credit, byte[] sellerImage) {
         this.objectId = objectId;
         this.name = name;
         this.price = price;

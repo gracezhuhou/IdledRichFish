@@ -16,15 +16,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.bumptech.glide.Glide;
 import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
+import com.google.android.material.appbar.AppBarLayout;
 import com.sufe.idledrichfish.data.FavoriteDataSource;
 import com.sufe.idledrichfish.data.FavoriteRepository;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
 import com.sufe.idledrichfish.ui.chat.ChatActivity;
 import com.sufe.idledrichfish.ui.user.UserActivity;
+import com.sufe.idledrichfish.ui.conversation.ConversationActivity;
 
 import java.text.DecimalFormat;
 import java.util.Objects;
@@ -305,8 +311,9 @@ public class ProductInfoActivity extends AppCompatActivity {
      * 点击联系卖家
      */
     private void chat() {
-        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
         intent.putExtra("product_id_extra", productId);
+        intent.putExtra("chat_id_extra", sellerId);
         intent.putExtra("seller_id_extra", sellerId);
         intent.putExtra("seller_name_extra", sellerName);
         startActivity(intent);

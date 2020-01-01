@@ -3,25 +3,22 @@ package com.sufe.idledrichfish.ui.myFavorite;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.FavoriteDataSource;
 import com.sufe.idledrichfish.data.FavoriteRepository;
-import com.sufe.idledrichfish.data.ProductDataSource;
-import com.sufe.idledrichfish.data.ProductRepository;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.bmob.v3.datatype.BmobFile;
 
 public class MyFavoriteActivity extends AppCompatActivity {
 

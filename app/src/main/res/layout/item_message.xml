@@ -10,13 +10,13 @@
         android:id="@+id/bottom_wrapper"
         android:layout_width="80dp"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@color/orange">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_delete"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/orange"
             android:text="@string/action_delete"
             android:textColor="@color/white"/>
 
@@ -25,6 +25,7 @@
 
     <!-- Surface View Start -->
     <RelativeLayout
+        android:id="@+id/surface_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="15dp"

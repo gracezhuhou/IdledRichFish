@@ -28,6 +28,13 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMOptions;
 import com.sufe.idledrichfish.MainActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.SignUpActivity;
@@ -52,6 +59,20 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        EMOptions options = new EMOptions();
+        // 默认添加好友时，是不需要验证的，改成需要验证
+        options.setAcceptInvitationAlways(false);
+        // 是否自动将消息附件上传到环信服务器，默认为True是使用环信服务器上传下载，如果设为 false，需要开发者自己处理附件消息的上传和下载
+        options.setAutoTransferMessageAttachments(true);
+        // 是否自动下载附件类消息的缩略图等，默认为 true 这里和上边这个参数相关联
+        options.setAutoDownloadThumbnail(true);
+        // 初始化
+        EMClient.getInstance().init(this, options);
+        // 在做打包混淆时，关闭debug模式，避免消耗不必要的资源
+        EMClient.getInstance().setDebugMode(true);
+
+        Bmob.initialize(this, "a0ed5f46dbb3be388267b3726f33ca5c");
 
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
@@ -296,22 +317,24 @@ public class LoginActivity extends AppCompatActivity {
                     goToActivity(MainActivity.class);
                 }
                 else
-                    showLoginFailed(errorCode);
+                    showLoginFailed(errorCode, msg.getData().getString("e"));
             }
         };
     }
 
     private void updateUiWithUser() {
         loadingProgressBar.setVisibility(View.GONE);
-        String welcome = getString(R.string.welcome) + Student.getCurrentUser(Student.class).getName();
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        if (Student.isLogin()) {
+            String welcome = getString(R.string.welcome) + Student.getCurrentUser(Student.class).getName();
+            Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        }
     }
 
-    private void showLoginFailed(int errorCode) {
+    private void showLoginFailed(int errorCode, String message) {
         loadingProgressBar.setVisibility(View.GONE);
         usernameEditText.setText("");
         passwordEditText.setText("");
-        Toast.makeText(getApplicationContext(), errorCode + "", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), errorCode + ", " + message, Toast.LENGTH_SHORT).show();
     }
 
     private void setLoginForm() {
