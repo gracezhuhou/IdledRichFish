@@ -126,7 +126,7 @@ public class MyFragment extends Fragment {
         });
         // 点击“我的足迹”
         final Button button_my_history = view.findViewById(R.id.button_my_history);
-        button_my_order.setOnClickListener(view1 -> {
+        button_my_history.setOnClickListener(view1 -> {
             // 跳转至MyHistoryActivity
             Intent intent = new Intent(getContext(), MyHistoryActivity.class);
             startActivity(intent);

@@ -12,13 +12,8 @@ import android.os.Message;
 import android.util.Log;
 
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.data.FavoriteDataSource;
-import com.sufe.idledrichfish.data.FavoriteRepository;
-import com.sufe.idledrichfish.data.LoginRepository;
 import com.sufe.idledrichfish.data.StudentDataSource;
 import com.sufe.idledrichfish.data.StudentRepository;
-import com.sufe.idledrichfish.data.model.Product;
-import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.myFavorite.FavoriteProductView;
 import com.sufe.idledrichfish.ui.myFavorite.MyFavoriteRecyclerViewAdapter;
 
@@ -94,14 +89,6 @@ public class MyHistoryActivity extends AppCompatActivity {
                                 b.getByteArray("image3"),
                                 b.getByteArray("image4"),
                                 b.getByteArray("sellerImage")));
-                        Product product = new Product();
-                        product.setObjectId(b.getString("productId"));
-                        product.setName(b.getString("name"));
-                        product.setPrice(b.getDouble("price"));
-                        Student seller = new Student();
-                        seller.setObjectId(b.getString("sellerId"));
-                        seller.setName(b.getString("sellerName"));
-                        seller.setCredit(b.getFloat("credit"));
                         bundles.remove(String.valueOf(i));
                     }
                     Log.i("Handler", "Query All Favorite Products");

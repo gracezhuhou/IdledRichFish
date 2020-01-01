@@ -26,9 +26,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ExpandableAdapter extends BaseExpandableListAdapter {
 
-    private List<CommentView> commentList = new ArrayList<>();
+    private List<CommentView> commentList;
     private Context context;
-    private int pageIndex = 1;
     private CommentRepository commentRepository = CommentRepository.getInstance(new CommentDataSource());
 
     public ExpandableAdapter(Context context, List<CommentView> commentViewList) {
@@ -81,36 +80,32 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         private CircleImageView g_imageView;
         private TextView g_name, g_content, g_time;
         private ImageView iv_like;
-        private List<CommentView> replyList = new ArrayList<>();
 
         public GroupHolder(View view) {
-            g_imageView = (CircleImageView) view.findViewById(R.id.image);
-            g_name = (TextView) view.findViewById(R.id.name);
-            g_content = (TextView) view.findViewById(R.id.content);
-            g_time = (TextView) view.findViewById(R.id.date);
-            iv_like = (ImageView) view.findViewById(R.id.comment_item_like);
+            g_imageView = view.findViewById(R.id.image);
+            g_name = view.findViewById(R.id.name);
+            g_content = view.findViewById(R.id.content);
+            g_time = view.findViewById(R.id.date);
+            iv_like = view.findViewById(R.id.comment_item_like);
         }
-
     }
 
     private class ChildHolder{
         private CircleImageView c_imageView;
         private TextView c_name, c_content, c_date, c_father;
         public ChildHolder(View view) {
-            c_imageView = (CircleImageView) view.findViewById(R.id.image);
-            c_name = (TextView) view.findViewById(R.id.name);
-            c_father = (TextView) view.findViewById(R.id.father);
-            c_content = (TextView) view.findViewById(R.id.content);
-            c_date = (TextView) view.findViewById(R.id.date);
+            c_imageView = view.findViewById(R.id.image);
+            c_name = view.findViewById(R.id.name);
+            c_father = view.findViewById(R.id.father);
+            c_content = view.findViewById(R.id.content);
+            c_date = view.findViewById(R.id.date);
         }
     }
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         final GroupHolder groupHolder;
-
         CommentView comment = commentList.get(groupPosition);
-
         commentRepository.queryReplies(comment.getCommentId(), groupPosition);
 
         if(convertView == null){

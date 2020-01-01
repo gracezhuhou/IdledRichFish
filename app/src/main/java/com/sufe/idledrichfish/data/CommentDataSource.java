@@ -69,10 +69,10 @@ public class CommentDataSource {
      */
     void queryCommentsByProduct(String productId){
         BmobQuery<Comment> query = new BmobQuery<>();
-        query.include("commenter");
         Product product = new Product();
         product.setObjectId(productId);
         query.addWhereEqualTo("product", new BmobPointer(product));
+        query.include("commenter, product[objectId]");
         query.findObjects(new FindListener<Comment>() {
             @Override
             public void done(List<Comment> object, BmobException e) {
@@ -102,7 +102,7 @@ public class CommentDataSource {
                     Log.i("BMOB","Query Comments Fail: " + e.getMessage());
                 }
                 msg.setData(bs);
-                ProductInfoActivity.commentHandler.sendMessage(msg);
+                ProductInfoActivity.productCommentHandler.sendMessage(msg);
             }
         });
     }

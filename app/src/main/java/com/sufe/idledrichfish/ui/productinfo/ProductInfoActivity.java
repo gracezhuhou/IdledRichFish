@@ -87,7 +87,7 @@ public class ProductInfoActivity extends AppCompatActivity {
 
     private CommentExpandableListView commentExpandableListView;
     private ExpandableAdapter expandableAdapter;
-    private List<CommentView> commentList;
+    private List<CommentView> commentList = new ArrayList<>();
 
     private InputMethodManager inputMethodManager;
     private BottomSheetDialog bottomSheetDialog;
@@ -323,13 +323,21 @@ public class ProductInfoActivity extends AppCompatActivity {
                 Bundle b = msg.getData();
                 if (b.getInt("errorCode") == 0) {
                     Student student = Student.getCurrentUser(Student.class);
-                    commentList.add(new CommentView(b.getString("commentId"),
-                            student.getObjectId(),
-                            student.getName(),
-                            Bytes.toArray(student.getImage()),
-                            commentContent,
-                            b.getString("date"), null
-                            ));
+                    if (student.getImage() != null) {
+                        commentList.add(new CommentView(b.getString("commentId"),
+                                student.getObjectId(),
+                                student.getName(),
+                                Bytes.toArray(student.getImage()),
+                                commentContent,
+                                b.getString("date"), null));
+                    } else {
+                        commentList.add(new CommentView(b.getString("commentId"),
+                                student.getObjectId(),
+                                student.getName(), null,
+                                commentContent,
+                                b.getString("date"), null));
+                    }
+
                     expandableAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), b.getString("e"), Toast.LENGTH_LONG).show();
@@ -370,6 +378,7 @@ public class ProductInfoActivity extends AppCompatActivity {
                 List<CommentView> replyList = new ArrayList<>();
                 if (bs.getInt("errorCode") == 0) {
                     bs.remove("errorCode");
+                    bs.remove("position");
                     for (int i = 0; !bs.isEmpty(); ++i) {
                         Bundle b = bs.getBundle(String.valueOf(i));
                         assert b != null;

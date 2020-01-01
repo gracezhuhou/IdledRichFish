@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.FavoriteDataSource;
 import com.sufe.idledrichfish.data.FavoriteRepository;
-import com.sufe.idledrichfish.data.model.Product;
-import com.sufe.idledrichfish.data.model.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,14 +83,6 @@ public class MyFavoriteActivity extends AppCompatActivity {
                                 b.getByteArray("image3"),
                                 b.getByteArray("image4"),
                                 b.getByteArray("sellerImage")));
-                        Product product = new Product();
-                        product.setObjectId(b.getString("productId"));
-                        product.setName(b.getString("name"));
-                        product.setPrice(b.getDouble("price"));
-                        Student seller = new Student();
-                        seller.setObjectId(b.getString("sellerId"));
-                        seller.setName(b.getString("sellerName"));
-                        seller.setCredit(b.getFloat("credit"));
                         bundles.remove(String.valueOf(i));
                     }
                     Log.i("Handler", "Query All Favorite Products");
