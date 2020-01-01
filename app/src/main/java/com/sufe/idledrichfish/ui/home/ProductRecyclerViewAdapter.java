@@ -23,8 +23,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
-    private List<HomeProductView> myProducts;
+public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder>{
+    private List<ProductView> myProducts;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         private ConstraintLayout layout_product;
@@ -50,7 +50,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         }
     }
 
-    public HomeRecyclerViewAdapter(List<HomeProductView> products){
+    public ProductRecyclerViewAdapter(List<ProductView> products){
         myProducts = products;
     }
 
@@ -69,7 +69,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         holder.image_product.setMaxWidth((width - 21) / 2);
 
         // 显示商品信息
-        HomeProductView product = myProducts.get(holder.getAdapterPosition());
+        ProductView product = myProducts.get(holder.getAdapterPosition());
         holder.text_product_name.setText(product.getName());
         DecimalFormat format = new java.text.DecimalFormat("¥ 0.00"); // 保留小数点两位
         holder.text_product_price.setText(format.format(product.getPrice()));

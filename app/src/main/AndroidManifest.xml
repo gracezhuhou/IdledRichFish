@@ -84,6 +84,8 @@
         <activity android:name=".ui.myPublish.MyPublishActivity" />
         <activity android:name=".ui.myFavorite.MyFavoriteActivity" />
         <activity android:name=".CreditActivity"></activity>
+        <activity android:name=".ui.search.SearchActivity" />
+
         <activity
             android:name=".ProductInfoActivity"
             android:theme="@style/AppTheme.NoActionBar" />

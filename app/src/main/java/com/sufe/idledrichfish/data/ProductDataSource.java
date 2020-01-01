@@ -1,5 +1,6 @@
 package com.sufe.idledrichfish.data;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
 import com.sufe.idledrichfish.ui.myPublish.MyPublishRecyclerViewAdapter;
 import com.sufe.idledrichfish.ui.publish.PublishActivity;
+import com.sufe.idledrichfish.ui.search.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -378,5 +380,52 @@ public class ProductDataSource {
             }
         });
 
+    }
+
+    /**
+     * 获取某一类别下全部商品
+     */
+    void queryProductsByCategory(String category) {
+        BmobQuery<Product> query = new BmobQuery<Product>();
+        query.addWhereEqualTo("category", category);
+        query.include("seller");
+        query.findObjects(new FindListener<Product>() {
+            @Override
+            public void done(List<Product> objects, BmobException e) {
+                Message msg = new Message();
+                Bundle bundles = new Bundle();
+                if (e == null) {
+                    bundles.putInt("errorCode", 0);
+                    int i = 0;
+                    for (Product product : objects) {
+                        Bundle b = new Bundle();
+                        b.putString("objectId", product.getObjectId());
+                        b.putString("name", product.getName());
+                        b.putDouble("price", product.getPrice());
+                        b.putBoolean("isNew", product.isNew());
+                        b.putBoolean("canBargain", product.isCanBargain());
+                        b.putString("sellerId", product.getSeller().getObjectId());
+                        if (product.getImage1() != null) {
+                            b.putByteArray("productImage", Bytes.toArray(product.getImage1()));
+                        }
+                        b.putString("sellerId", product.getSeller().getObjectId());
+                        b.putString("sellerName", product.getSeller().getName());
+                        b.putFloat("credit", product.getSeller().getCredit());
+                        if (product.getSeller().getImage() != null) {
+                            b.putByteArray("studentImage", Bytes.toArray(product.getSeller().getImage()));
+                        }
+                        bundles.putBundle(String.valueOf(i), b);
+                        ++i;
+                    }
+                    Log.i("BMOB", "Query Products Success");
+                } else {
+                    bundles.putInt("errorCode", e.getErrorCode());
+                    bundles.putString("e", e.toString());
+                    Log.e("BMOB", "Query Products Fail", e);
+                }
+                msg.setData(bundles);
+                SearchActivity.searchHandler.sendMessage(msg);
+            }
+        });
     }
 }
