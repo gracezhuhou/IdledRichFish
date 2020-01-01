@@ -17,16 +17,19 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMOptions;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
 import com.sufe.idledrichfish.ui.chat.ChatFragment;
 
@@ -36,10 +39,12 @@ import cn.bmob.v3.Bmob;
 
 public class MainActivity extends AppCompatActivity implements
         HomeFragment.OnFragmentInteractionListener, ChatFragment.OnFragmentInteractionListener,
-        MyFragment.OnFragmentInteractionListener {
+        MyFragment.OnFragmentInteractionListener, EMMessageListener {
 
     private FrameLayout mainFrame;
     private BottomNavigationView navView;
+    private TextView text_reminder;
+
     private HomeFragment homeFragment;
     private ChatFragment chatFragment;
     private MyFragment myFragment;
@@ -48,9 +53,10 @@ public class MainActivity extends AppCompatActivity implements
     // 要申请的权限
     private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     private AlertDialog dialog;
+    // message监听
+    private EMMessageListener mMessageListener;
 
-    private EMMessageListener msgListener;
-
+    // fragment跳转
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
                 switch (item.getItemId()) {
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements
                             lastFragment = 0;
                         }
                         return true;
-                    case R.id.navigation_message:
+                    case R.id.navigation_chat:
                         if (lastFragment != 1) {
                             switchFragment(lastFragment, 1);
                             lastFragment = 1;
@@ -82,46 +88,24 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         setPermission();
-//        initBmob();
         initView();
 
-        msgListener = new EMMessageListener() {
-            @Override
-            public void onMessageReceived(List<EMMessage> messages) {
-                // 收到消息
-            }
+        mMessageListener = this;
 
-            @Override
-            public void onCmdMessageReceived(List<EMMessage> messages) {
-                // 收到透传消息
-            }
-
-            @Override
-            public void onMessageRead(List<EMMessage> messages) {
-                // 收到已读回执
-            }
-
-            @Override
-            public void onMessageDelivered(List<EMMessage> message) {
-                // 收到已送达回执
-            }
-            @Override
-            public void onMessageRecalled(List<EMMessage> messages) {
-                // 消息被撤回
-            }
-
-            @Override
-            public void onMessageChanged(EMMessage message, Object change) {
-                // 消息状态变动
-            }
-        };
-        EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+    protected void onResume() {
+        super.onResume();
+        // 添加消息监听
+        EMClient.getInstance().chatManager().addMessageListener(mMessageListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // 移除消息监听
+        EMClient.getInstance().chatManager().removeMessageListener(mMessageListener);
     }
 
     void initView() {
@@ -136,6 +120,11 @@ public class MainActivity extends AppCompatActivity implements
         navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        LinearLayout layout_chat = (LinearLayout) navView.getMenu().findItem(R.id.navigation_chat).getActionView();
+        text_reminder = layout_chat.findViewById(R.id.text_reminder);
+        // 获取未读消息数量
+        int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
+        text_reminder.setText(String.valueOf(num));
     }
 
     /**
@@ -277,6 +266,69 @@ public class MainActivity extends AppCompatActivity implements
                 }
             }
         }
+    }
+
+
+    // MessageView Listener 环信消息监听主要方法
+    /**
+     * 收到新消息
+     * @param messages 收到的新消息集合
+     */
+    @Override
+    public void onMessageReceived(List<EMMessage> messages) {
+        // 收到消息
+        text_reminder.setText(EMClient.getInstance().chatManager().getUnreadMessageCount());
+    }
+
+    /**
+     * 收到新的 CMD 消息
+     */
+    @Override
+    public void onCmdMessageReceived(List<EMMessage> list) {
+        for (int i = 0; i < list.size(); i++) {
+            // 透传消息
+            EMMessage cmdMessage = list.get(i);
+            EMCmdMessageBody body = (EMCmdMessageBody) cmdMessage.getBody();
+            Log.i("Main", "收到 CMD 透传消息" + body.action());
+        }
+    }
+
+    /**
+     * 收到新的已读回执
+     *
+     * @param list 收到消息已读回执
+     */
+    @Override
+    public void onMessageRead(List<EMMessage> list) {
+    }
+
+    /**
+     * 收到新的发送回执
+     * TODO 无效 暂时有bug
+     *
+     * @param list 收到发送回执的消息集合
+     */
+    @Override
+    public void onMessageDelivered(List<EMMessage> list) {
+    }
+
+    /**
+     * 消息撤回回调
+     *
+     * @param list 撤回的消息列表
+     */
+    @Override
+    public void onMessageRecalled(List<EMMessage> list) {
+    }
+
+    /**
+     * 消息的状态改变
+     *
+     * @param message 发生改变的消息
+     * @param object  包含改变的消息
+     */
+    @Override
+    public void onMessageChanged(EMMessage message, Object object) {
     }
 
     private void initBmob() {

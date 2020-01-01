@@ -3,24 +3,32 @@ package com.sufe.idledrichfish.ui.chat;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.sufe.idledrichfish.R;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +38,7 @@ import java.util.Map;
  * Use the {@link ChatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment implements EMMessageListener{
     // Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
     // Rename and change types of parameters
@@ -38,10 +46,12 @@ public class ChatFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView recycler_view;
+    private TextView text_no_chat;
 
+    private Map<String, EMConversation> conversations;
     private List<ChatView> chatList = new ArrayList<>();
     private ChatRecyclerViewAdapter chatRecyclerViewAdapter;
-    private EMMessageListener msgListener;
+    private EMMessageListener mMessageListener;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -75,49 +85,12 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the view for this fragment
         super.onActivityCreated(savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_message, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
         recycler_view = view.findViewById(R.id.recycler_view);
+        text_no_chat = view.findViewById(R.id.text_no_chat);
         setRecycler();
         initConversation();
-
-        msgListener = new EMMessageListener() {
-            @Override
-            public void onMessageReceived(List<EMMessage> messages) {
-                // 收到消息
-                for (EMMessage message: messages) {
-                    String id = message.getUserName();
-                    chatList.add(new ChatView(id, message.getBody().toString(),
-                            new Date(message.getMsgTime()).toString(), true));
-                }
-                chatRecyclerViewAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCmdMessageReceived(List<EMMessage> messages) {
-                // 收到透传消息
-            }
-
-            @Override
-            public void onMessageRead(List<EMMessage> messages) {
-                // 收到已读回执
-            }
-
-            @Override
-            public void onMessageDelivered(List<EMMessage> message) {
-                // 收到已送达回执
-            }
-            @Override
-            public void onMessageRecalled(List<EMMessage> messages) {
-                // 消息被撤回
-            }
-
-            @Override
-            public void onMessageChanged(EMMessage message, Object change) {
-                // 消息状态变动
-            }
-        };
-        EMClient.getInstance().chatManager().addMessageListener(msgListener);
 
         return view;
     }
@@ -157,13 +130,80 @@ public class ChatFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void setRecycler() {
-        chatList = new ArrayList<>();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recycler_view.setLayoutManager(layoutManager);
-        chatRecyclerViewAdapter = new ChatRecyclerViewAdapter(chatList);
-        recycler_view.setAdapter(chatRecyclerViewAdapter);
-        recycler_view.setHasFixedSize(true);
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 添加消息监听
+        EMClient.getInstance().chatManager().addMessageListener(mMessageListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // 移除消息监听
+        EMClient.getInstance().chatManager().removeMessageListener(mMessageListener);
+    }
+
+    // MessageView Listener 环信消息监听主要方法
+    /**
+     * 收到新消息
+     * @param messages 收到的新消息集合
+     */
+    @Override
+    public void onMessageReceived(List<EMMessage> messages) {
+        // 收到消息
+        initConversation();
+    }
+
+    /**
+     * 收到新的 CMD 消息
+     */
+    @Override
+    public void onCmdMessageReceived(List<EMMessage> list) {
+        for (int i = 0; i < list.size(); i++) {
+            // 透传消息
+            EMMessage cmdMessage = list.get(i);
+            EMCmdMessageBody body = (EMCmdMessageBody) cmdMessage.getBody();
+            Log.i("ChatFragment", "收到 CMD 透传消息" + body.action());
+        }
+    }
+
+    /**
+     * 收到新的已读回执
+     *
+     * @param list 收到消息已读回执
+     */
+    @Override
+    public void onMessageRead(List<EMMessage> list) {
+    }
+
+    /**
+     * 收到新的发送回执
+     * TODO 无效 暂时有bug
+     *
+     * @param list 收到发送回执的消息集合
+     */
+    @Override
+    public void onMessageDelivered(List<EMMessage> list) {
+    }
+
+    /**
+     * 消息撤回回调
+     *
+     * @param list 撤回的消息列表
+     */
+    @Override
+    public void onMessageRecalled(List<EMMessage> list) {
+    }
+
+    /**
+     * 消息的状态改变
+     *
+     * @param message 发生改变的消息
+     * @param object  包含改变的消息
+     */
+    @Override
+    public void onMessageChanged(EMMessage message, Object object) {
     }
 
     /**
@@ -171,16 +211,29 @@ public class ChatFragment extends Fragment {
      */
     private void initConversation() {
         // 获取所有会话
-        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
+        conversations = EMClient.getInstance().chatManager().getAllConversations();
+        chatList.clear();
         // 遍历
         for (Map.Entry<String, EMConversation> entry : conversations.entrySet()) {
             EMMessage message = entry.getValue().getLastMessage();
             if (message != null) {
                 Date date = new Date(message.getMsgTime());
-                ChatView chat = new ChatView(entry.getKey(), message.getBody().toString(), date.toString(), !message.isUnread());
+                ChatView chat = new ChatView(message.getUserName(), message.getBody().toString(), date.toString(), !message.isUnread());
                 chatList.add(chat);
             }
         }
         chatRecyclerViewAdapter.notifyDataSetChanged(); // 更新列表
+        if (chatList.size() != 0) {
+            text_no_chat.setVisibility(View.GONE);
+        }
+    }
+
+    private void setRecycler() {
+        chatList = new ArrayList<>();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recycler_view.setLayoutManager(layoutManager);
+        chatRecyclerViewAdapter = new ChatRecyclerViewAdapter(chatList);
+        recycler_view.setAdapter(chatRecyclerViewAdapter);
+        recycler_view.setHasFixedSize(true);
     }
 }
