@@ -2,6 +2,9 @@ package com.sufe.idledrichfish.ui.productinfo;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,25 +18,22 @@ import com.bumptech.glide.request.RequestOptions;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.CommentDataSource;
 import com.sufe.idledrichfish.data.CommentRepository;
-import com.sufe.idledrichfish.data.model.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ExpandableAdapter extends BaseExpandableListAdapter {
 
-    private List<Comment> commentList;
+    private List<CommentView> commentList = new ArrayList<>();
     private Context context;
     private int pageIndex = 1;
     private CommentRepository commentRepository = CommentRepository.getInstance(new CommentDataSource());
-    static public Handler groupCommentHandler;
 
-    public ExpandableAdapter(Context context, List<Comment> commentBeanList) {
+    public ExpandableAdapter(Context context, List<CommentView> commentViewList) {
         this.context = context;
-        this.commentList = commentBeanList;
+        this.commentList = commentViewList;
     }
 
     @Override
@@ -81,6 +81,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         private CircleImageView g_imageView;
         private TextView g_name, g_content, g_time;
         private ImageView iv_like;
+        private List<CommentView> replyList = new ArrayList<>();
 
         public GroupHolder(View view) {
             g_imageView = (CircleImageView) view.findViewById(R.id.image);
@@ -108,7 +109,9 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         final GroupHolder groupHolder;
 
-        commentRepository.queryReplies();
+        CommentView comment = commentList.get(groupPosition);
+
+        commentRepository.queryReplies(comment.getCommentId(), groupPosition);
 
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.item_group, parent, false);
@@ -121,9 +124,9 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
                 .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
                 .fallback(R.drawable.head) // url为空的时候,显示的图片
                 .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
-        Glide.with(context).load(commentList.get(groupPosition).getCommenter().getImage()).apply(options).into(groupHolder.g_imageView);
-        groupHolder.g_name.setText(commentList.get(groupPosition).getCommenter().getName());
-        groupHolder.g_time.setText(commentList.get(groupPosition).getDate().getDate());
+        Glide.with(context).load(commentList.get(groupPosition).getImage()).apply(options).into(groupHolder.g_imageView);
+        groupHolder.g_name.setText(commentList.get(groupPosition).getCommenterName());
+        groupHolder.g_time.setText(commentList.get(groupPosition).getDate());
         groupHolder.g_content.setText(commentList.get(groupPosition).getContent());
         groupHolder.iv_like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,10 +160,11 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
                 .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
                 .fallback(R.drawable.head) // url为空的时候,显示的图片
                 .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
-        Glide.with(context).load(commentList.get(groupPosition).getCommenter().getImage()).apply(options).into(childHolder.c_imageView);
-        childHolder.c_name.setText(commentList.get(groupPosition).getReplyList().get(childPosition).getCommenter().getName());
-        childHolder.c_father.setText(commentList.get(groupPosition).getReplyList().get(childPosition).getCommentFather().getName() + ":");
-        childHolder.c_date.setText(commentList.get(groupPosition).getDate().getDate());
+        Glide.with(context).load(commentList.get(groupPosition).getImage()).apply(options).into(childHolder.c_imageView);
+        String name = commentList.get(groupPosition).getReplyList().get(childPosition).getCommenterName();
+        childHolder.c_name.setText(name);
+        childHolder.c_father.setText(name + ":");
+        childHolder.c_date.setText(commentList.get(groupPosition).getDate());
         childHolder.c_content.setText(commentList.get(groupPosition).getReplyList().get(childPosition).getContent());
 
         return convertView;
@@ -171,54 +175,4 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    /**
-     *  新的评论数据
-     */
-    public void addTheCommentData(Comment comment){
-        if(comment!=null){
-
-            commentList.add(comment);
-            notifyDataSetChanged();
-        }else {
-            throw new IllegalArgumentException("评论数据为空!");
-        }
-
-    }
-
-    /**
-     * 新的回复数据
-     */
-    public void addTheReplyData(Comment reply, int groupPosition){
-        if(reply!=null){
-            Log.e("reply", "addTheReplyData: >>>>该刷新回复列表了:"+reply.toString() );
-            if(commentList.get(groupPosition).getReplyList() != null ){
-                commentList.get(groupPosition).getReplyList().add(reply);
-            }else {
-                List<Comment> replyList = new ArrayList<>();
-                replyList.add(reply);
-                commentList.get(groupPosition).setReplyList(replyList);
-            }
-            notifyDataSetChanged();
-        }else {
-            throw new IllegalArgumentException("回复数据为空!");
-        }
-
-    }
-
-    /**
-     * func:添加和展示所有回复
-     * replyBeanList 所有回复数据
-     * groupPosition 当前的评论
-     */
-    private void addReplyList(List<Comment> replyList, int groupPosition){
-        if(commentList.get(groupPosition).getReplyList() != null ){
-            commentList.get(groupPosition).getReplyList().clear();
-            commentList.get(groupPosition).getReplyList().addAll(replyList);
-        }else {
-
-            commentList.get(groupPosition).setReplyList(replyList);
-        }
-
-        notifyDataSetChanged();
-    }
 }

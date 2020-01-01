@@ -30,14 +30,18 @@ import com.bumptech.glide.request.RequestOptions;
 import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.common.primitives.Bytes;
 import com.sufe.idledrichfish.AppBarStateChangeListener;
 import com.sufe.idledrichfish.MainActivity;
 import com.sufe.idledrichfish.R;
 import com.google.android.material.appbar.AppBarLayout;
+import com.sufe.idledrichfish.data.CommentDataSource;
+import com.sufe.idledrichfish.data.CommentRepository;
 import com.sufe.idledrichfish.data.FavoriteDataSource;
 import com.sufe.idledrichfish.data.FavoriteRepository;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
+import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.data.StudentDataSource;
 import com.sufe.idledrichfish.data.StudentRepository;
 import com.sufe.idledrichfish.ui.user.UserActivity;
@@ -45,10 +49,11 @@ import com.sufe.idledrichfish.ui.conversation.ConversationActivity;
 import com.sufe.idledrichfish.data.model.Comment;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ProductInfoActivity extends AppCompatActivity implements View.OnClickListener{
+public class ProductInfoActivity extends AppCompatActivity {
 
     private TextView text_product_name;
     private TextView text_price;
@@ -67,18 +72,22 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
     private ConstraintLayout layout_seller;
 
     private String productId;
+    private String commentFatherId;
     private String sellerId;
     private String sellerName;
     private ImageView sellerImage;
+    private String commentContent;
     static public Handler productInfoHandler;
     static public Handler addFavoriteHandler;
     static public Handler cancelFavoriteHandler;
     static public Handler isFavoriteHandler;
     static public Handler commentHandler;
+    static public Handler productCommentHandler;
+    static public Handler replyHandler;
 
     private CommentExpandableListView commentExpandableListView;
     private ExpandableAdapter expandableAdapter;
-    private List<Comment> commentList;
+    private List<CommentView> commentList;
 
     private InputMethodManager inputMethodManager;
     private BottomSheetDialog bottomSheetDialog;
@@ -93,6 +102,8 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         initData();
         setHandler();
         clickSeller();
+
+        initExpandableListView(commentList);
 
         StudentRepository.getInstance(new StudentDataSource()).addHistory(productId);
 
@@ -183,6 +194,7 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         productId = intent.getStringExtra("product_id_extra");
         ProductRepository.getInstance(new ProductDataSource()).queryProduct(productId, "productInfo");
         FavoriteRepository.getInstance(new FavoriteDataSource()).isFavorite(productId);
+        CommentRepository.getInstance(new CommentDataSource()).queryCommentsByProduct(productId);
     }
 
     /**
@@ -305,6 +317,82 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         };
+        // 是否留言成功 & 刷新界面
+        commentHandler = new Handler() {
+            public void handleMessage (Message msg){
+                Bundle b = msg.getData();
+                if (b.getInt("errorCode") == 0) {
+                    Student student = Student.getCurrentUser(Student.class);
+                    commentList.add(new CommentView(b.getString("commentId"),
+                            student.getObjectId(),
+                            student.getName(),
+                            Bytes.toArray(student.getImage()),
+                            commentContent,
+                            b.getString("date"), null
+                            ));
+                    expandableAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getApplicationContext(), b.getString("e"), Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        // 获取所有留言
+        productCommentHandler = new Handler() {
+            public void handleMessage (Message msg){
+                Bundle bs = msg.getData();
+                if (bs.getInt("errorCode") == 0) {
+                    bs.remove("errorCode");
+                    for (int i = 0; !bs.isEmpty(); ++i) {
+                        Bundle b = bs.getBundle(String.valueOf(i));
+                        assert b != null;
+                        CommentView comment = new CommentView(
+                                b.getString("commentId"),
+                                b.getString("commenterId"),
+                                b.getString("commenterName"),
+                                b.getByteArray("image"),
+                                b.getString("content"),
+                                b.getString("date"), null);
+                        commentList.add(comment);
+                        bs.remove(String.valueOf(i));
+                    }
+                    Log.i("Handler", "Query All Comments By Product");
+                    expandableAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getApplicationContext(), bs.getString("e"), Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        // reply
+        replyHandler = new Handler() {
+            public void handleMessage (Message msg){
+                Bundle bs = msg.getData();
+                int position = bs.getInt("position");
+                List<CommentView> replyList = new ArrayList<>();
+                if (bs.getInt("errorCode") == 0) {
+                    bs.remove("errorCode");
+                    for (int i = 0; !bs.isEmpty(); ++i) {
+                        Bundle b = bs.getBundle(String.valueOf(i));
+                        assert b != null;
+                        CommentView comment = new CommentView(
+                                b.getString("commentId"),
+                                b.getString("commenterId"),
+                                b.getString("commenterName"),
+                                b.getByteArray("image"),
+                                b.getString("content"),
+                                b.getString("date"), null);
+                        replyList.add(comment);
+                        bs.remove(String.valueOf(i));
+                    }
+                    Log.i("Handler", "Query All Comments By Product");
+                    CommentView comment = commentList.get(position);
+                    comment.setReplyList(replyList);
+                    commentList.set(position, comment);
+                    expandableAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getApplicationContext(), bs.getString("e"), Toast.LENGTH_LONG).show();
+                }
+            }
+        };
     }
 
     private void initView() {
@@ -323,6 +411,7 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         layout_seller = findViewById(R.id.layout_seller);
         text_new = findViewById(R.id.text_new);
         text_cannot_bargain = findViewById(R.id.text_cannot_bargain);
+        commentExpandableListView = findViewById(R.id.comment_list_view);
     }
 
     /**
@@ -370,15 +459,13 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         bt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String commentContent = commentText.getText().toString().trim();
+                commentContent = commentText.getText().toString().trim();
                 if(!TextUtils.isEmpty(commentContent)){
 
-                    commentOnWork(commentContent);
+                    //commentOnWork(commentContent);
                     bottomSheetDialog.dismiss();
+                    CommentRepository.getInstance(new CommentDataSource()).saveComment(productId, commentContent, null);
 
-                    Comment comment = new Comment();
-
-//                    expandableAdapter.addTheCommentData(comment);
                     Toast.makeText(ProductInfoActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(ProductInfoActivity.this,"评论内容不能为空",Toast.LENGTH_SHORT).show();
@@ -386,10 +473,6 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
             }
         });
         bottomSheetDialog.show();
-    }
-    @Override
-    public void onClick(View v) {
-
     }
 
     /**
@@ -401,18 +484,15 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
         final EditText commentText = (EditText) commentView.findViewById(R.id.comment_edittext);
         final Button bt_comment = (Button) commentView.findViewById(R.id.comment_launch);
 
-        /////////////////////////////////////
-        commentText.setHint("回复 " + commentList.get(position).getCommenter().getName() + " 的评论:");
+        commentText.setHint("回复 " + commentList.get(position).getCommenterName() + " 的评论:");
         bottomSheetDialog.setContentView(commentView);
         bt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String replyContent = commentText.getText().toString().trim();
-                if(!TextUtils.isEmpty(replyContent)){
+                if(!TextUtils.isEmpty(commentContent)){
                     bottomSheetDialog.dismiss();
-                    //Comment detailBean = new Comment("小红",replyContent);
-                    //expandableAdapter.addTheReplyData(detailBean, position);
-                    Comment reply = new Comment();
+
+                    CommentRepository.getInstance(new CommentDataSource()).saveComment(productId, commentContent, commentList.get(position).getCommenterFatherId());
 
                     commentExpandableListView.expandGroup(position);
                     Toast.makeText(ProductInfoActivity.this,"回复成功",Toast.LENGTH_SHORT).show();
@@ -427,11 +507,11 @@ public class ProductInfoActivity extends AppCompatActivity implements View.OnCli
     /**
      * 初始化评论和回复列表
      */
-    private void initExpandableListView(final List<Comment> commentList){
+    private void initExpandableListView(final List<CommentView> commentList){
         commentExpandableListView.setGroupIndicator(null);
         //默认展开所有回复
-//        expandableAdapter = new ExpandableAdapter(this, commentList);
-//        commentExpandableListView.setAdapter(expandableAdapter);
+        expandableAdapter = new ExpandableAdapter(this, commentList);
+        commentExpandableListView.setAdapter(expandableAdapter);
         for(int i = 0; i<commentList.size(); i++){
             commentExpandableListView.expandGroup(i);
         }

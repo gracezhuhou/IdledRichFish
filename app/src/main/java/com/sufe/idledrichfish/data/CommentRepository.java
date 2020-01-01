@@ -22,7 +22,12 @@ public class CommentRepository {
         dataSource.saveComment(productId, content, commentFatherId);
     }
 
-    public void queryReplies(String commentFatherId) {
-        dataSource.queryReplies(commentFatherId);
+    // 根据productId获取留言
+    public void queryCommentsByProduct(String productId) {
+        dataSource.queryCommentsByProduct(productId);
+    }
+
+    public void queryReplies(String commentFatherId, int position) {
+        dataSource.queryReplies(commentFatherId, position);
     }
 }

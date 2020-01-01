@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.datatype.BmobRelation;
 
 public class Comment extends BmobObject {
 
@@ -16,6 +17,8 @@ public class Comment extends BmobObject {
     private BmobDate date;
 
     private Comment commentFather;
+
+    private BmobRelation allReply;
 
 
     public Student getCommenter() {
@@ -56,5 +59,13 @@ public class Comment extends BmobObject {
 
     public void setCommentFather(Comment commentFather) {
         this.commentFather = commentFather;
+    }
+
+    public BmobRelation getAllReply() {
+        return allReply;
+    }
+
+    public void setAllReply(BmobRelation allReply) {
+        this.allReply = allReply;
     }
 }

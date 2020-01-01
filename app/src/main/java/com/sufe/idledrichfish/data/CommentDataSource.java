@@ -10,6 +10,7 @@ import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.productinfo.ProductInfoActivity;
 
+import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -30,14 +31,17 @@ public class CommentDataSource {
 
         final Comment comment = new Comment();
         comment.setCommenter(Student.getCurrentUser(Student.class));
-        Comment commentFather = new Comment();
-        commentFather.setObjectId(commentFatherId);
-        comment.setCommentFather(commentFather);
+        if (commentFatherId != null) {
+            Comment commentFather = new Comment();
+            commentFather.setObjectId(commentFatherId);
+            comment.setCommentFather(commentFather);
+        }
         Product product = new Product();
         product.setObjectId(productId);
         comment.setProduct(product);
         comment.setContent(content);
-        comment.setDate(new BmobDate(Tool.getNetTime())); // 获取网络时间
+        Date date = Tool.getNetTime();
+        comment.setDate(new BmobDate(date)); // 获取网络时间
 
         comment.save(new SaveListener<String>() {
             @Override
@@ -45,7 +49,8 @@ public class CommentDataSource {
                 // 反馈给ChatActivity
                 if(e == null) {
                     b.putInt("errorCode", 0);
-                    b.putString("orderId", objectId);
+                    b.putString("commentId", objectId);
+                    b.putString("date", date.toString());
                     Log.i("BMOB", "Save Comment Success");
                 }
                 else {
@@ -78,8 +83,10 @@ public class CommentDataSource {
                     int i = 0;
                     for (Comment comment: object) {
                         Bundle b = new Bundle();
+                        b.putString("commentId", comment.getObjectId());
                         Student student = comment.getCommenter();
                         b.putString("commenterId", student.getObjectId());
+                        b.putString("commenterName", student.getName());
                         if (student.getImage() != null) {
                             b.putByteArray("image", Bytes.toArray(student.getImage()));
                         }
@@ -88,14 +95,14 @@ public class CommentDataSource {
                         bs.putBundle(String.valueOf(i), b);
                         ++i;
                     }
-                    Log.i("BMOB","Query Reply Success");
+                    Log.i("BMOB","Query Comments Success");
                 }else{
                     bs.putInt("errorCode", e.getErrorCode());
                     bs.putString("e", e.toString());
-                    Log.i("BMOB","Query Reply Fail: " + e.getMessage());
+                    Log.i("BMOB","Query Comments Fail: " + e.getMessage());
                 }
                 msg.setData(bs);
-//                OrderInfoActivity.orderHandler.sendMessage(msg);
+                ProductInfoActivity.commentHandler.sendMessage(msg);
             }
         });
     }
@@ -103,23 +110,26 @@ public class CommentDataSource {
     /**
      * 获取所有回复
      */
-    void queryReplies(String commentFatherId) {
+    void queryReplies(String commentFatherId, int position) {
         BmobQuery<Comment> query = new BmobQuery<Comment>();
         Comment commentFather = new Comment();
         commentFather.setObjectId(commentFatherId);
-        query.addWhereEqualTo("commentFather", new BmobPointer(commentFather));
+        query.addWhereRelatedTo("allReply", new BmobPointer(commentFather));
         query.findObjects(new FindListener<Comment>() {
             @Override
-            public void done(List<Comment> object, BmobException e) {
+            public void done(List<Comment> object,BmobException e) {
                 Message msg = new Message();
                 Bundle bs = new Bundle();
                 if(e == null){
                     bs.putInt("errorCode", 0);
+                    bs.putInt("position", position);
                     int i = 0;
                     for (Comment comment: object) {
                         Bundle b = new Bundle();
+                        b.putString("commentId", comment.getObjectId());
                         Student student = comment.getCommenter();
                         b.putString("commenterId", student.getObjectId());
+                        b.putString("commenterName", student.getName());
                         if (student.getImage() != null) {
                             b.putByteArray("image", Bytes.toArray(student.getImage()));
                         }
@@ -135,8 +145,45 @@ public class CommentDataSource {
                     Log.i("BMOB","Query Reply Fail: " + e.getMessage());
                 }
                 msg.setData(bs);
-//                OrderInfoActivity.orderHandler.sendMessage(msg);
+                ProductInfoActivity.replyHandler.sendMessage(msg);
             }
         });
+//        BmobQuery<Comment> query = new BmobQuery<Comment>();
+//        Comment commentFather = new Comment();
+//        commentFather.setObjectId(commentFatherId);
+//        query.addWhereEqualTo("commentFather", new BmobPointer(commentFather));
+//        query.findObjects(new FindListener<Comment>() {
+//            @Override
+//            public void done(List<Comment> object, BmobException e) {
+//                Message msg = new Message();
+//                Bundle bs = new Bundle();
+//                if(e == null){
+//                    bs.putInt("errorCode", 0);
+//                    bs.putInt("position", position);
+//                    int i = 0;
+//                    for (Comment comment: object) {
+//                        Bundle b = new Bundle();
+//                        b.putString("commentId", comment.getObjectId());
+//                        Student student = comment.getCommenter();
+//                        b.putString("commenterId", student.getObjectId());
+//                        b.putString("commenterName", student.getName());
+//                        if (student.getImage() != null) {
+//                            b.putByteArray("image", Bytes.toArray(student.getImage()));
+//                        }
+//                        b.putString("content", comment.getContent());
+//                        b.putString("date", comment.getDate().getDate());
+//                        bs.putBundle(String.valueOf(i), b);
+//                        ++i;
+//                    }
+//                    Log.i("BMOB","Query Reply Success");
+//                }else{
+//                    bs.putInt("errorCode", e.getErrorCode());
+//                    bs.putString("e", e.toString());
+//                    Log.i("BMOB","Query Reply Fail: " + e.getMessage());
+//                }
+//                msg.setData(bs);
+////                OrderInfoActivity.orderHandler.sendMessage(msg);
+//            }
+//        });
     }
 }

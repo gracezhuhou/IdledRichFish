@@ -30,6 +30,7 @@
     <application
         android:name="android.app.Application"
         android:allowBackup="true"
+
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -87,7 +88,7 @@
         <activity android:name=".CreditActivity" />
         <activity android:name=".ui.search.SearchActivity" />
         <activity
-            android:name=".ProductInfoActivity"
+            android:name=".ui.productinfo.ProductInfoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.myOrder.MyOrderActivity"
