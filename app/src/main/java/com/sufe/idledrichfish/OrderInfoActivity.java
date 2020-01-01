@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +44,11 @@ public class OrderInfoActivity extends AppCompatActivity {
         initData();
         setHandler();
         setToolbar();
+
+        //字体加粗
+        TextView tv = (TextView)findViewById(R.id.text_order_id);
+        TextPaint tp = tv.getPaint();
+        tp.setFakeBoldText(true);
 
         // 完成订单
         button_finish.setOnClickListener(view -> {
