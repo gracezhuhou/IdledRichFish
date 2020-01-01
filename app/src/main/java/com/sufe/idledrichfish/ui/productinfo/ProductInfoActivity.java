@@ -320,22 +320,23 @@ public class ProductInfoActivity extends AppCompatActivity {
                 Bundle b = msg.getData();
                 if (b.getInt("errorCode") == 0) {
                     Student student = Student.getCurrentUser(Student.class);
-                    if (student.getImage() != null) {
-                        commentList.add(new CommentView(b.getString("commentId"),
-                                student.getObjectId(),
-                                student.getName(),
-                                Bytes.toArray(student.getImage()),
-                                commentContent,
-                                b.getString("date"), null));
-                    } else {
-                        commentList.add(new CommentView(b.getString("commentId"),
-                                student.getObjectId(),
-                                student.getName(), null,
-                                commentContent,
-                                b.getString("date"), null));
+                    if (b.getString("commentFatherId") == null) {
+                        if (student.getImage() != null) {
+                            commentList.add(new CommentView(b.getString("commentId"),
+                                    student.getObjectId(),
+                                    student.getName(),
+                                    Bytes.toArray(student.getImage()),
+                                    commentContent,
+                                    b.getString("date"), null));
+                        } else {
+                            commentList.add(new CommentView(b.getString("commentId"),
+                                    student.getObjectId(),
+                                    student.getName(), null,
+                                    commentContent,
+                                    b.getString("date"), null));
+                        }
+                        expandableAdapter.notifyDataSetChanged();
                     }
-
-                    expandableAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getApplicationContext(), b.getString("e"), Toast.LENGTH_LONG).show();
                 }
@@ -397,6 +398,7 @@ public class ProductInfoActivity extends AppCompatActivity {
                     comment.setReplyList(replyList);
                     commentList.set(position, comment);
                     expandableAdapter.notifyDataSetChanged();
+                    commentExpandableListView.expandGroup(position);
                 } else {
                     Toast.makeText(getApplicationContext(), bs.getString("e"), Toast.LENGTH_LONG).show();
                 }
