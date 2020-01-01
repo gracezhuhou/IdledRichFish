@@ -492,6 +492,7 @@ public class ProductInfoActivity extends AppCompatActivity {
         commentText.setHint("回复 " + commentList.get(position).getCommenterName() + " 的评论:");
         bottomSheetDialog.setContentView(commentView);
         bt_comment.setOnClickListener(view -> {
+            commentContent = commentText.getText().toString().trim();
             if(!TextUtils.isEmpty(commentContent)){
                 bottomSheetDialog.dismiss();
 
