@@ -1,23 +1,18 @@
 package com.sufe.idledrichfish.ui.user;
 
 public class UserView {
-    String orderId;
 
-    int status;
+    private String orderId;
 
-    String productId;
+    private int status;
 
-    String productName;
+    private String productId;
 
-    double price;
+    private String productName;
 
-    byte[] productImage;
+    private double price;
 
-//    String sellerId;
-//
-//    String sellerName;
-//
-//    byte[] sellerImage;
+    private byte[] productImage;
 
 
     public UserView(String orderId, int status, String productId, String productName, double price, byte[] productImage) {

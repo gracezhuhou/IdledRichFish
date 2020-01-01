@@ -2,7 +2,6 @@ package com.sufe.idledrichfish.ui.user;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.sufe.idledrichfish.OrderInfoActivity;
 import com.sufe.idledrichfish.R;
-import com.sufe.idledrichfish.ui.myOrder.MyOrderView;
-import com.sufe.idledrichfish.ui.myOrder.MyOrdersRecyclerAdapter;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapter.ViewHolder> {
-    private List<MyPublishView> myOrders;
+    private List<UserView> myOrders;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout layout_order;
@@ -47,20 +46,20 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         }
     }
 
-    public MyOrdersRecyclerAdapter(List<MyOrderView> orders){
+    public UserRecyclerAdapter(List<UserView> orders){
         myOrders = orders;
     }
 
     @Override
-    public MyOrdersRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_order, parent, false);
-        return new MyOrdersRecyclerAdapter.ViewHolder(view);
+        return new UserRecyclerAdapter.ViewHolder(view);
     }
 
     @SuppressLint("HandlerLeak")
     @Override
-    public void onBindViewHolder(final MyOrdersRecyclerAdapter.ViewHolder holder, final int position){
-        MyOrderView order = myOrders.get(holder.getAdapterPosition());
+    public void onBindViewHolder(final ViewHolder holder, final int position){
+        UserView order = myOrders.get(holder.getAdapterPosition());
         // 订单信息
         holder.orderId = order.getOrderId();
         switch (order.getStatus()){
@@ -79,10 +78,6 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
                 .fallback(R.drawable.ic_no_image) // url为空的时候,显示的图片
                 .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
         Glide.with(holder.itemView).load(order.getProductImage()).apply(options).into(holder.image_product);
-        // 卖家信息
-        holder.text_seller_name.setText(order.getSellerName());
-        // 卖家头像
-        Glide.with(holder.itemView).load(order.getSellerImage()).apply(options).into(holder.image_seller);
 
         // 点击跳转至订单详情页OrderInfoActivity
         holder.layout_order.setOnClickListener(view -> {
