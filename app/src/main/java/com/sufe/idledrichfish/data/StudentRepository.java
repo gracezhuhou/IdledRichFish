@@ -30,6 +30,8 @@ public class StudentRepository {
 //        dataSource.queryStudentForHome(ObjectId, position);
 //    }
 
+    public void queryStudentHistory() {dataSource.queryStudentHistory();}
+
     public void queryHistoryProducts() {
         dataSource.queryHistoryProducts();
     }
