@@ -151,7 +151,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         Glide.with(context).load(commentList.get(groupPosition).getImage()).apply(options).into(childHolder.c_imageView);
         String name = commentList.get(groupPosition).getReplyList().get(childPosition).getCommenterName();
         childHolder.c_name.setText(name);
-        childHolder.c_father.setText(name + ":");
+        childHolder.c_father.setText(":");
         childHolder.c_date.setText(commentList.get(groupPosition).getDate());
         childHolder.c_content.setText(commentList.get(groupPosition).getReplyList().get(childPosition).getContent());
 

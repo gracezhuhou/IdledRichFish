@@ -8,6 +8,7 @@ import com.google.common.primitives.Bytes;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.data.model.Tag;
+import com.sufe.idledrichfish.ui.chat.ChatFragment;
 import com.sufe.idledrichfish.ui.home.HomeFragment;
 import com.sufe.idledrichfish.ui.myHistory.MyHistoryActivity;
 import com.sufe.idledrichfish.ui.user.UserActivity;
@@ -29,7 +30,7 @@ public class StudentDataSource {
      * 查询用户
      */
     //TODO
-   public void queryStudentForUser(String objectId) {
+   public void queryStudentForUser(String objectId, int position) {
        BmobQuery<Student> bmobQuery = new BmobQuery<>();
         bmobQuery.getObject(objectId, new QueryListener<Student>() {
             @Override
@@ -40,13 +41,12 @@ public class StudentDataSource {
                     b.putString("id", student.getObjectId());
                     b.putString("name", student.getName());
                     b.putFloat("credit", student.getCredit());
+                    b.putInt("position", position);
                     if (student.getImage() != null) {
                         b.putByteArray("image", Bytes.toArray(student.getImage()));
-                    } else {
-                        b.putString("image", "");
                     }
                     msg.setData(b);
-                    UserActivity.StudentHandler.sendMessage(msg);
+                    ChatFragment.chatHandler.sendMessage(msg);
                     Log.i("BMOB", "Query Student Success");
                 } else {
                     Log.e("BMOB", "Query Student Fail", e);

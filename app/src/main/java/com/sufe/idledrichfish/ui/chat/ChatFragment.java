@@ -1,8 +1,11 @@
 package com.sufe.idledrichfish.ui.chat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +24,8 @@ import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.sufe.idledrichfish.R;
+import com.sufe.idledrichfish.data.StudentDataSource;
+import com.sufe.idledrichfish.data.StudentRepository;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -52,6 +57,7 @@ public class ChatFragment extends Fragment implements EMMessageListener{
     private List<ChatView> chatList = new ArrayList<>();
     private ChatRecyclerViewAdapter chatRecyclerViewAdapter;
     private EMMessageListener mMessageListener;
+    static public Handler chatHandler;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -91,6 +97,8 @@ public class ChatFragment extends Fragment implements EMMessageListener{
         text_no_chat = view.findViewById(R.id.text_no_chat);
         setRecycler();
         initConversation();
+
+        setHandler();
 
         return view;
     }
@@ -221,6 +229,7 @@ public class ChatFragment extends Fragment implements EMMessageListener{
                 Date date = new Date(message.getMsgTime());
                 ChatView chat = new ChatView(message.getUserName(), message.getBody().toString(), date.toString(), !message.isUnread());
                 chatList.add(chat);
+                StudentRepository.getInstance(new StudentDataSource()).queryStudent(message.getUserName(), chatList.size() - 1);
             }
         }
         chatRecyclerViewAdapter.notifyDataSetChanged(); // 更新列表
@@ -236,5 +245,25 @@ public class ChatFragment extends Fragment implements EMMessageListener{
         chatRecyclerViewAdapter = new ChatRecyclerViewAdapter(chatList);
         recycler_view.setAdapter(chatRecyclerViewAdapter);
         recycler_view.setHasFixedSize(true);
+    }
+
+    @SuppressLint("HandlerLeak")
+    private void setHandler() {
+        chatHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                Bundle b = msg.getData();
+                if (b.getInt("errorCode") == 0) {
+                    int position = b.getInt("position");
+                    ChatView chatView = chatList.get(position);
+                    chatView.setName(b.getString("name"));
+                    chatView.setImage(b.getByteArray("image"));
+                    chatList.set(position, chatView);
+                    Log.i("Handler", "Query Chat");
+                    chatRecyclerViewAdapter.notifyDataSetChanged();
+                } else {
+                    // 9016 网络问题
+                }
+            }
+        };
     }
 }

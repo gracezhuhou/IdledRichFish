@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
@@ -275,7 +276,11 @@ public class ConversationActivity extends AppCompatActivity implements EMMessage
                     // 初始化界面
                     text_product_name.setText(b.getString("name"));
                     text_price.setText(String.valueOf(b.getDouble("price")));
-                    Glide.with(getApplicationContext()).load(b.getByteArray("image")).into(image_product);
+                    RequestOptions options = new RequestOptions()
+                            .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
+                            .fallback(R.drawable.ic_no_image) // url为空的时候,显示的图片
+                            .error(R.drawable.ic_fail); // 图片加载失败后，显示的图片
+                    Glide.with(getApplicationContext()).load(b.getByteArray("image")).apply(options).into(image_product);
                     Log.i("Handler", "Query Product");
                 } else {
                     // 9016 网络问题
@@ -313,7 +318,7 @@ public class ConversationActivity extends AppCompatActivity implements EMMessage
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);   // 有返回箭头
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-            getSupportActionBar().setTitle(mChatId);
+            getSupportActionBar().setTitle(sellerName);
         }
         // 返回键监听
         toolbar.setNavigationOnClickListener(view -> finish());

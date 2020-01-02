@@ -44,7 +44,7 @@ public class UserActivity extends AppCompatActivity {
         Intent intent = getIntent();
         sellerId = intent.getStringExtra("seller_id_extra");
         sellerName = intent.getStringExtra("seller_Name_extra");
-        StudentRepository.getInstance(new StudentDataSource()).queryStudent(sellerId);
+        StudentRepository.getInstance(new StudentDataSource()).queryStudent(sellerId, 0);
     }
 
     /**

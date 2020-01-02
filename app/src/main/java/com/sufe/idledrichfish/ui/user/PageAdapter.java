@@ -12,6 +12,7 @@ import com.sufe.idledrichfish.R;
 
 public class PageAdapter extends FragmentPagerAdapter {
     @StringRes
+//    private static final int[] TAB_TITLES = new int[]{R.string.tab_user};
     private static final int[] TAB_TITLES = new int[]{R.string.tab_user,R.string.tab_assess};
     private final Context mContext;
 

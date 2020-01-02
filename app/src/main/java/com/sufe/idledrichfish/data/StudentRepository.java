@@ -21,8 +21,8 @@ public class StudentRepository {
     }
 
 
-    public void queryStudent(String id){
-        dataSource.queryStudentForUser(id);
+    public void queryStudent(String id, int position){
+        dataSource.queryStudentForUser(id, position);
     }
 
     // 查询某用户信息

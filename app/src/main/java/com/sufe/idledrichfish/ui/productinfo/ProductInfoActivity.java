@@ -175,10 +175,10 @@ public class ProductInfoActivity extends AppCompatActivity {
     private void clickSeller() {
         final ConstraintLayout layout_seller = findViewById(R.id.layout_seller);
         layout_seller.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
-            intent.putExtra("seller_id_extra", sellerId);
-            intent.putExtra("seller_name_extra", sellerName);
-            startActivity(intent);
+//            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+//            intent.putExtra("seller_id_extra", sellerId);
+//            intent.putExtra("seller_name_extra", sellerName);
+//            startActivity(intent);
         });
     }
 

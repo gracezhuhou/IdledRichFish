@@ -32,6 +32,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         private ImageView image;
         private Button button_delete;
         private String chatId;
+        private String chatName;
 
         public ViewHolder(View view){
             super(view);
@@ -63,6 +64,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         holder.text_last_message.setText(message.getLastMessage());
         holder.text_date.setText(message.getDate());
         holder.chatId = message.userId;
+        holder.chatName = message.name;
         // image
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_no_image) // 图片加载出来前，显示的图片
@@ -83,6 +85,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         holder.surface_wrapper.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), ConversationActivity.class);
             intent.putExtra("chat_id_extra", holder.chatId);
+            intent.putExtra("seller_Name_extra", holder.chatName);
             view.getContext().startActivity(intent);
         });
     }

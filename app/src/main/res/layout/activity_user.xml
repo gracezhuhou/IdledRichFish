@@ -62,8 +62,7 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textSize="20sp"
-                        android:textColor="@color/white"
-                        android:text="@string/loading" />
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/text_userNumber"
