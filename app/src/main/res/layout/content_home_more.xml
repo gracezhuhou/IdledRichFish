@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MoreActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 类别按钮 -->
+        <LinearLayout
+            android:id="@+id/linearLayout_category1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </LinearLayout>
+
+        <!-- 类别按钮 -->
+        <LinearLayout
+            android:id="@+id/linearLayout_category2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/imageButton_catogory_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_phone"
+                android:background="@color/white"
+                android:text="手机数码" />
+
+            <Button
+                android:id="@+id/imageButton_catogory_electric"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_electric"
+                android:background="@color/white"
+                android:text="家用电器" />
+
+            <Button
+                android:id="@+id/imageButton_catogory_furniture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_furniture"
+                android:background="@color/white"
+                android:text="家具饰品" />
+
+        </LinearLayout>
+
+        <!-- 类别按钮 -->
+        <LinearLayout
+            android:id="@+id/linearLayout_category3"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </LinearLayout>
+
+        <!-- 类别按钮 -->
+        <LinearLayout
+            android:id="@+id/linearLayout_category4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/imageButton_catogory_shoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_shoes"
+                android:background="@color/white"
+                android:text="鞋靴" />
+
+            <Button
+                android:id="@+id/imageButton_catogory_bags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_bags"
+                android:background="@color/white"
+                android:text="箱包" />
+
+            <Button
+                android:id="@+id/imageButton_catogory_baby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_baby"
+                android:background="@color/white"
+                android:text="母婴" />
+
+        </LinearLayout>
+
+        <!-- 类别按钮 -->
+        <LinearLayout
+            android:id="@+id/linearLayout_category5"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </LinearLayout>
+
+        <!-- 类别按钮 -->
+        <LinearLayout
+            android:id="@+id/linearLayout_category6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/imageButton_catogory_pets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_pets"
+                android:background="@color/white"
+                android:text="宠物用品" />
+
+            <Button
+                android:id="@+id/imageButton_catogory_fresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_fresh"
+                android:background="@color/white"
+                android:text="生鲜水果" />
+
+            <Button
+                android:id="@+id/imageButton_catogory_life"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_bt_life"
+                android:background="@color/white"
+                android:text="生活百货" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

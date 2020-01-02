@@ -70,9 +70,8 @@ public class MyPublishActivity extends AppCompatActivity {
                         product.setObjectId(bundle.getString("objectId"));
                         product.setName(bundle.getString("name"));
                         product.setPrice(bundle.getDouble("price"));
-                        BmobFile image = new BmobFile();
                         // todo: image
-                        product.setImage1(image);
+//                        product.setImage1(image);
                         products.add(product);
                         bundles.remove(String.valueOf(i));
                     }

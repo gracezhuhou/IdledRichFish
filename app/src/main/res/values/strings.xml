@@ -4,9 +4,9 @@
     <string name="title_message">消息</string>
     <string name="title_publish">发布</string>
     <string name="title_personal_info">我的</string>
-    <string name="title_activity_login">登录</string>
-    <string name="title_activity_sign_up">新用户注册</string>
-    <string name="title_activity_product_view">产品详细</string>
+    <string name="title_login">登录</string>
+    <string name="title_sign_up">新用户注册</string>
+    <string name="title_order_info">订单详情</string>
 
     <string name="category_book">书籍</string>
     <string name="category_makeup">化妆品</string>
@@ -35,6 +35,9 @@
     <string name="cannot_bargain">一口价</string>
     <string name="price_symbol">¥</string>
     <string name="price_number">0.00</string>
+    <string name="order_number">订单号</string>
+    <string name="order_time">下单时间</string>
+
 
     <string name="action_sign_in">登录</string>
     <string name="action_sign_up">注册</string>
@@ -43,10 +46,13 @@
     <string name="action_cancel">取消</string>
     <string name="action_log_out">退出登录</string>
     <string name="action_comment">留言</string>
-    <string name="action_favorate">收藏</string>
+    <string name="action_favorite">收藏</string>
     <string name="action_go_message">联系卖家</string>
     <string name="action_delete">删除</string>
     <string name="action_edit">编辑</string>
+    <string name="action_buy">创建订单</string>
+    <string name="action_order_finish">交易完成</string>
+    <string name="action_order_cancel">交易取消</string>
 
     <string name="invalid_student_id">不存在该学号</string>
     <string name="invalid_password">密码长度至少6位</string>

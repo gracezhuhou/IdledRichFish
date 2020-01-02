@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/blue"
     tools:context=".MyFragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -33,7 +32,7 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <LinearLayout
-                android:id="@+id/layout_myStudent"
+                android:id="@+id/layout_my_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -53,7 +52,7 @@
                     android:src="@drawable/head" />
 
                 <LinearLayout
-                    android:id="@+id/layout_stuInfo"
+                    android:id="@+id/layout_stu_info"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

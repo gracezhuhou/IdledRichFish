@@ -27,18 +27,16 @@ import com.sufe.idledrichfish.MoreActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
-import com.sufe.idledrichfish.data.model.Product;
-import com.sufe.idledrichfish.data.model.Student;
 import com.sufe.idledrichfish.ui.publish.PublishActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import cn.bmob.v3.datatype.BmobFile;
 import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -66,12 +64,11 @@ public class HomeFragment extends Fragment {
 
     private GridLayoutManager layoutManager;
     private HomeRecyclerViewAdapter productsRecyclerAdapter;
-    private List<Product> products;
+    private List<HomeProductView> products;
     static public Handler homeProductsHandler;
     static public Handler homeStudentHandler;
 
     private Button More_Button;
-
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -116,13 +113,15 @@ public class HomeFragment extends Fragment {
         icon_publish = view.findViewById(R.id.icon_publish);
         More_Button = view.findViewById(R.id.imageButton_catogory_more);
 
+
         setRecycler(); // 商品浏览
         setRefresh(); // 下拉刷新& 上拉加载
         setRoll(); // 图片轮播
         setSearch(); // 搜索框
         setHandler();
 
-        // 点击发布按钮
+        // 点击“发布”按钮，跳转至发布页面
+        final ImageView icon_publish = view.findViewById(R.id.icon_publish);
         icon_publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -247,8 +246,9 @@ public class HomeFragment extends Fragment {
             public void onRefreshBegin(PtrFrameLayout frame) {
                 frame.postDelayed(layout_refresh::refreshComplete, 2000);
                 // 更新商品
+//                products.clear();
                 ProductRepository.getInstance(new ProductDataSource()).queryProductsForHome(true);
-                productsRecyclerAdapter.notifyDataSetChanged();
+//                productsRecyclerAdapter.notifyDataSetChanged();
             }
         });
         layout_refresh.setMode(PtrFrameLayout.Mode.BOTH);
@@ -263,7 +263,7 @@ public class HomeFragment extends Fragment {
         //设置透明度
         mRollViewPager.setAnimationDurtion(500);
         //设置适配器
-        mRollViewPager.setAdapter(new TestNormalAdapter());
+        mRollViewPager.setAdapter(new MyPagerAdapter());
 
         //设置指示器（顺序依次）
         //自定义指示器图片
@@ -374,18 +374,31 @@ public class HomeFragment extends Fragment {
                     for (int i = 0; !bundles.isEmpty(); ++i) {
                         Bundle bundle = bundles.getBundle(String.valueOf(i));
                         assert bundle != null;
-                        Product product = new Product();
-                        product.setObjectId(bundle.getString("objectId"));
-                        product.setName(bundle.getString("name"));
-                        product.setNew(bundle.getBoolean("isNew"));
-                        product.setPrice(bundle.getDouble("price"));
-                        product.setCanBargain(bundle.getBoolean("canBargain"));
-                        Student seller = new Student();
-                        seller.setObjectId(bundle.getString("sellerId"));
-                        product.setSeller(seller);
-                        BmobFile image = new BmobFile("image1", "", bundle.getString("productImage"));
+
+                        HomeProductView product = new HomeProductView(
+                                bundle.getString("objectId"),
+                                bundle.getString("name"),
+                                bundle.getDouble("price"),
+                                bundle.getBoolean("isNew"),
+                                bundle.getBoolean("canBargain"),
+                                bundle.getByteArray("productImage"),
+                                bundle.getString("sellerId"),
+                                bundle.getString("sellerName"),
+                                bundle.getFloat("credit"),
+                                bundle.getByteArray("productImage"));
+//                        Product product = new Product();
+//                        product.setObjectId(bundle.getString("objectId"));
+//                        product.setName(bundle.getString("name"));
+//                        product.setNew(bundle.getBoolean("isNew"));
+//                        product.setPrice(bundle.getDouble("price"));
+//                        product.setCanBargain(bundle.getBoolean("canBargain"));
+//                        Student seller = new Student();
+//                        seller.setObjectId(bundle.getString("sellerId"));
+//                        product.setSeller(seller);
+//                        BmobFile image = new BmobFile("image1", "", bundle.getString("productImage"));
 //                        image.setUrl(bundle.getString("productImage"));
-                        product.setImage1(image);
+//                        product.setImage1(image);
+//                        product.setImage1(bundle.getByteArray("productImage"));
                         products.add(product);
                         bundles.remove(String.valueOf(i));
                     }
@@ -396,30 +409,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         };
-        // 获取卖家信息
-        homeStudentHandler = new Handler() {
-            public void handleMessage(Message msg) {
-                Bundle b = msg.getData();
-                if (b.getInt("errorCode") == 0) {
-                    Student student = new Student();
-                    student.setObjectId(b.getString("id"));
-                    student.setName(b.getString("name"));
-                    student.setCredit(b.getFloat("credit"));
-                    BmobFile bmobFile = new BmobFile();
-                    bmobFile.setUrl(b.getString("image"));
-                    student.setImage(bmobFile);
-                    Log.i("Handler", "Query Student Success");
-
-                    int position = b.getInt("position");
-                    Product product = products.get(position);
-                    product.setSeller(student);
-                    products.set(position, product);
-                    productsRecyclerAdapter.notifyItemChanged(position, student);
-                }
-                Log.i("Handler", "Query Student By Product");
-//                productsRecyclerAdapter.notifyDataSetChanged();
-            }
-        };
     }
 
 }
@@ -427,7 +416,7 @@ public class HomeFragment extends Fragment {
 /**
  * Adapter: 图片轮播
  */
-class TestNormalAdapter extends StaticPagerAdapter {
+class MyPagerAdapter extends StaticPagerAdapter {
     private int[] imgs = {
             R.drawable.ic_book,
             R.drawable.ic_cosmetic,

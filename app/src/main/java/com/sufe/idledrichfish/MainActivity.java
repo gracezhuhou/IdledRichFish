@@ -1,19 +1,17 @@
 package com.sufe.idledrichfish;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.annotation.NonNull;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.sufe.idledrichfish.ui.home.HomeFragment;
-
-import java.util.List;
 
 import cn.bmob.v3.Bmob;
 
@@ -32,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
@@ -54,12 +51,6 @@ public class MainActivity extends AppCompatActivity implements
                         lastfragment = 2;
                     }
                     return true;
-//                case R.id.navigation_personal_info:
-//                    if (lastfragment != 3) {
-//                        switchFragment(lastfragment, 3);
-//                        lastfragment = 3;
-//                    }
-//                    return true;
             }
             return false;
         }
@@ -70,9 +61,9 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
-         * 初始化BmobSDK
-         */
+//        hideStatusBar(); // 全屏并且隐藏状态栏
+
+        // 初始化BmobSDK
         Bmob.initialize(this, "a0ed5f46dbb3be388267b3726f33ca5c");
         // 开启数据统计功能
         //Bmob.initialize(this, "Your Application ID","bmob");
@@ -94,11 +85,10 @@ public class MainActivity extends AppCompatActivity implements
 
     void initView() {
         homeFragment = new HomeFragment();
-//        publishFragment = new PublishFragment();
         messageFragment = new MessageFragment();
         myFragment = new MyFragment();
         fragments = new Fragment[]{homeFragment, messageFragment, myFragment};
-        mainFrame = (FrameLayout) findViewById(R.id.mainFrame);
+        mainFrame = findViewById(R.id.mainFrame);
         //设置fragment到布局
         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, homeFragment).show(homeFragment).commit();
 
@@ -123,5 +113,14 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteraction(Uri uri) {
         //Toast.makeText(this,"交流", Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * 全屏并且隐藏状态栏
+     */
+    private void hideStatusBar() {
+        WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        getWindow().setAttributes(attrs);
     }
 }

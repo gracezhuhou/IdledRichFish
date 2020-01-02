@@ -11,7 +11,7 @@
     <RelativeLayout
         android:id="@+id/layout_publish"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toorbar_height"
+        android:layout_height="@dimen/toolbar_height"
         android:background="@color/orange">
 
         <Button

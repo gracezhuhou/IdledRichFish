@@ -3,6 +3,7 @@ package com.sufe.idledrichfish.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -21,13 +22,14 @@ import com.sufe.idledrichfish.data.StudentRepository;
 import com.sufe.idledrichfish.data.model.Product;
 import com.sufe.idledrichfish.data.model.Student;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
-    private List<Product> myProducts;
+    private List<HomeProductView> myProducts;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView text_product_name;
@@ -55,7 +57,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         }
     }
 
-    public HomeRecyclerViewAdapter(List<Product> products){
+    public HomeRecyclerViewAdapter(List<HomeProductView> products){
         myProducts = products;
     }
 
@@ -75,23 +77,22 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         holder.image_product.setMaxHeight((width - 21) / 2);
         holder.spin_kit.setMinimumWidth((width - 21) / 2);
 
-        // 设置商品信息
-        Product product = myProducts.get(holder.getAdapterPosition());
+        // 显示商品信息
+        HomeProductView product = myProducts.get(holder.getAdapterPosition());
         holder.text_product_name.setText(product.getName());
         DecimalFormat format = new java.text.DecimalFormat("¥ 0.00"); // 保留小数点两位
         holder.text_product_price.setText(format.format(product.getPrice()));
         holder.productId = product.getObjectId();
         // 设置商品图片
-        if (!product.getImage1().getUrl().equals("")) {
-            // todo: 获取图片
-            Glide.with(holder.context).load(product.getImage1().getFileUrl()).into(holder.image_product);
-        }
+        Glide.with(holder.context).load(product.getImage1()).into(holder.image_product);
 
-        StudentRepository.getInstance(new StudentDataSource()).queryStudentForHome(product.getSeller().getObjectId(), position);
+        // 显示卖家信息
+        holder.text_seller_name.setText(product.getSellerName());
+        holder.text_seller_credit.setText(String.valueOf(product.getCredit()));
+        Glide.with(holder.context).load(product.getSellerImage()).into(holder.image_product);
 
-        /*
-         * 点击跳转至商品详细界面
-         */
+
+        // 点击跳转至商品详细界面
         holder.card_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -102,21 +103,21 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         });
     }
 
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position, List<Object> payloads) {
-        if (payloads.isEmpty()) {
-            onBindViewHolder(holder, position);
-        } else {
-//            Student seller = myProducts.get(holder.getAdapterPosition()).getSeller();
-            Student seller = (Student) payloads.get(0);
-            holder.text_seller_name.setText(seller.getName());
-            holder.text_seller_credit.setText(String.valueOf(seller.getCredit()));
-            // 设置卖家头像
-            if (seller.getImage() != null && !seller.getImage().getUrl().equals("")) {
-//                holder.image_seller.setImageDrawable(LoadImageFromUrl(seller.getImage().getUrl()));
-            }
-        }
-    }
+//    @Override
+//    public void onBindViewHolder(final ViewHolder holder, final int position, List<Object> payloads) {
+//        if (payloads.isEmpty()) {
+//            onBindViewHolder(holder, position);
+//        } else {
+////            Student seller = myProducts.get(holder.getAdapterPosition()).getSeller();
+//            Student seller = (Student) payloads.get(0);
+//            holder.text_seller_name.setText(seller.getName());
+//            holder.text_seller_credit.setText(String.valueOf(seller.getCredit()));
+//            // 设置卖家头像
+//            if (seller.getImage() != null && !seller.getImage().getUrl().equals("")) {
+////                holder.image_seller.setImageDrawable(LoadImageFromUrl(seller.getImage().getUrl()));
+//            }
+//        }
+//    }
 
     @Override
     public int getItemCount(){
