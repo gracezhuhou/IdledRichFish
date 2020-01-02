@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
+import com.sufe.idledrichfish.MoreActivity;
 import com.sufe.idledrichfish.R;
 import com.sufe.idledrichfish.data.StudentDataSource;
 import com.sufe.idledrichfish.data.StudentRepository;
@@ -87,6 +89,7 @@ public class HomeFragment extends Fragment {
     private ListView mHistory ;
     //private SearchBox.HistoryAdapter mHistoryAdapter;
 
+    private Button More_Button;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -115,6 +118,8 @@ public class HomeFragment extends Fragment {
 
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -131,6 +136,7 @@ public class HomeFragment extends Fragment {
         imageButton_catogory_makeup = view.findViewById(R.id.imageButton_catogory_makeup);
         imageButton_catogory_clothes = view.findViewById(R.id.imageButton_catogory_clothes);
 
+        More_Button = view.findViewById(R.id.imageButton_catogory_more);
 
         setRecycler(); // 商品浏览
         setRefresh(); // 下拉刷新& 上拉加载
@@ -177,6 +183,18 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
+
+        /*
+         * 点击更多按钮
+         */
+        More_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 跳转至更多类别页面
+                Intent intent = new Intent(getContext(), MoreActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -455,5 +473,6 @@ class MyPagerAdapter extends StaticPagerAdapter {
     public int getCount() {
         return imgs.length;
     }
+
 }
 

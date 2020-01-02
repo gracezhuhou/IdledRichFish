@@ -63,17 +63,18 @@
                 android:background="@color/white"
                 android:text="@string/category_clothes" />
 
-            <!-- 数码产品 -->
+            <!-- 更多 -->
             <Button
-                android:id="@+id/imageButton_catogory_digital"
+                android:id="@+id/imageButton_catogory_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/ic_bt_computer"
+                android:drawableTop="@drawable/ic_bt_more"
                 android:background="@color/white"
-                android:text="@string/category_digital" />
+                android:text="更多"/>
 
         </LinearLayout>
+
 
         <!-- 商品浏览 -->
         <androidx.recyclerview.widget.RecyclerView

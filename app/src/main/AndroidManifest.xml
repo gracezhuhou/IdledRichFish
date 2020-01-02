@@ -95,6 +95,7 @@
             android:name=".ui.myOrder.MyOrderActivity"
             android:label="@string/title_activity_my_order"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MoreActivity" />
         <activity
             android:name=".ui.user.UserActivity"
             android:theme="@style/AppTheme.NoActionBar" />
