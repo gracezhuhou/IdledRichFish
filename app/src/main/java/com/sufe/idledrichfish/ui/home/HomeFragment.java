@@ -25,6 +25,8 @@ import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 import com.sufe.idledrichfish.R;
+import com.sufe.idledrichfish.data.StudentDataSource;
+import com.sufe.idledrichfish.data.StudentRepository;
 import com.sufe.idledrichfish.ui.search.SearchActivity;
 import com.sufe.idledrichfish.data.ProductDataSource;
 import com.sufe.idledrichfish.data.ProductRepository;
@@ -66,6 +68,8 @@ public class HomeFragment extends Fragment {
     private ImageView icon_search;
     private ImageView icon_publish;
     private Button imageButton_catogory_book;
+    private Button imageButton_catogory_makeup;
+    private Button imageButton_catogory_clothes;
 
     private GridLayoutManager layoutManager;
     private ProductRecyclerViewAdapter productsRecyclerAdapter;
@@ -152,6 +156,25 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
+        //点击化妆品图片按钮
+        imageButton_catogory_makeup.setOnClickListener(view1 -> {
+            // 跳转至搜索页面
+            String category = "化妆品";
+            Intent intent = new Intent(getContext(), SearchActivity.class);
+            intent.putExtra("category", category);
+            startActivity(intent);
+        });
+
+        //点击服饰图片按钮
+        imageButton_catogory_clothes.setOnClickListener(view1 -> {
+            // 跳转至搜索页面
+            String category = "服饰";
+            Intent intent = new Intent(getContext(), SearchActivity.class);
+            intent.putExtra("category", category);
+            startActivity(intent);
+        });
+
+
         return view;
     }
 
@@ -219,7 +242,8 @@ public class HomeFragment extends Fragment {
      */
     private void setRecycler() {
         products = new ArrayList<>();
-        ProductRepository.getInstance(new ProductDataSource()).queryProductsForHome(false);
+        StudentRepository.getInstance(new StudentDataSource()).queryStudentHistory();
+
         layoutManager = new GridLayoutManager(this.getContext(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
         productsRecyclerAdapter = new ProductRecyclerViewAdapter(products);

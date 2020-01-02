@@ -29,4 +29,6 @@ public class StudentRepository {
 //    public void queryStudentForHome(String ObjectId, int position) {
 //        dataSource.queryStudentForHome(ObjectId, position);
 //    }
+
+    public void queryStudentHistory() {dataSource.queryStudentHistory();}
 }
