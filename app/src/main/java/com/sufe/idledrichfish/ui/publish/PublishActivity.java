@@ -409,7 +409,8 @@ public class PublishActivity extends AppCompatActivity {
         text_tag.setText("");
         imagesInfo.clear();
         if (nineGridViewClickAdapter != null) {
-            nineGridViewClickAdapter.notify();
+            nineGridViewClickAdapter = new NineGridViewClickAdapter(this, imagesInfo);
+            nine_grid_view.setAdapter(nineGridViewClickAdapter);
         }
     }
 }
